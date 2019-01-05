@@ -15,6 +15,7 @@ app.use(function(req, res, next) {
 //* API endpoints
 app.get('/credits', require('./pages/credits'))
 app.get('/getServices', require('./pages/getServices'))
+app.get('/langStatus', require('./pages/langStatus'))
 
 //* Listen to port 8080
 app.listen(8080, function () {
