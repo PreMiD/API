@@ -17,6 +17,9 @@ app.get('/credits', require('./pages/credits'))
 app.get('/getServices', require('./pages/getServices'))
 app.get('/langStatus', require('./pages/langStatus'))
 
+require('./util/langUpdater').run()
+setInterval(require('./util/langUpdater').run, 5*60*1000)
+
 //* Listen to port 8080
 app.listen(8080, function () {
   console.log('PreMiD-API listening on port 8080!')

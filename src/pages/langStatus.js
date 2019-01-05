@@ -1,38 +1,41 @@
 //* Require stuff
-const fetch = require("node-fetch");
+var { query } = require("../database/functions")
+var Canvas = require('canvas')
 
-const Canvas = require('canvas')
 Canvas.registerFont('./fonts/Roboto/Roboto-Bold.ttf', {family: "Roboto", weight: "700"})
-var height = 20, width= 55
-const canvas = Canvas.createCanvas(width, height)
+
+//* Define height & width
+var height = 20,
+width = 55
+
+//* Create Canvas
+var canvas = Canvas.createCanvas(width, height)
 
 async function get(req, res) {
   if(req.query.lang != undefined) {
-    fetch("https://api.poeditor.com/v2/languages/list", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `api_token=${process.env.POEditorAPIKey}&id=217273`
-    })
-    .then(res => res.json())
-    .then(json => {
-      console.log(json)
-      var percentage = json.result.languages.find(lang => lang.code == req.query.lang).percentage
+    var rows = (await query('SELECT percentage FROM languages WHERE code = ?', [req.query.lang])).rows
+
+    if(rows.length != 0) {
+      var percentage = rows[0].percentage
   
-      const ctx = canvas.getContext('2d')
-      ctx.font = '700 13px Roboto'
+      var ctx = canvas.getContext('2d')
       
-      // Write "Awesome!"
-      ctx.textBaseline = "middle"; 
-      ctx.fillStyle = "white"
+      ctx.font = '700 13px Roboto'
+      ctx.textBaseline = "middle";
+      
       ctx.fillStyle = hsl_col_perc(percentage, 0, 120);
-      roundRect(ctx, 0,0,width,height,5,true)
+      roundRect(ctx, 0, 0, width, height, 5, true)
+      
       ctx.fillStyle = "black"
       ctx.textAlign = "center"
       ctx.fillText(`${percentage}%`, width/2, height/2)
       
       res.setHeader('Content-Type', 'image/png');
       canvas.createPNGStream().pipe(res);
-    })
+    } else {
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify({error: "provided lang code is not valid."}));
+    }
   } else {
     res.setHeader("Content-Type", "application/json");
     res.send(JSON.stringify({error: "lang is not set."}));
