@@ -5,6 +5,21 @@ require('dotenv').load();
 const express = require('express')
 const app = express()
 
+//* Disallow direct access when using proxy
+if(process.env.proxySecure == "true"){
+	var AccessControl = require('express-ip-access-control');
+	var options = {
+	    mode: 'allow',
+	    allows: process.env.proxySecureIp.split(','),
+	    log: function(clientIp, access) {
+	        console.log(clientIp + (access ? ' accessed.' : ' denied.'));
+	    },
+	    statusCode: 401,
+	    message: 'Unauthorized'
+	};
+	app.use(AccessControl(options));
+}
+
 //* Set API Headers
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
