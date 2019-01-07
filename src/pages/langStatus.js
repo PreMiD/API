@@ -13,7 +13,7 @@ var canvas = Canvas.createCanvas(width, height)
 
 async function get(req, res) {
   if(req.query.lang != undefined) {
-    var rows = (await query('SELECT percentage FROM languages WHERE code = ?', [req.query.lang])).rows
+    var rows = (await query('SELECT percentage FROM languages WHERE code = ?', [req.params.lang])).rows
 
     if(rows.length != 0) {
       var percentage = rows[0].percentage

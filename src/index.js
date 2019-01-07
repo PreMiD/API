@@ -30,7 +30,8 @@ app.use(function(req, res, next) {
 //* API endpoints
 app.get('/credits', require('./pages/credits'))
 app.get('/getServices', require('./pages/getServices'))
-app.get('/langStatus', require('./pages/langStatus'))
+app.get('/langStatus/:lang', require('./pages/langStatus'))
+app.get('/credit/:id', require('./pages/credit'))
 
 require('./util/langUpdater').run()
 setInterval(require('./util/langUpdater').run, 5*60*1000)
