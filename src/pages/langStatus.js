@@ -95,6 +95,7 @@ function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
     ctx.fill();
   }
   if (stroke) {
+  	ctx.strokeStyle = "rgba(0,0,0,0)";
     ctx.stroke();
   }
 
