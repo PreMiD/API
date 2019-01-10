@@ -9,10 +9,12 @@
   "author": "Timeraa",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^6.1.0",
+    "canvas": "^2.2.0",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "express-ip-access-control": "^1.0.5",
     "mysql": "^2.16.0",
-    "nodemon": "^1.18.7",
+    "node-fetch": "^2.3.0",
     "utf8": "^3.0.0"
   }
 }
