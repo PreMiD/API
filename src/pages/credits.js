@@ -16,7 +16,8 @@ async function get(req, res) {
       role: row.type,
       rolePosition: row.position,
       roleColor: row.color,
-      patronColor: row.patronColor == "#000000" ? "#fff" : row.patronColor
+      patronColor: row.patronColor == "#000000" ? "#fff" : row.patronColor,
+      roles: row.roles.split(',')
     });
   });
 
