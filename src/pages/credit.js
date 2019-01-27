@@ -4,7 +4,7 @@ var { query } = require("../database/functions"),
 
 async function get(req, res) {
   //* Get credits from db
-  var result = await query("SELECT * FROM credits"),
+  var result = await query('SELECT * FROM credits WHERE id=?', [req.params.id]),
     resultArray = [];
 
   //* build result array for JSON object
