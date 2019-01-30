@@ -2,7 +2,7 @@
 const fetch = require("node-fetch");
 var { query } = require("../database/functions")
 
-module.exports.run = async function() {
+module.exports = async function() {
   var dbLanguages = (await query('SELECT code FROM languages')).rows
 
   fetch("https://api.poeditor.com/v2/languages/list", {

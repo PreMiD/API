@@ -1,13 +1,10 @@
 //* Require stuff
 var {query} = require('../database/functions')
 
-async function get(req, res) {
-  //* Get presences
-  var result = await query("SELECT * FROM presences")
-  
+async function get(req, res) {  
   //* Set headers
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify(result.rows));
+  res.send(JSON.stringify((await query("SELECT * FROM presences")).rows));
 }
 
 //* Export function
