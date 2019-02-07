@@ -31,6 +31,8 @@ app.get('/credits', require('./pages/credits'))
 app.get('/getServices', require('./pages/getServices'))
 app.get('/langStatus/:lang', require('./pages/langStatus'))
 app.get('/credit/:id', require('./pages/credit'))
+app.get('/response', require('./pages/response'))
+
 
 //* Update languages in database
 require('./util/langUpdater')
