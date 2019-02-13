@@ -6,7 +6,7 @@ var { query } = require("../database/functions"),
   height = 20,
   width = 55
 
-Canvas.registerFont('./fonts/Roboto/Roboto-Bold.ttf', {family: "Roboto", weight: "700"})
+Canvas.registerFont('./fonts/Inter/Inter-Bold.ttf', {family: "Inter", weight: "700"})
 
 //* Create Canvas
 var canvas = Canvas.createCanvas(width, height)
@@ -20,7 +20,7 @@ async function get(req, res) {
       ctx = canvas.getContext('2d')
       
       //* Default Font settings
-      ctx.font = '700 13px Roboto'
+      ctx.font = '700 13px Inter'
       ctx.textBaseline = "middle";
       ctx.textAlign = "center"
       
