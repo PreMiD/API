@@ -40,5 +40,5 @@ require('./util/langUpdater');
 setInterval(require('./util/langUpdater'), 5 * 60 * 1000);
 
 app.listen(8080, function() {
-	debug.success('Example app listening on port 8080!');
+	debug.success('PreMiD API listening on port 8080!');
 });
