@@ -1,0 +1,22 @@
+[
+	{
+		"path": "credits",
+		"file": "credits"
+	},
+	{
+		"path": "getServices",
+		"file": "getServices"
+	},
+	{
+		"path": "langStatus/:lang",
+		"file": "langStatus"
+	},
+	{
+		"path": "credit/:id",
+		"file": "credit"
+	},
+	{
+		"path": "response",
+		"file": "response"
+	}
+]
