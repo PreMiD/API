@@ -4,8 +4,8 @@
 		"file": "credits"
 	},
 	{
-		"path": "getServices",
-		"file": "getServices"
+		"path": "presences",
+		"file": "presences"
 	},
 	{
 		"path": "langStatus/:lang",
