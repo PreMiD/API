@@ -39,6 +39,6 @@ pages.forEach((page) => {
 require('./util/langUpdater');
 setInterval(require('./util/langUpdater'), 5 * 60 * 1000);
 
-app.listen(8080, function() {
-	debug.success('PreMiD API listening on port 8080!');
+app.listen(3001, function() {
+	debug.success('PreMiD API listening on port 3001!');
 });
