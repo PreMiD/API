@@ -1,20 +1,21 @@
 {
-  "name": "premid-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon index"
-  },
-  "author": "Timeraa",
-  "license": "ISC",
-  "dependencies": {
-    "canvas": "^2.2.0",
-    "dotenv": "^6.2.0",
-    "express": "^4.16.4",
-    "express-ip-access-control": "^1.0.5",
-    "mysql": "^2.16.0",
-    "node-fetch": "^2.3.0",
-    "utf8": "^3.0.0"
-  }
+	"name": "premid-api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon index"
+	},
+	"author": "Timeraa",
+	"license": "ISC",
+	"dependencies": {
+		"canvas": "^2.2.0",
+		"dotenv": "^6.2.0",
+		"express": "^4.16.4",
+		"express-ip-access-control": "^1.0.5",
+		"mysql": "^2.16.0",
+		"node-fetch": "^2.3.0",
+		"utf8": "^3.0.0",
+		"chalk": "^2.4.2"
+	}
 }
