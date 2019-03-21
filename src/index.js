@@ -9,16 +9,16 @@ var express = require('express'),
 
 //* Disallow direct access when using proxy
 if (process.env.proxySecure == 'true') {
-	var AccessControl = require('express-ip-access-control');
-	var options = {
-		mode: 'allow',
-		allows: process.env.proxySecureIp.split(','),
-		log: function(clientIp, access) {
-			debug.info(clientIp + (access ? ' accessed.' : ' denied.'));
-		},
-		statusCode: 401,
-		message: 'Unauthorized'
-	};
+	var AccessControl = require('express-ip-access-control'),
+		options = {
+			mode: 'allow',
+			allows: process.env.proxySecureIp.split(','),
+			log: function(clientIp, access) {
+				debug.info(clientIp + (access ? ' accessed.' : ' denied.'));
+			},
+			statusCode: 401,
+			message: 'Unauthorized'
+		};
 	app.use(AccessControl(options));
 }
 
@@ -31,12 +31,20 @@ app.use(function(req, res, next) {
 
 //* Loading pages
 debug.info(`Found ${pages.length} API endpoints`);
+
 pages.forEach((page) => {
 	app.get(`/${page.path}`, require(`./pages/${page.file}`));
 });
 
+//* Return 404 on non existant paths
+app.use(function(req, res) {
+	//* Set headers
+	res.setHeader('Content-Type', 'application/json');
+	res.send(JSON.stringify({ error: 404, message: 'Not Found' }));
+});
+
 //* Update languages in database
-require('./util/langUpdater');
+require('./util/langUpdater')();
 setInterval(require('./util/langUpdater'), 5 * 60 * 1000);
 
 app.listen(3001, function() {

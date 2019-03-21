@@ -7,7 +7,7 @@
 		"start": "nodemon index"
 	},
 	"author": "Timeraa",
-	"license": "ISC",
+	"license": "MIT",
 	"dependencies": {
 		"canvas": "^2.2.0",
 		"dotenv": "^6.2.0",
