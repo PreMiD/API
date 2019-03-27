@@ -1,21 +1,21 @@
 //* Require stuff
 var { query } = require('../database/functions'),
-	Canvas = require('canvas'),
+	canvas = require('canvas'),
 	roundRect = require('../util/functions/roundRect'),
 	hsl_col_perc = require('../util/functions/hsl_col_perc'),
 	height = 20,
 	width = 55;
 
-Canvas.registerFont('./fonts/Inter/Inter-Bold.ttf', { family: 'Inter', weight: '700' });
+canvas.registerFont('./fonts/Inter/Inter-Bold.ttf', { family: 'Inter', weight: '700' });
 
-//* Create Canvas
-var canvas = Canvas.createCanvas(width, height);
+//* Create canvas
+var canvas = canvas.createCanvas(width, height);
 
 async function get(req, res) {
 	if (req.params.lang != undefined) {
 		var rows = (await query('SELECT percentage FROM languages WHERE code = ?', [ req.params.lang ])).rows;
 
-		if (rows.length != 0) {
+		if (rows.length > 0) {
 			var percentage = rows[0].percentage,
 				ctx = canvas.getContext('2d');
 

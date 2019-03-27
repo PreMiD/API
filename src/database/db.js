@@ -1,5 +1,5 @@
 //* Improt stuff
-var mysql = require('mysql'),
+var mysql2 = require('mysql2'),
 	debug = require('../util/debug'),
 	db;
 
@@ -13,7 +13,7 @@ function connectDatabase() {
 
 	//* Attempt connection to database
 	//! localhost -> premid.app if development instance
-	db = mysql.createConnection({
+	db = mysql2.createConnection({
 		host: process.env.NODE_ENV == 'dev' ? 'premid.app' : 'localhost',
 		user: process.env.dbUser,
 		password: process.env.dbPassword,

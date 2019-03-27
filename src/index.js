@@ -7,21 +7,6 @@ var express = require('express'),
 	app = express(),
 	pages = require('./pages.json');
 
-//* Disallow direct access when using proxy
-if (process.env.proxySecure == 'true') {
-	var AccessControl = require('express-ip-access-control'),
-		options = {
-			mode: 'allow',
-			allows: process.env.proxySecureIp.split(','),
-			log: function(clientIp, access) {
-				debug.info(clientIp + (access ? ' accessed.' : ' denied.'));
-			},
-			statusCode: 401,
-			message: 'Unauthorized'
-		};
-	app.use(AccessControl(options));
-}
-
 //* Set API Headers
 app.use(function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');

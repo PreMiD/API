@@ -4,8 +4,9 @@
 	"main": "index.js",
 	"repository": "https://github.com/PreMiD/API",
 	"scripts": {
-		"start": "npm start --prefix src/.",
-		"dev": "npm run dev --prefix src/."
+		"init": "cd src && npm i",
+		"start": "cd src && npm start",
+		"dev": "cd src && npm run dev"
 	},
 	"author": "Timeraa",
 	"license": "MIT"
