@@ -1,0 +1,12 @@
+{
+	"addons": {
+		"{0f76ed95-d57b-3445-b709-34f26a5958f7}": {
+			"updates": [
+				{
+					"version": "1.3.1.6",
+					"update_link": "https://github.com/PreMiD/PreMiD/releases/download/v1.3.1.6/premid-1.3.1.6.xpi"
+				}
+			]
+		}
+	}
+}

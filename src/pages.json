@@ -18,5 +18,9 @@
 	{
 		"path": "response",
 		"file": "response"
+	},
+	{
+		"path": "firefox/updates",
+		"file": "updates"
 	}
 ]
