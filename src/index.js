@@ -14,11 +14,14 @@ app.use(function(req, res, next) {
 	next();
 });
 
+//* Trim trailing slash
+require('./util/slasher')(app);
+
 //* Loading pages
 debug.info(`Found ${pages.length} API endpoints`);
 
 pages.forEach((page) => {
-	app.get(`/${page.path}`, require(`./pages/${page.file}`));
+	app.get(`/${page.path}/`, require(`./pages/${page.file}`));
 });
 
 //* Return 404 on non existant paths
@@ -32,6 +35,6 @@ app.use(function(req, res) {
 require('./util/langUpdater')();
 setInterval(require('./util/langUpdater'), 5 * 60 * 1000);
 
-app.listen(3001, function() {
-	debug.success('PreMiD API listening on port 3001!');
+var listener = app.listen(3001, function() {
+	debug.success(`PreMiD API listening on port ${listener.address().port}!`);
 });

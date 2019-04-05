@@ -12,10 +12,6 @@
 		"file": "langStatus"
 	},
 	{
-		"path": "credit/:id",
-		"file": "credit"
-	},
-	{
 		"path": "response",
 		"file": "response"
 	},
