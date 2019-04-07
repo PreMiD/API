@@ -12,6 +12,10 @@
 		"file": "langStatus"
 	},
 	{
+		"path": "version",
+		"file": "version"
+	},
+	{
 		"path": "response",
 		"file": "response"
 	},
