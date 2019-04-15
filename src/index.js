@@ -21,7 +21,8 @@ require('./util/slasher')(app);
 debug.info(`Found ${pages.length} API endpoints`);
 
 pages.forEach((page) => {
-	app.get(`/${page.path}/`, require(`./pages/${page.file}`));
+	if (page.path instanceof Array) page.path.map((path) => app.get(`/${path}/`, require(`./pages/${page.file}`)));
+	else app.get(`/${page.path}/`, require(`./pages/${page.file}`));
 });
 
 //* Return 404 on non existant paths

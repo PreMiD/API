@@ -4,11 +4,11 @@
 		"file": "credits"
 	},
 	{
-		"path": "presences/:presence",
+		"path": [ "presences", "presences/:presence" ],
 		"file": "presences"
 	},
 	{
-		"path": "langStatus/:lang",
+		"path": [ "langStatus", "langStatus/:lang" ],
 		"file": "langStatus"
 	},
 	{
