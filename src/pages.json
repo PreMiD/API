@@ -4,7 +4,7 @@
 		"file": "credits"
 	},
 	{
-		"path": "presences",
+		"path": "presences/:presence",
 		"file": "presences"
 	},
 	{
