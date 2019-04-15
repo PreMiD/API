@@ -6,7 +6,7 @@ module.exports = async function() {
 
 	var contents = await request({
 		url: 'https://api.github.com/repos/PreMiD/Presences/contents/',
-		headers: { 'User-Agent': 'PreMiD', Authorization: 'token 2dfb13ce1aef97a486f68caea63762a18595adea' },
+		headers: { 'User-Agent': 'PreMiD' },
 		json: true
 	});
 
@@ -16,7 +16,7 @@ module.exports = async function() {
 		contents.map(async (dir) => {
 			var metadata = await request({
 				url: `https://api.github.com/repos/PreMiD/Presences/contents/${dir.name}/metadata.json`,
-				headers: { 'User-Agent': 'PreMiD', Authorization: 'token 2dfb13ce1aef97a486f68caea63762a18595adea' },
+				headers: { 'User-Agent': 'PreMiD' },
 				json: true
 			});
 
