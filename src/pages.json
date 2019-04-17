@@ -4,6 +4,10 @@
 		"file": "credits"
 	},
 	{
+		"path": [ "langFile", "langFile/:langCode" ],
+		"file": "langFile"
+	},
+	{
 		"path": [ "presences", "presences/:presence" ],
 		"file": "presences"
 	},

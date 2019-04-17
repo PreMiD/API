@@ -36,9 +36,15 @@ app.use(function(req, res) {
 require('./util/langUpdater')();
 setInterval(require('./util/langUpdater'), 5 * 60 * 1000);
 
+if (process.env.NODE_ENV == 'production') {
+	//* Update presences in database
+	require('./util/presenceUpdater')();
+	setInterval(require('./util/presenceUpdater'), 5 * 60 * 1000);
+}
+
 //* Update presences in database
-require('./util/presenceUpdater')();
-setInterval(require('./util/presenceUpdater'), 5 * 60 * 1000);
+require('./util/translationUpdater')();
+setInterval(require('./util/translationUpdater'), 5 * 60 * 1000);
 
 var listener = app.listen(3001, function() {
 	debug.success(`PreMiD API listening on port ${listener.address().port}!`);
