@@ -12,6 +12,7 @@ async function get(req, res) {
 		resultArray.push({
 			userID: row.userID,
 			name: utf8.decode(row.name),
+			tag: row.tag,
 			avatar: row.avatarURL,
 			role: row.type,
 			rolePosition: row.position,
