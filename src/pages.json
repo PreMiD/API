@@ -1,6 +1,6 @@
 [
 	{
-		"path": "credits",
+		"path": [ "credits", "credits/:userID" ],
 		"file": "credits"
 	},
 	{
