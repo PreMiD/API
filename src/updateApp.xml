@@ -1,0 +1,15 @@
+<installerInformation>
+  <versionId>0200</versionId>
+  <version>2.0.0</version>
+  <platformFileList>
+      <platformFile>
+          <filename>windows.exe</filename>
+          <platform>windows</platform>
+      </platformFile>
+  </platformFileList>
+  <downloadLocationList>
+      <downloadLocation>
+          <url>https://api.premid.app/app/update/</url>
+      </downloadLocation>
+  </downloadLocationList>
+</installerInformation>

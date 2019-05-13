@@ -26,5 +26,9 @@
 	{
 		"path": "firefox/updates",
 		"file": "updates"
+	},
+	{
+		"path": [ "app/update", "app/update/:os" ],
+		"file": "appUpdate"
 	}
 ]
