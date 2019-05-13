@@ -3,7 +3,7 @@ var { query } = require('../database/functions'),
 	utf8 = require('utf8');
 
 async function get(req, res) {
-	if (req.params.userID != '') {
+	if (req.params.userID != undefined) {
 		var result = await query('SELECT * FROM credits WHERE userID = ?', req.params.userID);
 		//* Set headers
 		res.setHeader('Content-Type', 'application/json');
