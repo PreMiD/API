@@ -6,6 +6,10 @@
           <filename>windows.exe</filename>
           <platform>windows</platform>
       </platformFile>
+      <platformFile>
+          <filename>macos.app</filename>
+          <platform>osx</platform>
+      </platformFile>
   </platformFileList>
   <downloadLocationList>
       <downloadLocation>
