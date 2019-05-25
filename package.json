@@ -1,13 +1,13 @@
 {
-	"name": "premid-api",
-	"version": "2.0.0",
-	"main": "index.js",
-	"repository": "https://github.com/PreMiD/API",
-	"scripts": {
-		"init": "cd src && npm i",
-		"start": "cd src && npm start",
-		"dev": "cd src && npm run dev"
-	},
-	"author": "Timeraa",
-	"license": "MIT"
+  "name": "premid-api",
+  "version": "2.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/PreMiD/API",
+  "scripts": {
+    "init": "cd src && npm i",
+    "start": "cd src && npm start",
+    "dev": "cd src && npm run dev"
+  },
+  "author": "Timeraa",
+  "license": "MIT"
 }
