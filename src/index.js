@@ -38,21 +38,19 @@ app.use(function(req, res) {
   res.send(JSON.stringify({ error: 404, message: "Not Found" }));
 });
 
-if (process.env.NODE_APP_INSTANCE == process.env.UPDATER_INSTANCE) {
-  //* Update languages in database
-  require("./util/langUpdater")();
-  setInterval(require("./util/langUpdater"), 5 * 60 * 1000);
+//* Update languages in database
+require("./util/langUpdater")();
+setInterval(require("./util/langUpdater"), 5 * 60 * 1000);
 
-  if (process.env.NODE_ENV == "production") {
-    //* Update presences in database
-    require("./util/presenceUpdater")();
-    setInterval(require("./util/presenceUpdater"), 5 * 60 * 1000);
-  }
-
+if (process.env.NODE_ENV == "production") {
   //* Update presences in database
-  require("./util/translationUpdater")();
-  setInterval(require("./util/translationUpdater"), 5 * 60 * 1000);
+  require("./util/presenceUpdater")();
+  setInterval(require("./util/presenceUpdater"), 5 * 60 * 1000);
 }
+
+//* Update presences in database
+require("./util/translationUpdater")();
+setInterval(require("./util/translationUpdater"), 5 * 60 * 1000);
 
 var listener = app.listen(3001, function() {
   debug.success(`PreMiD API listening on port ${listener.address().port}!`);
