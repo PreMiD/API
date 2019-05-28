@@ -28,7 +28,7 @@
 		"file": "updates"
 	},
 	{
-		"path": [ "app/update", "app/update/:os" ],
+		"path": [ "app/update", "app/update/:bit", "app/update/:bit/:os" ],
 		"file": "appUpdate"
 	}
 ]
