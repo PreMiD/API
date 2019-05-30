@@ -1,34 +1,38 @@
 [
-	{
-		"path": [ "credits", "credits/:userID" ],
-		"file": "credits"
-	},
-	{
-		"path": [ "langFile", "langFile/:langCode" ],
-		"file": "langFile"
-	},
-	{
-		"path": [ "presences", "presences/:presence" ],
-		"file": "presences"
-	},
-	{
-		"path": [ "langStatus", "langStatus/:lang" ],
-		"file": "langStatus"
-	},
-	{
-		"path": "version",
-		"file": "version"
-	},
-	{
-		"path": "response",
-		"file": "response"
-	},
-	{
-		"path": "firefox/updates",
-		"file": "updates"
-	},
-	{
-		"path": [ "app/update", "app/update/:os" ],
-		"file": "appUpdate"
-	}
+  {
+    "path": ["credits", "credits/:userID"],
+    "file": "credits"
+  },
+  {
+    "path": ["langFile", "langFile/:langCode"],
+    "file": "langFile"
+  },
+  {
+    "path": ["presences", "presences/:presence"],
+    "file": "presences"
+  },
+  {
+    "path": ["langStatus", "langStatus/:lang"],
+    "file": "langStatus"
+  },
+  {
+    "path": "version",
+    "file": "version"
+  },
+  {
+    "path": "users",
+    "file": "users"
+  },
+  {
+    "path": "response",
+    "file": "response"
+  },
+  {
+    "path": "firefox/updates",
+    "file": "updates"
+  },
+  {
+    "path": ["app/update", "app/update/:os"],
+    "file": "appUpdate"
+  }
 ]

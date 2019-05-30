@@ -42,6 +42,10 @@ app.use(function(req, res) {
 require("./util/langUpdater")();
 setInterval(require("./util/langUpdater"), 5 * 60 * 1000);
 
+//* Update usage count
+require("./util/usageUpdater")();
+setInterval(require("./util/usageUpdater"), 15 * 60 * 1000);
+
 if (process.env.NODE_ENV == "production") {
   //* Update presences in database
   require("./util/presenceUpdater")();
