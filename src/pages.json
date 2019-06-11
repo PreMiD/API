@@ -34,5 +34,9 @@
   {
     "path": ["app/update", "app/update/:bit", "app/update/:bit/:os"],
     "file": "appUpdate"
+  },
+  {
+    "path": "betaAccess/:userId",
+    "file": "betaAccess"
   }
 ]
