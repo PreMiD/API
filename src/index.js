@@ -1,5 +1,6 @@
 //* Load .env
 require("dotenv").load();
+require("./responseTime");
 
 //* Import stuff
 var express = require("express"),
