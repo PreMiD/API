@@ -1,0 +1,50 @@
+[
+  {
+    "path": "/",
+    "handler": "default"
+  },
+  {
+    "path": "/ping",
+    "handler": "ping"
+  },
+  {
+    "path": ["/credits", "/credits/:userID"],
+    "handler": "v1/credits"
+  },
+  {
+    "path": ["/betaAccess", "/betaAccess/:userId"],
+    "handler": "v1/betaAccess"
+  },
+  {
+    "path": "/firefox/updates",
+    "handler": "v1/updates"
+  },
+  {
+    "path": "/langFile/:lang",
+    "handler": "v1/langFile"
+  },
+  {
+    "path": ["/app/update", "/app/update/:bit", "/app/update/:bit/:os"],
+    "handler": "v1/appUpdate"
+  },
+  {
+    "path": "/users",
+    "handler": "v1/users"
+  },
+  {
+    "path": ["/presences", "/presences/:presence"],
+    "handler": "v1/presences"
+  },
+  {
+    "path": "/v2/versions",
+    "handler": "v2/versions"
+  },
+  {
+    "path": "/v2/langFile/:project/:lang",
+    "handler": "v2/langFile"
+  },
+  {
+    "path": "/v2/credits",
+    "handler": "v2/credits"
+  }
+]

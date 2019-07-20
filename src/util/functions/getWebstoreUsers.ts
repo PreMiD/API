@@ -1,11 +1,11 @@
-var request = require("request-promise-native");
+import request from "request-promise-native";
 
 /**
  * Get the usage data of an extension
  * @param {String} id Chrome webstore item id
  */
-async function getWebstoreUsers(id) {
-  return new Promise(function(resolve, reject) {
+export default function getWebstoreUsers(id: string) {
+  return new Promise<number>(function(resolve, _reject) {
     request(
       `http://www.whateverorigin.org/get?url=${encodeURIComponent(
         `https://chrome.google.com/webstore/detail/background-image-for-goog/${id}`
@@ -19,13 +19,13 @@ async function getWebstoreUsers(id) {
         );
 
       resolve(
-        str
-          .split('"')[3]
-          .replace(" users", "")
-          .replace(/[^\d.-]/g, "")
+        parseInt(
+          str
+            .split('"')[3]
+            .replace(" users", "")
+            .replace(/[^\d.-]/g, "")
+        )
       );
     });
   });
 }
-
-module.exports = getWebstoreUsers;
