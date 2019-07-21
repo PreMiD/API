@@ -5,7 +5,6 @@ import { success, error } from "./util/debug";
 import updateLangFiles from "./util/updateLangFiles";
 import getWebstoreUsers from "./util/functions/getWebstoreUsers";
 import presenceUpdater from "./util/functions/presenceUpdater";
-import { exec } from "child_process";
 import responseTime from "./util/responseTime";
 
 config();

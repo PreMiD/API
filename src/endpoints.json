@@ -36,11 +36,15 @@
     "handler": "v1/presences"
   },
   {
+    "path": "/OAuth2/Discord",
+    "handler": "v2/oauth2"
+  },
+  {
     "path": "/v2/versions",
     "handler": "v2/versions"
   },
   {
-    "path": "/v2/langFile/:project/:lang",
+    "path": ["/v2/langFile/:project/:lang", "/v2/langFile/list"],
     "handler": "v2/langFile"
   },
   {

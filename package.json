@@ -10,11 +10,11 @@
   "author": "Timeraa",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^2.4.2",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "mongodb": "^3.2.7",
     "request": "^2.88.0",
-    "chalk": "^2.4.2",
     "request-promise-native": "^1.0.7"
   },
   "devDependencies": {
