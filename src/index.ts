@@ -56,10 +56,10 @@ app.use(function(_req, res, next) {
       //* Update presences
       presenceUpdater();
       setInterval(presenceUpdater, 15 * 60 * 1000);
-    }
 
-    //* Response Time check
-    setInterval(responseTime, 5 * 60 * 1000);
+      //* Response Time check
+      setInterval(responseTime, 5 * 60 * 1000);
+    }
   });
 })();
 
