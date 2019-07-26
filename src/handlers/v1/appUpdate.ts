@@ -1,4 +1,5 @@
 import { Response, Request } from "express";
+import { resolve } from "path";
 
 export = async (req: Request, res: Response) => {
   if (req.params.os == "windows.exe") {
@@ -8,7 +9,7 @@ export = async (req: Request, res: Response) => {
     return;
   }
   if (req.params.os == "macos.app") {
-    res.download("./handlers/v1/data/update.app");
+    res.download("./handlers/v1/data/update.app.tgz");
     return;
   }
 
