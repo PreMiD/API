@@ -1,7 +1,13 @@
 {
-  "extends": ["config:base"],
+  "extends": [
+    "config:base"
+  ],
   "automerge": true,
   "major": {
     "automerge": false
-  }
+  },
+  "packageRules": [{
+    "depTypeList": ["devDependencies"],
+    "automerge": true
+  }]
 }
