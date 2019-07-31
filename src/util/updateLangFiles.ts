@@ -1,4 +1,4 @@
-import request from "request-promise-native";
+import axios from "axios";
 import { MongoClient } from "../db/client";
 
 var base = "https://www.transifex.com/api/2/";
@@ -14,14 +14,15 @@ async function updateLanguages(project: string) {
   var languageCodes: Array<String> = res.map(lang => lang.language_code);
   languageCodes.push("en");
 
-  var res = await request({
-    uri: `https://api.transifex.com/organizations/PreMiD/projects/${project}/resources/`,
-    auth: {
-      username: "api",
-      password: process.env.TRANSIFEX_API_TOKEN
-    },
-    json: true
-  });
+  var res = (await axios.get(
+    `https://api.transifex.com/organizations/PreMiD/projects/${project}/resources/`,
+    {
+      auth: {
+        username: "api",
+        password: process.env.TRANSIFEX_API_TOKEN
+      }
+    }
+  )).data;
 
   var resourceSlugs = res.map(resource => resource.slug);
 
@@ -67,13 +68,17 @@ async function updateLanguages(project: string) {
   });
 }
 
-function transiQuest(path: string, json = true) {
-  return request({
-    uri: `${base}${path}`,
-    auth: {
-      username: "api",
-      password: process.env.TRANSIFEX_API_TOKEN
-    },
-    json: json
+function transiQuest(path: string) {
+  return new Promise<any>((resolve, reject) => {
+    axios
+      .get(path, {
+        baseURL: base,
+        auth: {
+          username: "api",
+          password: process.env.TRANSIFEX_API_TOKEN
+        }
+      })
+      .then(res => resolve(res.data))
+      .catch(reject);
   });
 }

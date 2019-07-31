@@ -36,10 +36,6 @@
     "handler": "v1/presences"
   },
   {
-    "path": "/OAuth2/Discord",
-    "handler": "v2/oauth2"
-  },
-  {
     "path": "/v2/versions",
     "handler": "v2/versions"
   },

@@ -1,32 +1,34 @@
-import request from "request";
+import axios from "axios";
 import { info } from "./debug";
 
 export default function() {
   var responseTime = Date.now();
 
-  request("http://localhost:3001/ping", function(error, res, body) {
-    //* If some error happens
-    if (error || res.statusCode !== 200) return;
+  axios
+    .get("http://localhost:3001/ping")
+    .then(res => {
+      //* If some error happens
+      if (res.status !== 200) return;
 
-    //* Calc response time in ms
-    responseTime = Date.now() - responseTime;
-    info(`Last response time was: ${responseTime}ms`);
+      //* Calc response time in ms
+      responseTime = Date.now() - responseTime;
+      info(`Last response time was: ${responseTime}ms`);
 
-    request({
-      uri: `https://api.statuspage.io/v1/pages/${
-        process.env.STATUSPAGE_PAGEID
-      }/metrics/${process.env.STATUSPAGE_METRICID}/data`,
-      headers: {
-        Authorization: `OAuth ${process.env.STATUSPAGE_APIKEY}`,
-        "Content-Type": "application/json"
-      },
-      method: "POST",
-      json: {
-        data: {
-          timestamp: Math.floor(Date.now() / 1000),
-          value: responseTime
+      axios.post(
+        `https://api.statuspage.io/v1/pages/t8yhzkqt8q6g/metrics/prgtwzc60zrg/data`,
+        {
+          data: {
+            timestamp: Math.floor(Date.now() / 1000),
+            value: responseTime
+          }
+        },
+        {
+          headers: {
+            Authorization: `OAuth ${process.env.STATUSPAGE_APIKEY}`,
+            "Content-Type": "application/json"
+          }
         }
-      }
-    });
-  });
+      );
+    })
+    .catch(err => console.log(err));
 }
