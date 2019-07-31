@@ -15,7 +15,9 @@ export default function() {
       info(`Last response time was: ${responseTime}ms`);
 
       axios.post(
-        `https://api.statuspage.io/v1/pages/t8yhzkqt8q6g/metrics/prgtwzc60zrg/data`,
+        `https://api.statuspage.io/v1/pages/${
+          process.env.STATUSPAGE_PAGEID
+        }/metrics/${process.env.STATUSPAGE_METRICID}/data`,
         {
           data: {
             timestamp: Math.floor(Date.now() / 1000),
