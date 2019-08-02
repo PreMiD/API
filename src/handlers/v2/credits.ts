@@ -1,18 +1,20 @@
 import { MongoClient } from "../../db/client";
 import { Response, Request } from "express";
 
-export = async (_req: Request, res: Response) => {
-  //* fetch versions from MongoDB
-  var credits = await MongoClient.db("PreMiD")
-    .collection("credits")
-    .find()
-    .toArray();
+var credits;
 
-  //* Delete unnecessary properties
-  credits = credits.map(r => {
-    delete r._id;
-    return r;
-  });
+export = async (req: Request, res: Response) => {
+  if (typeof req.params.userId === "undefined") {
+    //* fetch versions from MongoDB
+    credits = await MongoClient.db("PreMiD")
+      .collection("credits")
+      .find({}, { projection: { _id: 0 } })
+      .toArray();
+  } else {
+    credits = await MongoClient.db("PreMiD")
+      .collection("credits")
+      .findOne({ userId: req.params.userId }, { projection: { _id: 0 } });
+  }
 
   //* Send response
   res.send(credits);

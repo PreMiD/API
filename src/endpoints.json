@@ -44,7 +44,7 @@
     "handler": "v2/langFile"
   },
   {
-    "path": "/v2/credits",
+    "path": ["/v2/credits", "/v2/credits/:userId"],
     "handler": "v2/credits"
   }
 ]
