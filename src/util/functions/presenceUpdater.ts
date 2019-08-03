@@ -22,7 +22,7 @@ export default async function() {
           var metadata = (await axios.get(
             `https://api.github.com/repos/PreMiD/Presences/contents/${
               dir.name
-            }/metadata.json`,
+            }/dist/metadata.json`,
             {
               headers: {
                 "User-Agent": "PreMiD"
@@ -45,7 +45,7 @@ export default async function() {
                   metadata: r[0],
                   url: `https://raw.githubusercontent.com/PreMiD/Presences/master/${
                     r[1]
-                  }/`
+                  }/dist/`
                 }
               }
             );
@@ -55,7 +55,7 @@ export default async function() {
               metadata: r[0],
               url: `https://raw.githubusercontent.com/PreMiD/Presences/master/${
                 r[1]
-              }/`
+              }/dist/`
             });
         });
       });
