@@ -15,7 +15,7 @@ export default async function() {
 
       contents = contents
         .filter(c => c.type == "dir")
-        .filter(dir => !dir.name.startsWith("."));
+        .filter(dir => !dir.name.startsWith(".") && !dir.name.startsWith("@"));
 
       Promise.all(
         contents.map(async dir => {
