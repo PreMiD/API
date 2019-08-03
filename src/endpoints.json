@@ -36,6 +36,10 @@
     "handler": "v1/presences"
   },
   {
+    "path": ["/v2/presences", "/v2/presences/:presence"],
+    "handler": "v2/presences"
+  },
+  {
     "path": "/v2/versions",
     "handler": "v2/versions"
   },

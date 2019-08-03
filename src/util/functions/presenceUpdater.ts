@@ -3,49 +3,62 @@ import { MongoClient } from "../../db/client";
 
 export default async function() {
   var coll = MongoClient.db("PreMiD").collection("presences");
-  var availablePresences = await coll.find().toArray();
 
-  var contents = (await axios.get(
-    "https://api.github.com/repos/PreMiD/Presences/contents/",
-    {
-      headers: { "User-Agent": "PreMiD" }
-    }
-  )).data;
-
-  contents = contents
-    .filter(c => c.type == "dir")
-    .filter(dir => !dir.name.startsWith("."));
-
-  Promise.all(
-    contents.map(async dir => {
-      var metadata = (await axios.get(
-        `https://api.github.com/repos/PreMiD/Presences/contents/${
-          dir.name
-        }/metadata.json`,
-        {
-          headers: { "User-Agent": "PreMiD" }
-        }
-      )).data;
-
-      return [
-        JSON.parse(Buffer.from(metadata.content, "base64").toString()).service,
-        dir.path
-      ];
+  axios
+    .get("https://api.github.com/repos/PreMiD/Presences/contents/", {
+      headers: {
+        "User-Agent": "PreMiD"
+      }
     })
-  ).then(async results => {
-    availablePresences = await Promise.all(availablePresences.map(f => f.name));
+    .then(res => {
+      var contents = res.data;
 
-    var remainPresences = results.filter(
-      f => !availablePresences.includes(f[0])
-    );
+      contents = contents
+        .filter(c => c.type == "dir")
+        .filter(dir => !dir.name.startsWith("."));
 
-    remainPresences.map(async pre => {
-      coll.insertOne({
-        name: pre[0],
-        url: `https://raw.githubusercontent.com/PreMiD/Presences/master/${
-          pre[1]
-        }/`
+      Promise.all(
+        contents.map(async dir => {
+          var metadata = (await axios.get(
+            `https://api.github.com/repos/PreMiD/Presences/contents/${
+              dir.name
+            }/metadata.json`,
+            {
+              headers: {
+                "User-Agent": "PreMiD"
+              }
+            }
+          )).data;
+
+          return [
+            JSON.parse(Buffer.from(metadata.content, "base64").toString()),
+            dir.path
+          ];
+        })
+      ).then(results => {
+        results.map(async r => {
+          if (await coll.findOne({ name: r[0].service }))
+            coll.updateOne(
+              { name: r[0].service },
+              {
+                $set: {
+                  metadata: r[0],
+                  url: `https://raw.githubusercontent.com/PreMiD/Presences/master/${
+                    r[1]
+                  }/`
+                }
+              }
+            );
+          else
+            coll.insertOne({
+              name: r[0].service,
+              metadata: r[0],
+              url: `https://raw.githubusercontent.com/PreMiD/Presences/master/${
+                r[1]
+              }/`
+            });
+        });
       });
-    });
-  });
+    })
+    .catch(_ => {});
 }
