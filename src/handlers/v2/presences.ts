@@ -16,7 +16,7 @@ export = async (req: Request, res: Response) => {
     presences = await MongoClient.db("PreMiD")
       .collection("presences")
       .findOne({ name: req.params.presence }, { projection: { _id: false } });
-    if (!presences) res.send({ error: 406, message: "Presence not found." });
+    if (!presences) res.sendStatus(404);
     else res.send(presences);
   }
 };
