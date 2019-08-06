@@ -2,7 +2,8 @@ import axios from "axios";
 import { MongoClient } from "../../db/client";
 
 export default async function() {
-  var coll = MongoClient.db("PreMiD").collection("presences");
+  var coll = MongoClient.db("PreMiD").collection("presences"),
+    presences = await coll.find().toArray();
 
   axios
     .get("https://api.github.com/repos/PreMiD/Presences/contents/", {
@@ -36,6 +37,14 @@ export default async function() {
           ];
         })
       ).then(results => {
+        //* Filter and remove non existing ones
+        presences
+          .map(presence => presence.name)
+          .filter(p => !results.find(rs => rs[0].service === p))
+          .map(p => {
+            coll.findOneAndDelete({ name: p });
+          });
+
         results.map(async r => {
           if (await coll.findOne({ name: r[0].service }))
             coll.updateOne(
