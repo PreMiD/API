@@ -102,21 +102,23 @@ export default async function updatePresences() {
     program.emit();
 
     results.map(async d => {
-      var presence = (await readFileSync(
-        d[0].replace(extname(d[0]), ".js"),
-        "utf-8"
-      ))
-        .replace(/\s\s+/g, "")
-        .replace(/\n/g, "")
-        .trim();
-      if (d.length === 3)
-        var iframe = (await readFileSync(
-          d[1].replace(extname(d[1]), ".js"),
-          "utf-8"
-        ))
-          .replace(/\s\s+/g, "")
+      /*
+      TODO find better way to minify as current one breaks js
+      .replace(/\s\s+/g, "")
           .replace(/\n/g, "")
           .trim();
+      */
+      var presence = await readFileSync(
+        d[0].replace(extname(d[0]), ".js"),
+        "utf-8"
+      );
+
+      if (d.length === 3)
+        var iframe = await readFileSync(
+          d[1].replace(extname(d[1]), ".js"),
+          "utf-8"
+        );
+
       var metadata = d[d.length - 1];
 
       var pres = await coll.findOne({ name: metadata.service }),
