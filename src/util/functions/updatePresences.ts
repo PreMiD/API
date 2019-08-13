@@ -131,9 +131,7 @@ export default async function updatePresences() {
         // @ts-ignore
         query.name = metadata.service;
         // @ts-ignore
-        query.url = `https://api.premid.app/v2/presences/${
-          metadata.service
-        }/f/`;
+        query.url = `https://api.premid.app/v2/presences/${metadata.service}/`;
         coll.insertOne(query);
       }
     });

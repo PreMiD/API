@@ -39,9 +39,7 @@
     "path": [
       "/v2/presences",
       "/v2/presences/:presence",
-      "/v2/presences/:presence/",
-      "/v2/presences/:presence/f/",
-      "/v2/presences/:presence/f/:file"
+      "/v2/presences/:presence/:file"
     ],
     "handler": "v2/presences"
   },

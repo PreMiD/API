@@ -23,11 +23,7 @@ export = async (req: Request, res: Response) => {
         { projection: { _id: false, presenceJs: false, iframeJs: false } }
       );
     if (!presences) res.sendStatus(404);
-    else {
-      console.log(req.path);
-      if (req.path.includes("/f/")) res.send(presences.metadata);
-      else res.send(presences);
-    }
+    else res.send(presences);
   } else if (
     req.params.file === "presence.js" ||
     req.params.file === "iframe.js" ||
