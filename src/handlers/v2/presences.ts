@@ -30,7 +30,8 @@ export = async (req: Request, res: Response) => {
     }
   } else if (
     req.params.file === "presence.js" ||
-    req.params.file === "iframe.js"
+    req.params.file === "iframe.js" ||
+    req.params.file === "metadata.json"
   ) {
     if (req.params.file === "presence.js") {
       presences = await MongoClient.db("PreMiD")
@@ -47,7 +48,7 @@ export = async (req: Request, res: Response) => {
             }
           }
         );
-    } else {
+    } else if (req.params.file === "iframe.js") {
       presences = await MongoClient.db("PreMiD")
         .collection("presences")
         .findOne(
@@ -62,6 +63,24 @@ export = async (req: Request, res: Response) => {
             }
           }
         );
+    } else {
+      presences = await MongoClient.db("PreMiD")
+        .collection("presences")
+        .findOne(
+          { name: req.params.presence },
+          {
+            projection: {
+              _id: false,
+              name: false,
+              iframeJs: false,
+              presenceJs: false,
+              url: false
+            }
+          }
+        );
+
+      res.send(presences.metadata);
+      return;
     }
 
     res.setHeader("content-type", "text/javascript");
