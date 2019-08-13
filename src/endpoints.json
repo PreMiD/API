@@ -8,6 +8,10 @@
     "handler": "ping"
   },
   {
+    "path": "/presenceUpdater/:secret",
+    "handler": "presenceUpdater"
+  },
+  {
     "path": ["/credits", "/credits/:userID"],
     "handler": "v1/credits"
   },
@@ -36,7 +40,11 @@
     "handler": "v1/presences"
   },
   {
-    "path": ["/v2/presences", "/v2/presences/:presence"],
+    "path": [
+      "/v2/presences",
+      "/v2/presences/:presence",
+      "/v2/presences/:presence/:file"
+    ],
     "handler": "v2/presences"
   },
   {
