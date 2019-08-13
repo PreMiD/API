@@ -6,7 +6,10 @@ export = async (req: Request, res: Response) => {
   if (typeof req.params.presence === "undefined") {
     presences = (await MongoClient.db("PreMiD")
       .collection("presences")
-      .find({}, { projection: { _id: false } })
+      .find(
+        {},
+        { projection: { _id: false, presenceJs: false, iframeJs: false } }
+      )
       .toArray()).map(pr => {
       return pr;
     });
