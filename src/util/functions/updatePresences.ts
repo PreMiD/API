@@ -97,7 +97,11 @@ export default async function updatePresences() {
 
     let program = ts.createProgram({
       rootNames: rs.filter(f => typeof f === "string" && f.endsWith("ts")),
-      options: { removeComments: true }
+      options: {
+        removeComments: true,
+        target: ts.ScriptTarget.ES2015,
+        module: ts.ModuleKind.CommonJS
+      }
     });
     program.emit();
 
