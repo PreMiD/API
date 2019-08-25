@@ -5,7 +5,7 @@ import { success, error } from "./util/debug";
 import updateLangFiles from "./util/updateLangFiles";
 import getWebstoreUsers from "./util/functions/getWebstoreUsers";
 import responseTime from "./util/responseTime";
-import updatePresences from "./util/functions/updatePresences";
+import { fork } from "child_process";
 
 config();
 
@@ -46,8 +46,8 @@ app.use(function(_req, res, next) {
     success(`PreMiD API listening on port ${server.address().port}!`);
 
     if (process.env.NODE_ENV === "production") {
-      setInterval(updateLangFiles, 15 * 1000 * 60);
-      updateLangFiles();
+      //TODO Update language file updater
+      //setInterval(updateLangFiles, 15 * 1000 * 60);
 
       //* Update usage
       updateUsage();
@@ -58,7 +58,7 @@ app.use(function(_req, res, next) {
 
       //* Update presences
       updatePresences();
-      setInterval(updatePresences, 15 * 60 * 1000);
+      setInterval(updatePresences, 5 * 60 * 1000);
     }
   });
 })();
@@ -73,4 +73,12 @@ async function updateUsage() {
         chrome: await getWebstoreUsers("agjnjboanicjcpenljmaaigopkgdnihi")
       }
     );
+}
+
+function updatePresences() {
+  var pUTime = Date.now(),
+    presenceUpdater = fork("util/functions/updatePresences.js");
+  presenceUpdater.on("close", () => {
+    success(`Updated presences in ${Date.now() - pUTime}ms`);
+  });
 }

@@ -22,7 +22,7 @@ export = async (req: Request, res: Response) => {
         { name: req.params.presence },
         { projection: { _id: false, presenceJs: false, iframeJs: false } }
       );
-    if (!presences) res.sendStatus(404);
+    if (!presences) res.send({ error: 4, message: "No such presence." });
     else res.send(presences);
   } else if (
     req.params.file === "presence.js" ||
@@ -80,7 +80,7 @@ export = async (req: Request, res: Response) => {
     }
 
     res.setHeader("content-type", "text/javascript");
-    if (!presences) res.sendStatus(404);
+    if (!presences) res.send({ error: 5, message: "No such file." });
     else res.end(unescape(presences.presenceJs || presences.iframeJs));
   }
 };
