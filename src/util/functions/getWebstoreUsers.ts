@@ -28,6 +28,7 @@ export default function(id: string) {
               .replace(/[^\d.-]/g, "")
           )
         );
-      });
+      })
+      .catch(() => {});
   });
 }

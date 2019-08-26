@@ -1,7 +1,8 @@
 import axios from "axios";
-import { info } from "./debug";
+import { connect } from "../db/client";
+connect("PreMiD API - Translation Updater").then(run);
 
-export default function() {
+function run() {
   var responseTime = Date.now();
 
   axios
@@ -12,12 +13,9 @@ export default function() {
 
       //* Calc response time in ms
       responseTime = Date.now() - responseTime;
-      info(`Last response time was: ${responseTime}ms`);
 
       axios.post(
-        `https://api.statuspage.io/v1/pages/${
-          process.env.STATUSPAGE_PAGEID
-        }/metrics/${process.env.STATUSPAGE_METRICID}/data`,
+        `https://api.statuspage.io/v1/pages/${process.env.STATUSPAGE_PAGEID}/metrics/${process.env.STATUSPAGE_METRICID}/data`,
         {
           data: {
             timestamp: Math.floor(Date.now() / 1000),

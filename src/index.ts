@@ -1,15 +1,17 @@
 import { connect, MongoClient } from "./db/client";
 import { config } from "dotenv";
 import express from "express";
-import { success, error } from "./util/debug";
-import updateLangFiles from "./util/updateLangFiles";
+import { success, error, info } from "./util/debug";
 import getWebstoreUsers from "./util/functions/getWebstoreUsers";
-import responseTime from "./util/responseTime";
 import { fork } from "child_process";
 
 config();
 
-var app = express();
+var app = express(),
+  apiVersion = require("./package.json").version;
+
+info(`Version v${apiVersion}`);
+
 //* Set API Headers
 app.use(function(_req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -17,7 +19,8 @@ app.use(function(_req, res, next) {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
-  res.header("API-Version", "2.0");
+
+  res.header("API-Version", apiVersion);
   next();
 });
 
@@ -43,18 +46,18 @@ app.use(function(_req, res, next) {
 
   var server = app.listen(3001, async () => {
     // @ts-ignore
-    success(`PreMiD API listening on port ${server.address().port}!`);
+    success(`Listening on port ${server.address().port}`);
 
     if (process.env.NODE_ENV === "production") {
-      //TODO Update language file updater
-      //setInterval(updateLangFiles, 15 * 1000 * 60);
+      setInterval(updateLangFiles, 5 * 1000 * 60);
+      updateLangFiles();
 
       //* Update usage
       updateUsage();
       setInterval(updateUsage, 60 * 60 * 1000);
 
       //* Response Time check
-      setInterval(responseTime, 5 * 60 * 1000);
+      setInterval(updateResponseTime, 5 * 60 * 1000);
 
       //* Update presences
       updatePresences();
@@ -80,5 +83,21 @@ function updatePresences() {
     presenceUpdater = fork("util/functions/updatePresences.js");
   presenceUpdater.on("close", () => {
     success(`Updated presences in ${Date.now() - pUTime}ms`);
+  });
+}
+
+function updateLangFiles() {
+  var lUTime = Date.now(),
+    presenceUpdater = fork("util/functions/updateTranslations.js");
+  presenceUpdater.on("close", () => {
+    success(`Updated translations in ${Date.now() - lUTime}ms`);
+  });
+}
+
+function updateResponseTime() {
+  var lUTime = Date.now(),
+    presenceUpdater = fork("util/responseTime.js");
+  presenceUpdater.on("close", () => {
+    success(`Updated response Time in ${Date.now() - lUTime}ms`);
   });
 }

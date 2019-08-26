@@ -12,5 +12,5 @@
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["devMode.ts", "devModeNew.ts"]
+  "exclude": ["devMode.ts"]
 }

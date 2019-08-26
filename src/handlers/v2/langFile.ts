@@ -16,11 +16,12 @@ export = async (req: Request, res: Response) => {
     return;
   }
 
-  if (req.params.project === "website") req.params.project = "website-v2";
   //* fetch versions from MongoDB
   var langFile = await MongoClient.db("PreMiD")
     .collection("langFiles")
     .findOne({ lang: req.params.lang, project: req.params.project });
+
+  console.log(langFile);
 
   if (!langFile) {
     res.sendStatus(404);

@@ -16,7 +16,7 @@ export = async (req: Request, res: Response) => {
       .findOne({ userId: req.params.userId }, { projection: { _id: 0 } });
 
     if (credits === null) {
-      res.sendStatus(404);
+      res.send({ error: 2, message: "No such user." });
       return;
     }
   }

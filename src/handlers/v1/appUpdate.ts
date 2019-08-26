@@ -1,5 +1,4 @@
 import { Response, Request } from "express";
-import { resolve } from "path";
 
 export = async (req: Request, res: Response) => {
   if (req.params.os == "windows.exe") {

@@ -2,7 +2,7 @@ import chalk from "chalk";
 
 export function info(message) {
   console.log(
-    `${chalk.bgHex("#596cae")(chalk.bold(" API "))} ${chalk.hex("#5050ff")(
+    `${chalk.bgHex("#596cae")(chalk.bold(" API "))} ${chalk.blueBright(
       message
     )}`
   );
@@ -11,7 +11,7 @@ export function info(message) {
 export function success(message) {
   var chalk = require("chalk");
   console.log(
-    `${chalk.bgHex("#596cae")(chalk.bold(" API "))} ${chalk.hex("#50ff50")(
+    `${chalk.bgHex("#596cae")(chalk.bold(" API "))} ${chalk.greenBright(
       message
     )}`
   );
@@ -20,8 +20,6 @@ export function success(message) {
 export function error(message) {
   var chalk = require("chalk");
   console.log(
-    `${chalk.bgHex("#596cae")(chalk.bold(" API "))} ${chalk.hex("#ff5050")(
-      message
-    )}`
+    `${chalk.bgHex("#596cae")(chalk.bold(" API "))} ${chalk.redBright(message)}`
   );
 }
