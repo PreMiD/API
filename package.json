@@ -4,7 +4,7 @@
   "main": "index.js",
   "repository": "https://github.com/PreMiD/API",
   "scripts": {
-    "compile": "tsc && tsc devMode && node devMode.js && cd dist && npm i --production",
+    "compile": "tsc && tsc devMode && node devMode.js compile && cd dist && npm i --production",
     "dev": "node devMode.js"
   },
   "author": "Timeraa",
