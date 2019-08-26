@@ -21,8 +21,6 @@ export = async (req: Request, res: Response) => {
     .collection("langFiles")
     .findOne({ lang: req.params.lang, project: req.params.project });
 
-  console.log(langFile);
-
   if (!langFile) {
     res.sendStatus(404);
     return;
