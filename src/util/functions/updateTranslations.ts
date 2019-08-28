@@ -1,7 +1,7 @@
 import { connect, MongoClient } from "../../db/client";
 import { config } from "dotenv";
 import axios from "axios";
-import { ensureDir, readdir, readFile } from "fs-extra";
+import { ensureDir, readdir, readFile, emptyDirSync } from "fs-extra";
 import unzipper from "unzipper";
 config();
 
@@ -24,6 +24,7 @@ async function run() {
 
   //* Ensure tmp dir is there
   await ensureDir("tmp");
+  await emptyDirSync("tmp");
 
   //* Create writer
   var writer = unzipper.Extract({ path: "tmp/translations" });
