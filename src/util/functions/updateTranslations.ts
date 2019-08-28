@@ -17,7 +17,10 @@ async function run() {
     baseURL: base,
     params: { key: process.env.CROWDIN_API_TOKEN, json: true, async: true }
   });
-  if (res.data.success.status === "skipped") return;
+  if (res.data.success.status === "skipped") {
+    MongoClient.close().then(() => process.exit());
+    return;
+  }
 
   //* Ensure tmp dir is there
   await ensureDir("tmp");
@@ -115,9 +118,7 @@ async function run() {
           else await coll.insertOne(t);
         })
       ).then(() => {
-        MongoClient.close();
-
-        process.exit();
+        MongoClient.close().then(() => process.exit());
       });
     });
   });
