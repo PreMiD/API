@@ -17,6 +17,10 @@
         {
           "version": "1.3.2",
           "update_link": "https://github.com/PreMiD/PreMiD/releases/download/v1.3.2/premid-1.3.2.xpi"
+        },
+        {
+          "version": "1.3.2.1",
+          "update_link": "https://github.com/PreMiD/PreMiD/releases/download/v1.3.2.1/premid-1.3.2.1.xpi"
         }
       ]
     }
