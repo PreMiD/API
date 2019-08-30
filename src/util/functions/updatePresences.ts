@@ -23,7 +23,10 @@ async function updatePresences() {
     })).data[0].sha;
 
   //* return if matches current one
-  if (lastCommit === lastSavedCommit) process.exit();
+  if (lastCommit === lastSavedCommit) {
+    await MongoClient.close();
+    process.exit();
+  }
 
   var dbPresences = await coll
     .find({}, { projection: { _id: false } })
