@@ -12,6 +12,9 @@ var app = express(),
 
 info(`Version v${apiVersion}`);
 
+//* Remove powered by header
+app.disable("x-powered-by");
+
 //* Set API Headers
 app.use(function(_req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
