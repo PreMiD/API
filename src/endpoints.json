@@ -58,5 +58,13 @@
   {
     "path": ["/v2/betaAccess", "/v2/betaAccess/:userId"],
     "handler": "v2/betaAccess"
+  },
+  {
+    "path": [
+      "/v2/changelog",
+      "/v2/changelog/:project",
+      "/v2/changelog/:project/:version"
+    ],
+    "handler": "v2/changelog"
   }
 ]
