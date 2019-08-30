@@ -107,7 +107,7 @@ async function prepareDist() {
   );
 
   //* Copy files from src to dist
-  copySync("src", "dist/app", {
+  copySync("src", "dist", {
     filter: function(path) {
       if (path.includes("/node_modules")) return false;
       return extname(path) !== ".ts";
