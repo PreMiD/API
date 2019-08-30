@@ -3,7 +3,22 @@ import { MongoClient } from "../../db/client";
 
 export = async (req: Request, res: Response) => {
   var presences;
-  if (typeof req.params.presence === "undefined") {
+  if (
+    typeof req.params.presence === "undefined" ||
+    req.params.presence === "versions"
+  ) {
+    if (req.params.presence === "versions") {
+      presences = (await MongoClient.db("PreMiD")
+        .collection("presences")
+        .find(
+          {},
+          { projection: { _id: false, presenceJs: false, iframeJs: false } }
+        )
+        .toArray()).map(p => {
+        return { name: p.name, version: p.metadata.version, url: p.url };
+      });
+      res.send(presences);
+    }
     presences = (await MongoClient.db("PreMiD")
       .collection("presences")
       .find(
