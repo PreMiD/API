@@ -18,7 +18,8 @@ async function run() {
     params: { key: process.env.CROWDIN_API_TOKEN, json: true, async: true }
   });
   if (res.data.success.status === "skipped") {
-    MongoClient.close().then(() => process.exit());
+    await MongoClient.close();
+    process.exit();
     return;
   }
 
@@ -118,8 +119,9 @@ async function run() {
             );
           else await coll.insertOne(t);
         })
-      ).then(() => {
-        MongoClient.close().then(() => process.exit());
+      ).then(async () => {
+        await MongoClient.close();
+        process.exit();
       });
     });
   });

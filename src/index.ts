@@ -52,8 +52,8 @@ app.use(function(_req, res, next) {
     success(`Listening on port ${server.address().port}`);
 
     if (process.env.NODE_ENV === "production") {
-      setInterval(updateLangFiles, 5 * 1000 * 60);
-      updateLangFiles();
+      //setInterval(updateLangFiles, 5 * 1000 * 60);
+      //updateLangFiles();
 
       //* Update usage
       updateUsage();
