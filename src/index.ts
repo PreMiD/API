@@ -63,8 +63,8 @@ app.use(function(_req, res, next) {
       setInterval(updateResponseTime, 5 * 60 * 1000);
 
       //* Update presences
-      updatePresences();
-      setInterval(updatePresences, 5 * 60 * 1000);
+      //updatePresences();
+      //setInterval(updatePresences, 5 * 60 * 1000);
     }
   });
 })();
