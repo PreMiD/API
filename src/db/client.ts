@@ -23,3 +23,10 @@ export function connect(name = "PreMiD API") {
       .catch(reject);
   });
 }
+
+process.on("SIGINT", cleanup);
+process.on("SIGTERM", cleanup);
+
+function cleanup() {
+  MongoClient.close().then(() => process.exit());
+}

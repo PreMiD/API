@@ -24,8 +24,8 @@ async function updatePresences() {
 
   //* return if matches current one
   if (lastCommit === lastSavedCommit) {
-    await MongoClient.close();
-    process.exit();
+    cleanup();
+    return;
   }
 
   var dbPresences = await coll
@@ -102,8 +102,9 @@ async function updatePresences() {
       { $set: { lastCommit: lastCommit } }
     );
 
-  //* Disconnect from db
-  await MongoClient.close();
+  cleanup();
+}
 
-  process.exit();
+function cleanup() {
+  MongoClient.close().then(() => process.exit());
 }
