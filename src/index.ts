@@ -64,6 +64,7 @@ app.use(function(_req, res, next) {
 
       //* Update presences
       setInterval(updatePresences, 5 * 60 * 1000);
+      updatePresences();
     }
   });
 })();
