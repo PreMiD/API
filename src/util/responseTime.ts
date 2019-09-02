@@ -1,34 +1,43 @@
 import axios from "axios";
-import { connect } from "../db/client";
-connect("PreMiD API - Translation Updater").then(run);
+import { connect, MongoClient } from "../db/client";
+import { error } from "./debug";
 
-function run() {
-  var responseTime = Date.now();
+const run = async (): Promise<void> => {
+  const startTimestamp = Date.now();
 
-  axios
-    .get("http://localhost:3001/ping")
-    .then(res => {
-      //* If some error happens
-      if (res.status !== 200) return;
+  try {
+    const response = await axios.get<string>("http://localhost:3001/ping");
 
-      //* Calc response time in ms
-      responseTime = Date.now() - responseTime;
+    //* If some error happens
+    if (response.status !== 200) {
+      throw new Error(`Http status response: ${response.status}`);
+    }
 
-      axios.post(
-        `https://api.statuspage.io/v1/pages/${process.env.STATUSPAGE_PAGEID}/metrics/${process.env.STATUSPAGE_METRICID}/data`,
-        {
-          data: {
-            timestamp: Math.floor(Date.now() / 1000),
-            value: responseTime
-          }
+    const timestamp = Date.now();
+    //* Calc response time in ms
+    const responseTime = timestamp - startTimestamp;
+
+    await axios.post(
+      `https://api.statuspage.io/v1/pages/${process.env.STATUSPAGE_PAGEID}/metrics/${process.env.STATUSPAGE_METRICID}/data`,
+      {
+        data: {
+          timestamp: Math.floor(timestamp / 1000),
+          value: responseTime,
         },
-        {
-          headers: {
-            Authorization: `OAuth ${process.env.STATUSPAGE_APIKEY}`,
-            "Content-Type": "application/json"
-          }
-        }
-      );
-    })
-    .catch(err => console.log(err));
+      },
+      {
+        headers: {
+          Authorization: `OAuth ${process.env.STATUSPAGE_APIKEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  } catch (err) {
+    error(err.message);
+    process.exit(1);
+  }
+
+  await MongoClient.close();
 }
+
+connect("PreMiD API - Translation Updater").then(run);

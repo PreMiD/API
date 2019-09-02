@@ -1,26 +1,27 @@
 import { MongoClient } from "../../db/client";
-import { Response, Request } from "express";
+import { RequestHandler } from "express";
 
-var credits: any;
+const handler: RequestHandler = async (req, res) => {
+  const database = MongoClient.db("PreMiD");
+  const creditsCollection = database.collection("credits");
+  let response = undefined;
 
-export = async (req: Request, res: Response) => {
   if (typeof req.params.userId === "undefined") {
-    //* fetch versions from MongoDB
-    credits = await MongoClient.db("PreMiD")
-      .collection("credits")
-      .find({}, { projection: { _id: 0 } })
-      .toArray();
+    response = creditsCollection.find({}, { projection: { _id: 0 } }).toArray();
   } else {
-    credits = await MongoClient.db("PreMiD")
-      .collection("credits")
-      .findOne({ userId: req.params.userId }, { projection: { _id: 0 } });
+    response = creditsCollection.findOne(
+      { userId: req.params.userId },
+      { projection: { _id: 0 } },
+    );
 
-    if (credits === null) {
+    if (!response) {
       res.send({ error: 2, message: "No such user." });
       return;
     }
   }
 
   //* Send response
-  res.send(credits);
+  res.send(response);
 };
+
+export { handler };

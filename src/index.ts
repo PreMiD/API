@@ -1,45 +1,60 @@
-import { connect, MongoClient } from "./db/client";
-import { config } from "dotenv";
-import express from "express";
-import { success, error, info } from "./util/debug";
-import getWebstoreUsers from "./util/functions/getWebstoreUsers";
 import { fork } from "child_process";
+import { config } from "dotenv";
+import express, { response } from "express";
+import { connect, MongoClient } from "./db/client";
+import { error, info, success } from "./util/debug";
+import { getWebstoreUsers } from "./util/functions/getWebstoreUsers";
 
-config();
+const apiVersion: string = require("./package.json").version;
+const endpoints: {
+  path: string | string[];
+  handler: string;
+}[] = require("./endpoints.json");
 
-var app = express(),
-  apiVersion = require("./package.json").version;
+const start = async (): Promise<void> => {
+  info(`Version v${apiVersion}`);
 
-info(`Version v${apiVersion}`);
-
-//* Remove powered by header
-app.disable("x-powered-by");
-
-//* Set API Headers
-app.use(function(_req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-
-  res.header("API-Version", apiVersion);
-  next();
-});
-
-(async () => {
   //* Connect to Mongo DB
-  await connect()
-    .then(_ => success("Connected to the database"))
-    .catch((err: Error) => {
-      error(`Could not connect to database: ${err.name}`);
-      process.exit();
-    });
+  try {
+    await connect();
+    success("Connected to the database");
+  } catch (err) {
+    error(`Could not connect to database: ${err.message}`);
+    process.exit();
+    return;
+  }
 
-  //* Read endpoints
-  require("./endpoints.json").map(endpoint =>
-    app.get(endpoint.path, require(`./handlers/${endpoint.handler}`))
-  );
+  const app = express();
+
+  //* Remove powered by header
+  app.disable("x-powered-by");
+
+  //* Set API Headers
+  app.use((_req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+
+    res.header("API-Version", apiVersion);
+    next();
+  });
+
+  //* Set endpoints
+  try {
+    info(`Loading ${endpoints.length} endpoints...`);
+    await Promise.all(
+      endpoints.map(async endpoint => {
+        const module = await import(`./handlers/${endpoint.handler}`);
+        app.get(endpoint.path, module.handler);
+      })
+    );
+  } catch (err) {
+    error(err.message);
+    process.exit();
+    return;
+  }
 
   //* Request not handled, send 404
   app.use((_req, res) => {
@@ -47,60 +62,75 @@ app.use(function(_req, res, next) {
     res.sendStatus(404);
   });
 
-  var server = app.listen(3001, async () => {
+  const PORT = 3001;
+  const server = app.listen(PORT, async () => {
     // @ts-ignore
-    success(`Listening on port ${server.address().port}`);
+    success(`Listening on port ${PORT}`);
 
     if (process.env.NODE_ENV === "production") {
-      setInterval(updateLangFiles, 5 * 1000 * 60);
-      updateLangFiles();
+      const updateTranslationsInterval = 5 * 1000 * 60;
+      setInterval(updateTranslations, updateTranslationsInterval);
+      updateTranslations();
 
       //* Update usage
+      const updateUsageInterval = 60 * 60 * 1000;
+      setInterval(updateUsage, updateUsageInterval);
       updateUsage();
-      setInterval(updateUsage, 60 * 60 * 1000);
 
       //* Response Time check
-      setInterval(updateResponseTime, 5 * 60 * 1000);
+      const updateResponseTimeInterval = 5 * 60 * 1000;
+      setInterval(updateResponseTime, updateResponseTimeInterval);
+      updateResponseTime();
 
       //* Update presences
-      setInterval(updatePresences, 5 * 60 * 1000);
+      const updatePresencesInterval = 5 * 60 * 1000;
+      setInterval(updatePresences, updatePresencesInterval);
       updatePresences();
     }
   });
-})();
+};
 
-async function updateUsage() {
-  MongoClient.db("PreMiD")
-    .collection("usage")
-    .findOneAndReplace(
-      { key: 0 },
-      {
-        key: 0,
+config();
+start();
+
+const updateUsage = async (): Promise<void> => {
+  const collection = MongoClient.db("PreMiD").collection("usage");
+  await collection.findOneAndUpdate(
+    { key: 0 },
+    {
+      $set: {
         chrome: await getWebstoreUsers("agjnjboanicjcpenljmaaigopkgdnihi")
       }
-    );
-}
+    }
+  );
+};
 
-function updatePresences() {
-  var pUTime = Date.now(),
-    presenceUpdater = fork("util/functions/updatePresences.js");
-  presenceUpdater.on("close", () => {
-    success(`Updated presences in ${Date.now() - pUTime}ms`);
-  });
-}
+const updatePresences = () => {
+  const startTimestamp = Date.now();
+  const presenceUpdater = fork("util/functions/updatePresences.js");
+  presenceUpdater.on("exit", code =>
+    code === 0
+      ? success(`Updated presences in ${Date.now() - startTimestamp}ms`)
+      : error("An error occurred while updating presences")
+  );
+};
 
-function updateLangFiles() {
-  var lUTime = Date.now(),
-    presenceUpdater = fork("util/functions/updateTranslations.js");
-  presenceUpdater.on("close", () => {
-    success(`Updated translations in ${Date.now() - lUTime}ms`);
-  });
-}
+const updateTranslations = () => {
+  const startTimestamp = Date.now();
+  const translationsUpdater = fork("util/functions/updateTranslations.js");
+  translationsUpdater.on("exit", code =>
+    code === 0
+      ? success(`Updated translations in ${Date.now() - startTimestamp}ms`)
+      : error("An error occurred while updating translations")
+  );
+};
 
-function updateResponseTime() {
-  var lUTime = Date.now(),
-    presenceUpdater = fork("util/responseTime.js");
-  presenceUpdater.on("close", () => {
-    success(`Updated response Time in ${Date.now() - lUTime}ms`);
-  });
-}
+const updateResponseTime = () => {
+  const startTimestamp = Date.now();
+  const responseTimeUpdater = fork("./util/responseTime.js");
+  responseTimeUpdater.on("exit", code =>
+    code === 0
+      ? success(`Updated response time in ${Date.now() - startTimestamp}ms`)
+      : error("An error occurred while updating response time")
+  );
+};

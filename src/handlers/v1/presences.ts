@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import { MongoClient } from "../../db/client";
 
-export = async (req: Request, res: Response) => {
+export const handler = async (req: Request, res: Response) => {
   var presences;
   if (typeof req.params.presence === "undefined") {
     presences = (await MongoClient.db("PreMiD")

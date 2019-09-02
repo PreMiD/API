@@ -1,27 +1,23 @@
+import { RequestHandler } from "express";
 import { MongoClient } from "../../db/client";
-import { Response, Request } from "express";
+import { Changelog } from "../../db/types";
 
-var coll = MongoClient.db("PreMiD").collection("changelog");
+const handler: RequestHandler = async (req, res) => {
+  const { project, version } = req.params;
+  const database = MongoClient.db("PreMiD");
+  const changelogCollection = database.collection<Changelog>("changelog");
 
-export = async (req: Request, res: Response) => {
-  if (req.params.project && !req.params.version) {
-    res.send(
-      await coll
-        .find({ project: req.params.project }, { projection: { _id: false } })
-        .toArray()
-    );
+  if (!project) {
+    res.send({ error: 1, message: "No project providen." });
     return;
   }
 
-  if (req.params.project && req.params.version) {
-    res.send(
-      await coll
-        .find(
-          { project: req.params.project, version: req.params.version },
-          { projection: { _id: false } }
-        )
-        .toArray()
-    );
-    return;
-  }
+  const filter = !version ? { project } : { project, version };
+  const changelog = await changelogCollection
+    .find(filter, { projection: { _id: false } })
+    .toArray();
+
+  res.send(changelog);
 };
+
+export { handler };

@@ -1,16 +1,22 @@
 import { MongoClient } from "../../db/client";
-import { Response, Request } from "express";
+import { RequestHandler } from "express";
 
-export = async (_req: Request, res: Response) => {
+const handler: RequestHandler = async (_req, res) => {
   //* fetch versions from MongoDB
-  var versions = await MongoClient.db("PreMiD")
+  const versions = await MongoClient.db("PreMiD")
     .collection("versions")
-    .findOne({ key: 0 });
-
-  //* Delete unnecessary properties
-  delete versions._id;
-  delete versions.key;
+    .findOne(
+      { key: 0 },
+      {
+        projection: {
+          _id: false,
+          key: false,
+        },
+      }
+    );
 
   //* Send response
   res.send(versions);
 };
+
+export { handler };

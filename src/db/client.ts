@@ -2,27 +2,22 @@ import { MongoClient as mongoClient } from "mongodb";
 
 export var MongoClient: mongoClient;
 
-export function connect(name = "PreMiD API") {
-  return new Promise<mongoClient>((resolve, reject) => {
-    mongoClient
-      .connect(
-        `mongodb://${process.env.MONGOUSER}:${process.env.MONGOPASS}@${
-          process.env.MONGOIP
-        }:${27017}`,
-        {
-          useNewUrlParser: true,
-          autoReconnect: true,
+export const connect = async (
+  name: string = "PreMiD API",
+): Promise<mongoClient> => {
+  const client = await mongoClient.connect(
+    `mongodb://${process.env.MONGOUSER}:${process.env.MONGOPASS}@${process.env.MONGOIP}:27017`,
+    {
+      useNewUrlParser: true,
+      autoReconnect: true,
+      useUnifiedTopology: true,
+      appname: name,
+    }
+  );
 
-          appname: name
-        }
-      )
-      .then(mongoClient => {
-        MongoClient = mongoClient;
-        resolve(mongoClient);
-      })
-      .catch(reject);
-  });
-}
+  MongoClient = client;
+  return client;
+};
 
 process.on("SIGINT", cleanup);
 process.on("SIGTERM", cleanup);
