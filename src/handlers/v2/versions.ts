@@ -10,13 +10,13 @@ const handler: RequestHandler = async (_req, res) => {
       {
         projection: {
           _id: false,
-          key: false
-        }
-      }
+          key: false,
+        },
+      },
     );
 
   //* Send response
   res.send(versions);
 };
 
-export default handler;
+export { handler };

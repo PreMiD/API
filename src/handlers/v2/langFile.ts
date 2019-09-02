@@ -10,19 +10,19 @@ const handler: RequestHandler = async (req, res) => {
     const extensionProjectTranslations = await langFilesCollection
       .find(
         {
-          project: "extension"
+          project: "extension",
         },
         {
           projection: {
             _id: false,
             project: false,
-            translations: false
-          }
-        }
+            translations: false,
+          },
+        },
       )
       .toArray();
     const languageCodes = extensionProjectTranslations.map(
-      langFile => langFile.lang
+      langFile => langFile.lang,
     );
 
     res.send(languageCodes);
@@ -31,7 +31,7 @@ const handler: RequestHandler = async (req, res) => {
 
   const langFile = await langFilesCollection.findOne({
     lang: req.params.lang,
-    project: req.params.project
+    project: req.params.project,
   });
 
   if (!langFile) {
@@ -44,7 +44,7 @@ const handler: RequestHandler = async (req, res) => {
     ...Object.keys(langFile.translations).map(translationKey => {
       const newKey = translationKey.replace(/[_]/g, ".");
       return {
-        [newKey]: langFile.translations[translationKey]
+        [newKey]: langFile.translations[translationKey],
       };
     })
   );
@@ -52,4 +52,4 @@ const handler: RequestHandler = async (req, res) => {
   res.send(object);
 };
 
-export default handler;
+export { handler };

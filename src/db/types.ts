@@ -41,5 +41,5 @@ export interface Changelog {
   version: string;
   type: string;
   string: string;
-  urls?: string[]
+  urls?: string[];
 }

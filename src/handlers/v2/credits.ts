@@ -11,7 +11,7 @@ const handler: RequestHandler = async (req, res) => {
   } else {
     response = creditsCollection.findOne(
       { userId: req.params.userId },
-      { projection: { _id: 0 } }
+      { projection: { _id: 0 } },
     );
 
     if (!response) {
@@ -24,4 +24,4 @@ const handler: RequestHandler = async (req, res) => {
   res.send(response);
 };
 
-export default handler;
+export { handler };

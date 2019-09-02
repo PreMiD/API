@@ -15,4 +15,4 @@ const handler: RequestHandler = async (req, res) => {
   res.send({ userId: req.params.userId, access: !!betaAccess });
 };
 
-export default handler;
+export { handler };

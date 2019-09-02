@@ -1,7 +1,7 @@
 import { MongoClient } from "../../db/client";
 import { Response, Request } from "express";
 
-export = async (req: Request, res: Response) => {
+export const handler = async (req: Request, res: Response) => {
   if (typeof req.params.userId === "undefined") {
     res.send(JSON.stringify({ error: 410, message: "No user id provided." }));
     return;

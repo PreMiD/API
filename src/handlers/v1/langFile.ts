@@ -1,7 +1,7 @@
 import { MongoClient } from "../../db/client";
 import { Response, Request } from "express";
 
-export = async (req: Request, res: Response) => {
+export const handler = async (req: Request, res: Response) => {
   //* fetch versions from MongoDB
   var langFile = await MongoClient.db("PreMiD")
     .collection("langFiles")

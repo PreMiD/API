@@ -20,4 +20,4 @@ const handler: RequestHandler = async (req, res) => {
   res.send(changelog);
 };
 
-export default handler;
+export { handler };

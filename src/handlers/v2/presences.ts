@@ -14,14 +14,14 @@ const getAllPresences = (collection: Collection<Presence>) =>
 const getAllPresencesVersions = async (collection: Collection<Presence>) =>
   (await getAllPresences(collection)).map(presence => ({
     name: presence.name,
+    url: presence.url,
     version: presence.metadata.version,
-    url: presence.url
   }));
 
 const getPresenceByName = (
   collection: Collection<Presence>,
   name: string,
-  options?: FindOneOptions
+  options?: FindOneOptions,
 ) => collection.findOne({ name }, options);
 
 const handler: RequestHandler = async (req, res) => {
@@ -88,7 +88,7 @@ const handler: RequestHandler = async (req, res) => {
     const presence = await getPresenceByName(
       presencesCollection,
       presenceName,
-      { projection }
+      { projection },
     );
 
     if (!presence) {
@@ -107,4 +107,4 @@ const handler: RequestHandler = async (req, res) => {
   }
 };
 
-export default handler;
+export { handler };
