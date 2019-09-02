@@ -9,6 +9,12 @@ import { version as apiVersion } from "./package.json";
 // @ts-ignore
 import endpoints from "./endpoints.json";
 
+const apiVersion: string = require("./package.json").version;
+const endpoints: {
+  path: string | string[];
+  handler: string;
+}[] = require("./endpoints.json");
+
 const start = async (): Promise<void> => {
   info(`Version v${apiVersion}`);
 
@@ -46,7 +52,7 @@ const start = async (): Promise<void> => {
       endpoints.map(async endpoint => {
         const module = await import(`./handlers/${endpoint.handler}`);
         app.get(endpoint.path, module.handler);
-      }),
+      })
     );
   } catch (err) {
     error(err.message);
@@ -61,28 +67,32 @@ const start = async (): Promise<void> => {
   });
 
   const PORT = 3001;
-  const server = app.listen(PORT, async () => {
+  app.listen(PORT, async () => {
     // @ts-ignore
     success(`Listening on port ${PORT}`);
 
     if (process.env.NODE_ENV === "production") {
       const ONE_MINUTE = 1000 * 60;
       const updateTranslationsInterval = 5 * ONE_MINUTE;
+      
       setInterval(updateTranslations, updateTranslationsInterval);
       updateTranslations();
 
       //* Update usage
       const updateUsageInterval = 60 * ONE_MINUTE;
+      
       setInterval(updateUsage, updateUsageInterval);
       updateUsage();
 
       //* Response Time check
       const updateResponseTimeInterval = 5 * ONE_MINUTE;
+
       setInterval(updateResponseTime, updateResponseTimeInterval);
       updateResponseTime();
 
       //* Update presences
       const updatePresencesInterval = 5 * ONE_MINUTE;
+
       setInterval(updatePresences, updatePresencesInterval);
       updatePresences();
     }

@@ -12,7 +12,7 @@ const handler: RequestHandler = async (_req, res) => {
           _id: false,
           key: false,
         },
-      },
+      }
     );
 
   //* Send response

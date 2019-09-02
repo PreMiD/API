@@ -18,7 +18,7 @@ const getPresencesListFromGitHub = async () => {
   const contents = await octokit.repos.getContents({
     owner: "PreMiD",
     path: "/",
-    repo: "Presences",
+    repo: "Presences"
   });
   const items: GitDirItem[] = contents.data;
   return items
@@ -121,7 +121,7 @@ async function updatePresences() {
   promises.push(
     ...outdatedPresences.map(p =>
       presencesCollection.findOneAndReplace({ name: p.name }, p),
-    ),
+    )
   );
 
   //* Delete removed ones

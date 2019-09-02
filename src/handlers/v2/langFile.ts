@@ -18,7 +18,7 @@ const handler: RequestHandler = async (req, res) => {
             project: false,
             translations: false,
           },
-        },
+        }
       )
       .toArray();
     const languageCodes = extensionProjectTranslations.map(
