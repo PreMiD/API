@@ -13,7 +13,7 @@ const handler: RequestHandler = async (req, res) => {
   } else {
     response = await creditsCollection.findOne(
       { userId: req.params.userId },
-      { projection: { _id: 0 } }
+      { projection: { _id: 0 } },
     );
 
     if (!response) {

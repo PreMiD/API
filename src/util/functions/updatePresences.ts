@@ -17,8 +17,8 @@ interface GitDirItem {
 const getPresencesListFromGitHub = async () => {
   const contents = await octokit.repos.getContents({
     owner: "PreMiD",
-    repo: "Presences",
     path: "/",
+    repo: "Presences"
   });
   const items: GitDirItem[] = contents.data;
   return items
@@ -59,10 +59,10 @@ const buildPresenceDocument = async (name: string) => {
 const getLastCommitSha = async (): Promise<string> => {
   const commits = await octokit.repos.listCommits({
     owner: "PreMiD",
-    repo: "Presences",
     per_page: 1,
+    repo: "Presences",
   });
-  return commits.data[0].sha;
+  return commits.data.shift().sha;
 };
 
 async function updatePresences() {

@@ -2,6 +2,7 @@ import { MongoClient as mongoClient } from "mongodb";
 
 export var MongoClient: mongoClient;
 
+
 export const connect = async (
   name: string = "PreMiD API",
 ): Promise<mongoClient> => {

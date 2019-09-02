@@ -24,7 +24,7 @@ const getWebstoreUsers = async (id: string): Promise<number> => {
     },
   } = await axios.get<WhateverOriginResponse>(
     `http://www.whateverorigin.org/get?url=${encodeURIComponent(
-      `https://chrome.google.com/webstore/detail/premid/${id}`
+      `https://chrome.google.com/webstore/detail/premid/${id}`,
     )}`
   );
 
@@ -32,7 +32,7 @@ const getWebstoreUsers = async (id: string): Promise<number> => {
     throw new Error(`Response http status code: ${http_code}`);
   }
 
-  const string = contents.match(USERS_REGEX)[0];
+  const string = contents.match(USERS_REGEX).shift();
   return parseInt(string.replace(NOT_NUMBER_REGEX, ""), 10);
 };
 
