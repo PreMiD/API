@@ -148,3 +148,7 @@ async function run() {
     process.exit();
   });
 }
+
+function cleanup() {
+  MongoClient.close().then(() => process.exit());
+}

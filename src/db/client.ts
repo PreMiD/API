@@ -16,3 +16,10 @@ export async function connect(name = "PreMiD API"): Promise<mongoClient> {
   MongoClient = client;
   return client;
 }
+
+process.on("SIGINT", cleanup);
+process.on("SIGTERM", cleanup);
+
+function cleanup() {
+  MongoClient.close().then(() => process.exit());
+}

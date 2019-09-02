@@ -97,13 +97,8 @@ async function prepareDist() {
   var packageJSON = require("./package.json"),
     srcPackageJSON = packageJSON;
 
-  //* Delete scripts, not needed
-  delete srcPackageJSON.scripts;
-
   //* only electron as devDependency
-  srcPackageJSON.devDependencies = {
-    electron: packageJSON.devDependencies.electron
-  };
+  delete srcPackageJSON.devDependencies;
 
   //* Write file
   await writeFileSync(
@@ -112,8 +107,9 @@ async function prepareDist() {
   );
 
   //* Copy files from src to dist
-  copySync("src", "dist/app", {
+  copySync("src", "dist", {
     filter: function(path) {
+      if (path.includes("/node_modules")) return false;
       return extname(path) !== ".ts";
     }
   });
