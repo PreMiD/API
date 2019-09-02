@@ -10,8 +10,8 @@ const handler: RequestHandler = async (_req, res) => {
       {
         projection: {
           _id: false,
-          key: false
-        }
+          key: false,
+        },
       }
     );
 
@@ -19,4 +19,4 @@ const handler: RequestHandler = async (_req, res) => {
   res.send(versions);
 };
 
-export default handler;
+export { handler };

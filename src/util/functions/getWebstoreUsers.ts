@@ -16,12 +16,12 @@ interface WhateverOriginResponse {
  * Get the usage data of an extension
  * @param {String} id Chrome webstore item id
  */
-export default async (id: string): Promise<number> => {
+const getWebstoreUsers = async (id: string): Promise<number> => {
   const {
     data: {
       contents,
-      status: { http_code }
-    }
+      status: { http_code },
+    },
   } = await axios.get<WhateverOriginResponse>(
     `http://www.whateverorigin.org/get?url=${encodeURIComponent(
       `https://chrome.google.com/webstore/detail/premid/${id}`
@@ -35,3 +35,5 @@ export default async (id: string): Promise<number> => {
   const string = contents.match(USERS_REGEX)[0];
   return parseInt(string.replace(NOT_NUMBER_REGEX, ""), 10);
 };
+
+export { getWebstoreUsers };

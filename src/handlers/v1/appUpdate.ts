@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 
-export = async (req: Request, res: Response) => {
+export const handler = async (req: Request, res: Response) => {
   if (req.params.os == "windows.exe") {
     if (req.params.bit == "32bit")
       res.download("./handlers/v1/data/update_32bit.exe");

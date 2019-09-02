@@ -2,9 +2,7 @@ import axios from "axios";
 import { connect, MongoClient } from "../db/client";
 import { error } from "./debug";
 
-connect("PreMiD API - Translation Updater").then(run);
-
-async function run() {
+const run = async (): Promise<void> => {
   const startTimestamp = Date.now();
 
   try {
@@ -24,14 +22,14 @@ async function run() {
       {
         data: {
           timestamp: Math.floor(timestamp / 1000),
-          value: responseTime
-        }
+          value: responseTime,
+        },
       },
       {
         headers: {
           Authorization: `OAuth ${process.env.STATUSPAGE_APIKEY}`,
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       }
     );
   } catch (err) {
@@ -41,3 +39,5 @@ async function run() {
 
   await MongoClient.close();
 }
+
+connect("PreMiD API - Translation Updater").then(run);

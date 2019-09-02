@@ -3,7 +3,7 @@ import { Response, Request } from "express";
 
 var coll = MongoClient.db("PreMiD").collection("credits");
 
-export = async (req: Request, res: Response) => {
+export const handler = async (req: Request, res: Response) => {
   var credits;
 
   if (typeof req.params.userID === "undefined") {

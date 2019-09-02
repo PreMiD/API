@@ -3,7 +3,7 @@ import { config } from "dotenv";
 import express, { response } from "express";
 import { connect, MongoClient } from "./db/client";
 import { error, info, success } from "./util/debug";
-import getWebstoreUsers from "./util/functions/getWebstoreUsers";
+import { getWebstoreUsers } from "./util/functions/getWebstoreUsers";
 
 const apiVersion: string = require("./package.json").version;
 const endpoints: {
@@ -11,7 +11,7 @@ const endpoints: {
   handler: string;
 }[] = require("./endpoints.json");
 
-async function start() {
+const start = async (): Promise<void> => {
   info(`Version v${apiVersion}`);
 
   //* Connect to Mongo DB
@@ -47,7 +47,7 @@ async function start() {
     await Promise.all(
       endpoints.map(async endpoint => {
         const module = await import(`./handlers/${endpoint.handler}`);
-        app.get(endpoint.path, module.default);
+        app.get(endpoint.path, module.handler);
       })
     );
   } catch (err) {
@@ -62,33 +62,38 @@ async function start() {
     res.sendStatus(404);
   });
 
-  const server = app.listen(3001, async () => {
+  const PORT = 3001;
+  const server = app.listen(PORT, async () => {
     // @ts-ignore
-    success(`Listening on port ${server.address().port}`);
+    success(`Listening on port ${PORT}`);
 
     if (process.env.NODE_ENV === "production") {
-      setInterval(updateTranslations, 5 * 1000 * 60);
+      const updateTranslationsInterval = 5 * 1000 * 60;
+      setInterval(updateTranslations, updateTranslationsInterval);
       updateTranslations();
 
       //* Update usage
-      setInterval(updateUsage, 60 * 60 * 1000);
+      const updateUsageInterval = 60 * 60 * 1000;
+      setInterval(updateUsage, updateUsageInterval);
       updateUsage();
 
       //* Response Time check
-      setInterval(updateResponseTime, 5 * 60 * 1000);
+      const updateResponseTimeInterval = 5 * 60 * 1000;
+      setInterval(updateResponseTime, updateResponseTimeInterval);
       updateResponseTime();
 
       //* Update presences
-      setInterval(updatePresences, 5 * 60 * 1000);
+      const updatePresencesInterval = 5 * 60 * 1000;
+      setInterval(updatePresences, updatePresencesInterval);
       updatePresences();
     }
   });
-}
+};
 
 config();
 start();
 
-async function updateUsage() {
+const updateUsage = async (): Promise<void> => {
   const collection = MongoClient.db("PreMiD").collection("usage");
   await collection.findOneAndUpdate(
     { key: 0 },
@@ -98,9 +103,9 @@ async function updateUsage() {
       }
     }
   );
-}
+};
 
-function updatePresences() {
+const updatePresences = () => {
   const startTimestamp = Date.now();
   const presenceUpdater = fork("util/functions/updatePresences.js");
   presenceUpdater.on("exit", code =>
@@ -108,9 +113,9 @@ function updatePresences() {
       ? success(`Updated presences in ${Date.now() - startTimestamp}ms`)
       : error("An error occurred while updating presences")
   );
-}
+};
 
-function updateTranslations() {
+const updateTranslations = () => {
   const startTimestamp = Date.now();
   const translationsUpdater = fork("util/functions/updateTranslations.js");
   translationsUpdater.on("exit", code =>
@@ -118,9 +123,9 @@ function updateTranslations() {
       ? success(`Updated translations in ${Date.now() - startTimestamp}ms`)
       : error("An error occurred while updating translations")
   );
-}
+};
 
-function updateResponseTime() {
+const updateResponseTime = () => {
   const startTimestamp = Date.now();
   const responseTimeUpdater = fork("./util/responseTime.js");
   responseTimeUpdater.on("exit", code =>
@@ -128,4 +133,4 @@ function updateResponseTime() {
       ? success(`Updated response time in ${Date.now() - startTimestamp}ms`)
       : error("An error occurred while updating response time")
   );
-}
+};
