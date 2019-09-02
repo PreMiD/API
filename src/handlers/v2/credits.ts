@@ -7,11 +7,13 @@ const handler: RequestHandler = async (req, res) => {
   let response = undefined;
 
   if (typeof req.params.userId === "undefined") {
-    response = creditsCollection.find({}, { projection: { _id: 0 } }).toArray();
+    response = await creditsCollection
+      .find({}, { projection: { _id: 0 } })
+      .toArray();
   } else {
-    response = creditsCollection.findOne(
+    response = await creditsCollection.findOne(
       { userId: req.params.userId },
-      { projection: { _id: 0 } },
+      { projection: { _id: 0 } }
     );
 
     if (!response) {
