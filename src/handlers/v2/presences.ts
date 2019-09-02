@@ -11,6 +11,13 @@ const getAllPresences = (collection: Collection<Presence>) =>
     )
     .toArray();
 
+const getAllPresencesVersions = async (collection: Collection<Presence>) =>
+  (await getAllPresences(collection)).map(presence => ({
+    name: presence.name,
+    version: presence.metadata.version,
+    url: presence.url
+  }));
+
 const getPresenceByName = (
   collection: Collection<Presence>,
   name: string,
@@ -24,6 +31,11 @@ const handler: RequestHandler = async (req, res) => {
 
   if (typeof presenceName === "undefined") {
     res.send(await getAllPresences(presencesCollection));
+    return;
+  }
+
+  if (presenceName === "versions") {
+    res.send(await getAllPresencesVersions(presencesCollection));
     return;
   }
 

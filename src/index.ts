@@ -26,6 +26,9 @@ async function start() {
 
   const app = express();
 
+  //* Remove powered by header
+  app.disable("x-powered-by");
+
   //* Set API Headers
   app.use((_req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");

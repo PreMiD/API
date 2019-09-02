@@ -34,3 +34,12 @@ export interface LangFile {
     [key: string]: string;
   };
 }
+
+export interface Changelog {
+  _id?: string;
+  project: string;
+  version: string;
+  type: string;
+  string: string;
+  urls?: string[]
+}
