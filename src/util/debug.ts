@@ -1,25 +1,20 @@
 import chalk from "chalk";
 
-export function info(message) {
+export const info = (message: string) =>
   console.log(
     `${chalk.bgHex("#596cae")(chalk.bold(" API "))} ${chalk.blueBright(
       message
     )}`
   );
-}
 
-export function success(message) {
-  var chalk = require("chalk");
+export const success = (message: string) =>
   console.log(
     `${chalk.bgHex("#596cae")(chalk.bold(" API "))} ${chalk.greenBright(
       message
     )}`
   );
-}
 
-export function error(message) {
-  var chalk = require("chalk");
+export const error = (message: string) =>
   console.log(
     `${chalk.bgHex("#596cae")(chalk.bold(" API "))} ${chalk.redBright(message)}`
   );
-}

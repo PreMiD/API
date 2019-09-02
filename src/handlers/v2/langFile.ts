@@ -1,38 +1,55 @@
+import { RequestHandler } from "express";
 import { MongoClient } from "../../db/client";
-import { Response, Request } from "express";
+import { LangFile } from "../../db/types";
 
-export = async (req: Request, res: Response) => {
-  if (req.path.slice(req.path.length - 4, req.path.length) === "list") {
-    var languageCodes = Array.from(
-      new Set(
-        (await MongoClient.db("PreMiD")
-          .collection("langFiles")
-          .find({ project: "extension" })
-          .toArray()).map(row => row.lang)
+const handler: RequestHandler = async (req, res) => {
+  const database = MongoClient.db("PreMiD");
+  const langFilesCollection = database.collection<LangFile>("langFiles");
+
+  if (req.path === "/v2/langFile/list") {
+    const extensionProjectTranslations = await langFilesCollection
+      .find(
+        {
+          project: "extension"
+        },
+        {
+          projection: {
+            _id: false,
+            project: false,
+            translations: false
+          }
+        }
       )
+      .toArray();
+    const languageCodes = extensionProjectTranslations.map(
+      langFile => langFile.lang
     );
 
     res.send(languageCodes);
     return;
   }
 
-  //* fetch versions from MongoDB
-  var langFile = await MongoClient.db("PreMiD")
-    .collection("langFiles")
-    .findOne({ lang: req.params.lang, project: req.params.project });
+  const langFile = await langFilesCollection.findOne({
+    lang: req.params.lang,
+    project: req.params.project
+  });
 
   if (!langFile) {
     res.sendStatus(404);
     return;
   }
 
-  //* Send response
-  res.send(
-    Object.assign(
-      //@ts-ignore
-      ...Object.keys(langFile.translations).map(lg => {
-        return { [lg.replace(/[_]/g, ".")]: langFile.translations[lg] };
-      })
-    )
+  const object = Object.assign(
+    {},
+    ...Object.keys(langFile.translations).map(translationKey => {
+      const newKey = translationKey.replace(/[_]/g, ".");
+      return {
+        [newKey]: langFile.translations[translationKey]
+      };
+    })
   );
+
+  res.send(object);
 };
+
+export default handler;

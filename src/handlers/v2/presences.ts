@@ -1,86 +1,98 @@
-import { Response, Request } from "express";
+import { RequestHandler } from "express";
 import { MongoClient } from "../../db/client";
+import { Presence } from "../../db/types";
+import { Collection, FindOneOptions } from "mongodb";
 
-export = async (req: Request, res: Response) => {
-  var presences;
-  if (typeof req.params.presence === "undefined") {
-    presences = (await MongoClient.db("PreMiD")
-      .collection("presences")
-      .find(
-        {},
-        { projection: { _id: false, presenceJs: false, iframeJs: false } }
-      )
-      .toArray()).map(pr => {
-      return pr;
-    });
+const getAllPresences = (collection: Collection<Presence>) =>
+  collection
+    .find(
+      {},
+      { projection: { _id: false, presenceJs: false, iframeJs: false } }
+    )
+    .toArray();
 
-    res.send(presences);
-  } else if (typeof req.params.file === "undefined") {
-    presences = await MongoClient.db("PreMiD")
-      .collection("presences")
-      .findOne(
-        { name: req.params.presence },
-        { projection: { _id: false, presenceJs: false, iframeJs: false } }
-      );
-    if (!presences) res.send({ error: 4, message: "No such presence." });
-    else res.send(presences);
-  } else if (
-    req.params.file === "presence.js" ||
-    req.params.file === "iframe.js" ||
-    req.params.file === "metadata.json"
-  ) {
-    if (req.params.file === "presence.js") {
-      presences = await MongoClient.db("PreMiD")
-        .collection("presences")
-        .findOne(
-          { name: req.params.presence },
-          {
-            projection: {
-              _id: false,
-              name: false,
-              metadata: false,
-              iframeJs: false,
-              url: false
-            }
-          }
-        );
-    } else if (req.params.file === "iframe.js") {
-      presences = await MongoClient.db("PreMiD")
-        .collection("presences")
-        .findOne(
-          { name: req.params.presence },
-          {
-            projection: {
-              _id: false,
-              name: false,
-              metadata: false,
-              presenceJs: false,
-              url: false
-            }
-          }
-        );
-    } else {
-      presences = await MongoClient.db("PreMiD")
-        .collection("presences")
-        .findOne(
-          { name: req.params.presence },
-          {
-            projection: {
-              _id: false,
-              name: false,
-              iframeJs: false,
-              presenceJs: false,
-              url: false
-            }
-          }
-        );
+const getPresenceByName = (
+  collection: Collection<Presence>,
+  name: string,
+  options?: FindOneOptions
+) => collection.findOne({ name }, options);
 
-      res.send(presences.metadata);
+const handler: RequestHandler = async (req, res) => {
+  const { presence: presenceName, file: fileName } = req.params;
+  const database = MongoClient.db("PreMiD");
+  const presencesCollection = database.collection<Presence>("presences");
+
+  if (typeof presenceName === "undefined") {
+    res.send(await getAllPresences(presencesCollection));
+    return;
+  }
+
+  if (typeof fileName === "undefined") {
+    const presence = await getPresenceByName(
+      presencesCollection,
+      presenceName,
+      { projection: { _id: false, presenceJs: false, iframeJs: false } }
+    );
+
+    res.send(!presence ? { error: 4, message: "No such presence." } : presence);
+    return;
+  }
+
+  if (["presence.js", "iframe.js", "metadata.json"].includes(fileName)) {
+    let projection: {
+      [K in keyof Presence]?: boolean;
+    };
+    let field: keyof Presence;
+
+    if (fileName === "presence.js") {
+      projection = {
+        _id: false,
+        name: false,
+        metadata: false,
+        iframeJs: false,
+        url: false
+      };
+      field = "presenceJs";
+    } else if (fileName === "iframe.js") {
+      projection = {
+        _id: false,
+        name: false,
+        metadata: false,
+        presenceJs: false,
+        url: false
+      };
+      field = "iframeJs";
+    } else if (fileName === "metadata.json") {
+      projection = {
+        _id: false,
+        name: false,
+        iframeJs: false,
+        presenceJs: false,
+        url: false
+      };
+      field = "metadata";
+    }
+
+    const presence = await getPresenceByName(
+      presencesCollection,
+      presenceName,
+      { projection }
+    );
+
+    if (!presence) {
+      res.send({ error: 5, message: "No such file." });
       return;
     }
 
-    res.setHeader("content-type", "text/javascript");
-    if (!presences) res.send({ error: 5, message: "No such file." });
-    else res.end(unescape(presences.presenceJs || presences.iframeJs));
+    let response = presence[field];
+
+    if (fileName.endsWith(".js")) {
+      res.setHeader("content-type", "text/javascript");
+      response = unescape(<string>response);
+    }
+
+    res.send(response);
   }
 };
+
+export default handler;

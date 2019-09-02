@@ -1,34 +1,37 @@
 import axios from "axios";
 
+const USERS_REGEX = /class="e-f-ih" title="([\d,]+) users"/;
+const NOT_NUMBER_REGEX = /[^\d]/g;
+
+interface WhateverOriginResponse {
+  contents: string;
+  status: {
+    url: string;
+    content_type: string;
+    http_code: number;
+  };
+}
+
 /**
  * Get the usage data of an extension
  * @param {String} id Chrome webstore item id
  */
-export default function(id: string) {
-  return new Promise<number>(function(resolve, _reject) {
-    axios
-      .get(
-        `http://www.whateverorigin.org/get?url=${encodeURIComponent(
-          `https://chrome.google.com/webstore/detail/premid/${id}`
-        )}`
-      )
-      .then(({ data }) => {
-        data = data.contents;
-        var str =
-          "" +
-          data.match(
-            /<span class="e-f-ih" title="[0-9,]* users">[0-9,]* users<\/span>/
-          );
+export default async (id: string): Promise<number> => {
+  const {
+    data: {
+      contents,
+      status: { http_code }
+    }
+  } = await axios.get<WhateverOriginResponse>(
+    `http://www.whateverorigin.org/get?url=${encodeURIComponent(
+      `https://chrome.google.com/webstore/detail/premid/${id}`
+    )}`
+  );
 
-        resolve(
-          parseInt(
-            str
-              .split('"')[3]
-              .replace(" users", "")
-              .replace(/[^\d.-]/g, "")
-          )
-        );
-      })
-      .catch(() => {});
-  });
-}
+  if (http_code < 200 || http_code > 308) {
+    throw new Error(`Response http status code: ${http_code}`);
+  }
+
+  const string = contents.match(USERS_REGEX)[0];
+  return parseInt(string.replace(NOT_NUMBER_REGEX, ""), 10);
+};

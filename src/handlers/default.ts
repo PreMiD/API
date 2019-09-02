@@ -1,4 +1,6 @@
-import { Response, Request } from "express";
+import { RequestHandler } from "express";
 
-export = async (_req: Request, res: Response) =>
+const handler: RequestHandler = (_req, res) =>
   res.redirect("//docs.premid.app");
+
+export default handler;

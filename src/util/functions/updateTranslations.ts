@@ -1,126 +1,150 @@
-import { connect, MongoClient } from "../../db/client";
-import { config } from "dotenv";
 import axios from "axios";
-import { ensureDir, readdir, readFile, emptyDirSync } from "fs-extra";
+import { config } from "dotenv";
+import { emptyDir, ensureDir, readdir, readFile } from "fs-extra";
+import { Collection } from "mongodb";
+import { Stream } from "stream";
 import unzipper from "unzipper";
+import { connect, MongoClient } from "../../db/client";
+import { LangFile } from "../../db/types";
+import { error } from "../debug";
 config();
-
-var base = "https://api.crowdin.com/api/project/premid/";
 
 connect("PreMiD API - Translation Updater").then(run);
 
+interface CrowdinExportResponse {
+  success: {
+    status: string;
+  };
+}
+
+interface TranslationJsonFile {
+  [key: string]: {
+    message: string;
+    description: string;
+  };
+}
+
+const readAllTranslationFiles = async (folderPath: string) => {
+  const files = await readdir(folderPath);
+  return Promise.all(
+    files.map(
+      async file =>
+        <TranslationJsonFile>(
+          JSON.parse(await readFile(`${folderPath}/${file}`, "utf-8"))
+        )
+    )
+  );
+};
+
+const saveLangFile = async (
+  collection: Collection<LangFile>,
+  langFile: LangFile
+) => {
+  const exists =
+    typeof (await collection.findOne({
+      lang: langFile.lang,
+      project: langFile.project
+    })) !== "undefined";
+
+  return exists
+    ? collection.findOneAndReplace(
+        { lang: langFile.lang, project: langFile.project },
+        langFile
+      )
+    : collection.insertOne(langFile);
+};
+
 async function run() {
-  var coll = MongoClient.db("PreMiD").collection("langFiles");
+  const crowdinApi = "https://api.crowdin.com/api/project/premid/";
+  const database = MongoClient.db("PreMiD");
+  const langFilesCollection = database.collection<LangFile>("langFiles");
 
   //* No new translations, skip
-  var res = await axios.get("export", {
-    baseURL: base,
-    params: { key: process.env.CROWDIN_API_TOKEN, json: true, async: true }
-  });
-  if (res.data.success.status === "skipped") {
-    MongoClient.close().then(() => process.exit());
+  try {
+    const exportResponse = await axios.get<CrowdinExportResponse>("export", {
+      baseURL: crowdinApi,
+      params: { key: process.env.CROWDIN_API_TOKEN, json: true, async: true }
+    });
+
+    if (exportResponse.data.success.status === "skipped") {
+      await MongoClient.close();
+      process.exit();
+      return;
+    }
+  } catch (err) {
+    error(err.message);
+    process.exit(1);
     return;
   }
 
   //* Ensure tmp dir is there
   await ensureDir("tmp");
-  await emptyDirSync("tmp");
+  await emptyDir("tmp");
 
   //* Create writer
-  var writer = unzipper.Extract({ path: "tmp/translations" });
+  const writer = unzipper.Extract({ path: "tmp/translations" });
   //* Request download
-  axios
-    .get("download/all.zip", {
-      baseURL: base,
+  try {
+    const downloadResponse = await axios.get<Stream>("download/all.zip", {
+      baseURL: crowdinApi,
       params: { key: process.env.CROWDIN_API_TOKEN },
       responseType: "stream"
-    })
-    .then(res => {
-      res.data.pipe(writer);
     });
+    downloadResponse.data.pipe(writer);
+  } catch (err) {
+    error(err.message);
+    process.exit(1);
+    return;
+  }
 
   //* If writer ends, file downloaded
   writer.once("close", async () => {
-    var folders = await readdir("tmp/translations/master"),
-      translations = [];
-    Promise.all(
-      folders.map(async f => {
-        var extension = await Promise.all(
-            (await readdir(`tmp/translations/master/${f}/Extension`)).map(
-              async f1 =>
-                JSON.parse(
-                  await readFile(
-                    `tmp/translations/master/${f}/Extension/${f1}`,
-                    "utf-8"
+    const languagesFolders = await readdir("tmp/translations/master");
+
+    const groupedTranslations = await Promise.all(
+      languagesFolders.map(async languageFolder => {
+        const languageCode =
+          languageFolder.slice(0, 2) ===
+          languageFolder.slice(3, 5).toLocaleLowerCase()
+            ? languageFolder.slice(0, 2)
+            : languageFolder.replace("-", "_");
+
+        return [
+          await readAllTranslationFiles(
+            `tmp/translations/master/${languageFolder}/Extension`
+          ),
+          await readAllTranslationFiles(
+            `tmp/translations/master/${languageFolder}/Website`
+          )
+        ].map(
+          translations =>
+            <LangFile>{
+              lang: languageCode,
+              translations: Object.assign(
+                {},
+                ...translations.map(ex =>
+                  Object.assign(
+                    {},
+                    ...Object.keys(ex).map(v => ({
+                      [v.replace(/[.]/g, "_")]: ex[v].message
+                    }))
                   )
                 )
-            )
-          ),
-          website = await Promise.all(
-            (await readdir(`tmp/translations/master/${f}/Website`)).map(
-              async f1 =>
-                JSON.parse(
-                  await readFile(
-                    `tmp/translations/master/${f}/Website/${f1}`,
-                    "utf-8"
-                  )
-                )
-            )
-          );
-
-        translations.push({
-          lang:
-            f.slice(0, 2) == f.slice(3, 5).toLocaleLowerCase()
-              ? f.slice(0, 2)
-              : f.replace("-", "_"),
-          translations: Object.assign(
-            {},
-            ...extension.map(ex =>
-              Object.assign(
-                //@ts-ignore
-                ...Object.keys(ex).map(v => {
-                  ex[v] = ex[v].message;
-                  return { [v.replace(/[.]/g, "_")]: ex[v] };
-                })
-              )
-            )
-          ),
-          project: "extension"
-        });
-
-        translations.push({
-          lang:
-            f.slice(0, 2) == f.slice(3, 5).toLocaleLowerCase()
-              ? f.slice(0, 2)
-              : f.replace("-", "_"),
-          translations: Object.assign(
-            {},
-            ...website.map(web =>
-              Object.assign(
-                //@ts-ignore
-                ...Object.keys(web).map(v => {
-                  web[v] = web[v].message;
-                  return { [v.replace(/[.]/g, "_")]: web[v] };
-                })
-              )
-            )
-          ),
-          project: "website"
-        });
+              ),
+              project: "extension"
+            }
+        );
       })
-    ).then(() => {
-      Promise.all(
-        translations.map(async t => {
-          if (await coll.findOne({ lang: t.lang, project: t.project }))
-            await coll.findOneAndReplace(
-              { lang: t.lang, project: t.project },
-              t
-            );
-          else await coll.insertOne(t);
-        })
-      ).then(() => {
-        MongoClient.close().then(() => process.exit());
-      });
-    });
+    );
+    const translations = groupedTranslations.reduce(
+      (array, group) => array.concat(group),
+      []
+    );
+
+    await Promise.all(
+      translations.map(saveLangFile.bind(undefined, langFilesCollection))
+    );
+    await MongoClient.close();
+    process.exit();
   });
 }

@@ -1,3 +1,5 @@
-import { Response, Request } from "express";
+import { RequestHandler } from "express";
 
-export = async (_req: Request, res: Response) => res.sendStatus(200);
+const handler: RequestHandler = (_req, res) => res.sendStatus(200);
+
+export default handler;
