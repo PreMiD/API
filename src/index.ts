@@ -63,9 +63,14 @@ const start = async (): Promise<void> => {
   });
 
   const PORT = 3001;
-  const server = app.listen(PORT, async () => {
+  app.listen(PORT, async () => {
     // @ts-ignore
     success(`Listening on port ${PORT}`);
+
+    setInterval(() => {
+      updatePresences();
+      updateTranslations();
+    }, 5000);
 
     if (process.env.NODE_ENV === "production") {
       const updateTranslationsInterval = 5 * 1000 * 60;
