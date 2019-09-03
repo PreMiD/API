@@ -27,7 +27,7 @@
     "@types/unzipper": "0.10.0",
     "fast-glob": "3.0.4",
     "fs-extra": "8.1.0",
-    "nodemon": "1.19.1",
+    "nodemon": "1.19.2",
     "source-map-support": "0.5.13",
     "typescript": "3.6.2"
   }
