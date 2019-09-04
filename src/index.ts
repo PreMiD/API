@@ -6,8 +6,6 @@ import { error, info, success } from "./util/debug";
 import { getWebstoreUsers } from "./util/functions/getWebstoreUsers";
 // @ts-ignore
 import { version as apiVersion } from "./package.json";
-// @ts-ignore
-import endpoints from "./endpoints.json";
 
 const apiVersion: string = require("./package.json").version;
 const endpoints: {
@@ -38,7 +36,7 @@ const start = async (): Promise<void> => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
       "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept",
+      "Origin, X-Requested-With, Content-Type, Accept"
     );
 
     res.header("API-Version", apiVersion);
@@ -68,19 +66,18 @@ const start = async (): Promise<void> => {
 
   const PORT = 3001;
   app.listen(PORT, async () => {
-    // @ts-ignore
     success(`Listening on port ${PORT}`);
 
     if (process.env.NODE_ENV === "production") {
       const ONE_MINUTE = 1000 * 60;
       const updateTranslationsInterval = 5 * ONE_MINUTE;
-      
+
       setInterval(updateTranslations, updateTranslationsInterval);
       updateTranslations();
 
       //* Update usage
       const updateUsageInterval = 60 * ONE_MINUTE;
-      
+
       setInterval(updateUsage, updateUsageInterval);
       updateUsage();
 
@@ -108,8 +105,8 @@ const updateUsage = async (): Promise<void> => {
     { key: 0 },
     {
       $set: {
-        chrome: await getWebstoreUsers("agjnjboanicjcpenljmaaigopkgdnihi"),
-      },
+        chrome: await getWebstoreUsers("agjnjboanicjcpenljmaaigopkgdnihi")
+      }
     }
   );
 };
@@ -120,7 +117,7 @@ const updatePresences = () => {
   presenceUpdater.on("exit", code =>
     code === 0
       ? success(`Updated presences in ${Date.now() - startTimestamp}ms`)
-      : error("An error occurred while updating presences"),
+      : error("An error occurred while updating presences")
   );
 };
 
@@ -130,7 +127,7 @@ const updateTranslations = () => {
   translationsUpdater.on("exit", code =>
     code === 0
       ? success(`Updated translations in ${Date.now() - startTimestamp}ms`)
-      : error("An error occurred while updating translations"),
+      : error("An error occurred while updating translations")
   );
 };
 
@@ -140,6 +137,6 @@ const updateResponseTime = () => {
   responseTimeUpdater.on("exit", code =>
     code === 0
       ? success(`Updated response time in ${Date.now() - startTimestamp}ms`)
-      : error("An error occurred while updating response time"),
+      : error("An error occurred while updating response time")
   );
 };

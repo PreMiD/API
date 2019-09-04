@@ -38,18 +38,18 @@ const readAllTranslationFiles = async (folderPath: string) => {
 
 const saveLangFile = async (
   collection: Collection<LangFile>,
-  langFile: LangFile,
+  langFile: LangFile
 ) => {
   const exists =
-    typeof (await collection.findOne({
+    (await collection.findOne({
       lang: langFile.lang,
-      project: langFile.project,
-    })) !== "undefined";
+      project: langFile.project
+    })) !== null;
 
   return exists
     ? collection.findOneAndReplace(
         { lang: langFile.lang, project: langFile.project },
-        langFile,
+        langFile
       )
     : collection.insertOne(langFile);
 };
@@ -111,13 +111,13 @@ async function run() {
 
         return [
           await readAllTranslationFiles(
-            `tmp/translations/master/${languageFolder}/Extension`,
+            `tmp/translations/master/${languageFolder}/Extension`
           ),
           await readAllTranslationFiles(
-            `tmp/translations/master/${languageFolder}/Website`,
+            `tmp/translations/master/${languageFolder}/Website`
           )
         ].map(
-          translations =>
+          (translations, i) =>
             <LangFile>{
               lang: languageCode,
               translations: Object.assign(
@@ -126,23 +126,23 @@ async function run() {
                   Object.assign(
                     {},
                     ...Object.keys(ex).map(v => ({
-                      [v.replace(/[.]/g, "_")]: ex[v].message,
-                    })),
+                      [v.replace(/[.]/g, "_")]: ex[v].message
+                    }))
                   )
                 )
               ),
-              project: "extension"
-            },
+              project: i == 0 ? "extension" : "website"
+            }
         );
       })
     );
     const translations = groupedTranslations.reduce(
       (array, group) => array.concat(group),
-      [],
+      []
     );
 
     await Promise.all(
-      translations.map(saveLangFile.bind(undefined, langFilesCollection)),
+      translations.map(saveLangFile.bind(undefined, langFilesCollection))
     );
     await MongoClient.close();
     process.exit();
