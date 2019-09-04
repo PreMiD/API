@@ -1,6 +1,6 @@
 {
   "name": "premid-api",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "main": "index.js",
   "repository": "https://github.com/PreMiD/API",
   "scripts": {
