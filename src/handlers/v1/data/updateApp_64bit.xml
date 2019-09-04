@@ -13,7 +13,7 @@
   </platformFileList>
   <downloadLocationList>
       <downloadLocation>
-          <url>https://api.premid.app/app/update/64bit</url>
+          <url>https://api.premid.app/app/update/64bit/</url>
       </downloadLocation>
   </downloadLocationList>
 </installerInformation>
