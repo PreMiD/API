@@ -109,6 +109,15 @@ const updateUsage = async (): Promise<void> => {
       }
     }
   );
+
+  await collection.findOneAndUpdate(
+    { key: 1 },
+    {
+      $set: {
+        chrome: await getWebstoreUsers("cpikjegpkchpbobdnagjnebeiedgjfhc")
+      }
+    }
+  );
 };
 
 const updatePresences = () => {
