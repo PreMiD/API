@@ -3,17 +3,17 @@
   <version>2.0.1</version>
   <platformFileList>
       <platformFile>
-          <filename>windows.exe</filename>
+          <filename>update.exe</filename>
           <platform>windows</platform>
       </platformFile>
       <platformFile>
-          <filename>macos.app</filename>
+          <filename>update.app.tgz</filename>
           <platform>osx</platform>
       </platformFile>
   </platformFileList>
   <downloadLocationList>
       <downloadLocation>
-          <url>https://api.premid.app/app/update/64bit/</url>
+          <url>https://dl.premid.app/app/update/64bit/</url>
       </downloadLocation>
   </downloadLocationList>
 </installerInformation>
