@@ -26,30 +26,30 @@ const getPresencesListFromGitHub = async () => {
       item =>
         item.type === "dir" &&
         !item.name.startsWith(".") &&
-        !item.name.startsWith("@"),
+        !item.name.startsWith("@")
     )
     .map(item => item.name);
 };
 
 const buildPresenceDocument = async (name: string) => {
   const baseURL = `https://raw.githubusercontent.com/PreMiD/Presences/master/${encodeURI(
-    name,
+    name
   )}/dist`;
   const [metadata, presenceJs] = await Promise.all([
     axios.get<PresenceMetadata>("metadata.json", { baseURL }).then(r => r.data),
-    axios.get<string>("presence.js", { baseURL }).then(r => r.data),
+    axios.get<string>("presence.js", { baseURL }).then(r => r.data)
   ]);
 
   const presence: Presence = {
     metadata,
-    name,
+    name: metadata.service,
     presenceJs,
-    url: `https://api.premid.app/v2/presences/${metadata.service}/`,
+    url: `https://api.premid.app/v2/presences/${metadata.service}/`
   };
 
   if (metadata.iframe) {
     presence.iframeJs = (await axios.get<string>("iframe.js", {
-      baseURL,
+      baseURL
     })).data;
   }
 
@@ -60,7 +60,7 @@ const getLastCommitSha = async (): Promise<string> => {
   const commits = await octokit.repos.listCommits({
     owner: "PreMiD",
     per_page: 1,
-    repo: "Presences",
+    repo: "Presences"
   });
   return commits.data.shift().sha;
 };
@@ -72,17 +72,17 @@ async function updatePresences() {
 
   const presencesUpdaterDocument = await updatersCollection.findOne(
     { name: "presences" },
-    { projection: { _id: false, name: false } },
+    { projection: { _id: false, name: false } }
   );
   const lastSavedCommitSha = <string>presencesUpdaterDocument.lastCommit;
   const lastCommitSha = await getLastCommitSha();
 
   //* return if nothing has changed
-  if (lastCommitSha === lastSavedCommitSha) {
+  /* if (lastCommitSha === lastSavedCommitSha) {
     await MongoClient.close();
     process.exit();
     return;
-  }
+  } */
 
   const databasePresences = await presencesCollection
     .find({}, { projection: { _id: false } })
@@ -91,44 +91,42 @@ async function updatePresences() {
   //* get presences from the github repository
   const presencesNamesList = await getPresencesListFromGitHub();
   const githubPresences = await Promise.all(
-    presencesNamesList.map(buildPresenceDocument),
+    presencesNamesList.map(buildPresenceDocument)
   );
 
   //* list new presences from github
-  const newPresences = githubPresences.filter(
-    p => !databasePresences.some(dp => dp.name === p.name),
-  );
-  console.log(`${newPresences.length} new presences.`);
+  const newPresences = githubPresences.filter(p => {
+    return !databasePresences.some(dp => dp.name === p.name);
+  });
 
   //* list outdated presences from github
   const outdatedPresences = githubPresences.filter(p =>
-    databasePresences.some(dp => dp.name === p.name),
+    databasePresences.some(dp => dp.name === p.name)
   );
-  console.log(`${outdatedPresences.length} outdated presences.`);
 
   //* list deleted presences from github
   const deletedPresences = databasePresences.filter(
-    p => !githubPresences.some(gp => gp.name === p.name),
+    p => !githubPresences.some(gp => gp.name === p.name)
   );
-  console.log(`${deletedPresences.length} deleted presences.`);
 
   const promises: Promise<any>[] = [];
 
   //* If there are new presences, add
-  promises.push(presencesCollection.insertMany(newPresences));
+  if (newPresences.length > 0)
+    promises.push(presencesCollection.insertMany(newPresences));
 
   //* Update the other ones
   promises.push(
     ...outdatedPresences.map(p =>
-      presencesCollection.findOneAndReplace({ name: p.name }, p),
+      presencesCollection.findOneAndReplace({ name: p.name }, p)
     )
   );
 
   //* Delete removed ones
   promises.push(
     ...deletedPresences.map(p =>
-      presencesCollection.findOneAndDelete({ name: p.name }),
-    ),
+      presencesCollection.findOneAndDelete({ name: p.name })
+    )
   );
 
   await Promise.all(promises);
@@ -136,7 +134,7 @@ async function updatePresences() {
   //* Update last commit change in db
   await updatersCollection.updateOne(
     { name: "presences" },
-    { $set: { lastCommit: lastCommitSha } },
+    { $set: { lastCommit: lastCommitSha } }
   );
 
   //* Disconnect from db
