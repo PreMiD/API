@@ -6,6 +6,10 @@ import { error, info, success } from "./util/debug";
 import { getWebstoreUsers } from "./util/functions/getWebstoreUsers";
 // @ts-ignore
 import { version as apiVersion } from "./package.json";
+import Octokit from "@octokit/rest";
+config();
+
+var octokit = new Octokit({ auth: process.env.GITHUBRELEASETOKEN });
 
 const apiVersion: string = require("./package.json").version;
 const endpoints: {
@@ -76,7 +80,7 @@ const start = async (): Promise<void> => {
       updateTranslations();
 
       //* Update usage
-      const updateUsageInterval = 60 * ONE_MINUTE;
+      const updateUsageInterval = 5 * ONE_MINUTE;
 
       setInterval(updateUsage, updateUsageInterval);
       updateUsage();
@@ -96,16 +100,18 @@ const start = async (): Promise<void> => {
   });
 };
 
-config();
 start();
 
 const updateUsage = async (): Promise<void> => {
+  var chromeData = await getWebstoreUsers();
+
   const collection = MongoClient.db("PreMiD").collection("usage");
   await collection.findOneAndUpdate(
     { key: 0 },
     {
       $set: {
-        chrome: await getWebstoreUsers("agjnjboanicjcpenljmaaigopkgdnihi")
+        chrome: chromeData[0].users,
+        version: chromeData[0].version
       }
     }
   );
@@ -114,10 +120,31 @@ const updateUsage = async (): Promise<void> => {
     { key: 1 },
     {
       $set: {
-        chrome: await getWebstoreUsers("cpikjegpkchpbobdnagjnebeiedgjfhc")
+        chrome: chromeData[1].users,
+        version: chromeData[1].version
       }
     }
   );
+
+  //* Version 2.0 specific
+  if (["2.0.4", "2.0-BETA3"].includes(chromeData[1].version)) {
+    const lastRelease = (await octokit.repos.listReleases({
+      owner: "PreMiD",
+      repo: "PreMiD",
+      page: 1,
+      per_page: 1
+    })).data[0];
+
+    //* Only release if draft
+    if (lastRelease.draft) {
+      await octokit.repos.updateRelease({
+        owner: "PreMiD",
+        repo: "PreMiD",
+        release_id: lastRelease.id,
+        draft: false
+      });
+    }
+  }
 };
 
 const updatePresences = () => {

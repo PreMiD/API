@@ -1,39 +1,43 @@
-import axios from "axios";
-
-const USERS_REGEX = /class="e-f-ih" title="([\d,]+) users"/;
-const NOT_NUMBER_REGEX = /[^\d]/g;
-
-interface WhateverOriginResponse {
-  contents: string;
-  status: {
-    url: string;
-    content_type: string;
-    http_code: number;
-  };
-}
+import puppeteer from "puppeteer";
 
 /**
  * Get the usage data of an extension
  * @param {String} id Chrome webstore item id
  */
-const getWebstoreUsers = async (id: string): Promise<number> => {
-  const {
-    data: {
-      contents,
-      status: { http_code },
-    },
-  } = await axios.get<WhateverOriginResponse>(
-    `http://www.whateverorigin.org/get?url=${encodeURIComponent(
-      `https://chrome.google.com/webstore/detail/premid/${id}`,
-    )}`
-  );
+const getWebstoreUsers = async (): Promise<
+  Array<{ users: number; version: string }>
+> => {
+  var browser = await puppeteer.launch();
 
-  if (http_code < 200 || http_code > 308) {
-    throw new Error(`Response http status code: ${http_code}`);
-  }
-
-  const string = contents.match(USERS_REGEX).shift();
-  return parseInt(string.replace(NOT_NUMBER_REGEX, ""), 10);
+  var page = await browser.newPage();
+  var res = [
+    await getUsers(page, "agjnjboanicjcpenljmaaigopkgdnihi"),
+    await getUsers(page, "cpikjegpkchpbobdnagjnebeiedgjfhc")
+  ];
+  await browser.close();
+  return res;
 };
+
+async function getUsers(page: puppeteer.Page, id: string) {
+  //* Go to page
+  await page.goto(`https://chrome.google.com/webstore/detail/premid/${id}`, {
+    waitUntil: "networkidle0"
+  });
+
+  //* Evaluate and return users and version
+  return await page.evaluate(() => {
+    return {
+      users: parseInt(
+        document
+          .querySelector(".e-f-ih[title]")
+          .getAttribute("title")
+          .replace(/[\D]/g, "")
+      ),
+      version: (document.querySelector(
+        ".C-b-p-D-Xe.h-C-b-p-D-md"
+      ) as HTMLSpanElement).innerText
+    };
+  });
+}
 
 export { getWebstoreUsers };
