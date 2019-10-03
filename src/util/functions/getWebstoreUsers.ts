@@ -10,10 +10,7 @@ const getWebstoreUsers = async (): Promise<
   var browser = await puppeteer.launch();
 
   var page = await browser.newPage();
-  var res = [
-    await getUsers(page, "agjnjboanicjcpenljmaaigopkgdnihi"),
-    await getUsers(page, "cpikjegpkchpbobdnagjnebeiedgjfhc")
-  ];
+  var res = [await getUsers(page, "agjnjboanicjcpenljmaaigopkgdnihi")];
   await browser.close();
   return res;
 };

@@ -3,6 +3,7 @@ import axios from "axios";
 import { MongoClient, connect } from "../../db/client";
 import { Presence, PresenceMetadata } from "../../db/types";
 import { config } from "dotenv";
+import { info } from "../debug";
 config();
 
 const octokit = new Octokit({ auth: process.env.PRESENCEUPDATERTOKEN });
@@ -78,11 +79,12 @@ async function updatePresences() {
   const lastCommitSha = await getLastCommitSha();
 
   //* return if nothing has changed
-  /* if (lastCommitSha === lastSavedCommitSha) {
+  if (lastCommitSha === lastSavedCommitSha) {
+    info("No presences to update");
     await MongoClient.close();
     process.exit();
     return;
-  } */
+  }
 
   const databasePresences = await presencesCollection
     .find({}, { projection: { _id: false } })
