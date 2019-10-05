@@ -86,7 +86,7 @@ const start = async (): Promise<void> => {
       updateResponseTime();
 
       //* Update presences
-      const updatePresencesInterval = ONE_MINUTE;
+      const updatePresencesInterval = ONE_MINUTE*5;
 
       setInterval(updatePresences, updatePresencesInterval);
       updatePresences();

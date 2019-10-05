@@ -78,13 +78,14 @@ async function updatePresences() {
   const lastSavedCommitSha = <string>presencesUpdaterDocument.lastCommit;
   const lastCommitSha = await getLastCommitSha();
 
-  //* return if nothing has changed
+  //TODO Not working as expected (i think)
+/*   //* return if nothing has changed
   if (lastCommitSha === lastSavedCommitSha) {
     info("No presences to update");
     await MongoClient.close();
     process.exit();
     return;
-  }
+  } */
 
   const databasePresences = await presencesCollection
     .find({}, { projection: { _id: false } })
