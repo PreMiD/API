@@ -37,6 +37,10 @@
         {
           "version": "2.0",
           "update_link": "https://github.com/PreMiD/PreMiD/releases/download/v2.0/PreMiD-v2.0-Firefox.xpi"
+        },
+        {
+          "version": "2.0.1",
+          "update_link": "https://github.com/PreMiD/PreMiD/releases/download/v2.0.1/PreMiD-2.0.1-fx.xpi"
         }
       ]
     }

@@ -1,6 +1,6 @@
 <installerInformation>
-  <versionId>0202</versionId>
-  <version>2.0.2</version>
+  <versionId>0204</versionId>
+  <version>2.0.4</version>
   <platformFileList>
       <platformFile>
           <filename>update.exe</filename>
