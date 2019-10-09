@@ -3,7 +3,6 @@ import axios from "axios";
 import { MongoClient, connect } from "../../db/client";
 import { Presence, PresenceMetadata } from "../../db/types";
 import { config } from "dotenv";
-import { info } from "../debug";
 config();
 
 const octokit = new Octokit({ auth: process.env.PRESENCEUPDATERTOKEN });
@@ -21,6 +20,8 @@ const getPresencesListFromGitHub = async () => {
     path: "/",
     repo: "Presences"
   });
+  // TODO fix this type issue
+  // @ts-ignore
   const items: GitDirItem[] = contents.data;
   return items
     .filter(
@@ -79,7 +80,7 @@ async function updatePresences() {
   const lastCommitSha = await getLastCommitSha();
 
   //TODO Not working as expected (i think)
-/*   //* return if nothing has changed
+  /*   //* return if nothing has changed
   if (lastCommitSha === lastSavedCommitSha) {
     info("No presences to update");
     await MongoClient.close();

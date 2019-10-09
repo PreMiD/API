@@ -76,8 +76,8 @@ const start = async (): Promise<void> => {
       //* Update usage
       const updateUsageInterval = 5 * ONE_MINUTE;
 
-      //setInterval(updateUsage, updateUsageInterval);
-      //updateUsage();
+      setInterval(updateUsage, updateUsageInterval);
+      updateUsage();
 
       //* Response Time check
       const updateResponseTimeInterval = 5 * ONE_MINUTE;
@@ -86,7 +86,7 @@ const start = async (): Promise<void> => {
       updateResponseTime();
 
       //* Update presences
-      const updatePresencesInterval = ONE_MINUTE*5;
+      const updatePresencesInterval = ONE_MINUTE * 5;
 
       setInterval(updatePresences, updatePresencesInterval);
       updatePresences();
