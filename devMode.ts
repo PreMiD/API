@@ -7,7 +7,7 @@ import * as glob from "fast-glob";
 import { createInterface } from "readline";
 
 //* Current child process = null
-var currChild: ChildProcess = null;
+let currChild: ChildProcess = null;
 
 //* Format Host
 const formatHost: ts.FormatDiagnosticsHost = {
@@ -33,7 +33,7 @@ if (process.argv.length == 3 && process.argv[2] == "compile")
   prepareDist().then(() => process.exit());
 //* Create watch program
 else {
-  var rl = createInterface({ input: process.stdin });
+  let rl = createInterface({ input: process.stdin });
   rl.on("line", input => {
     if (input === "rs") {
       console.log(chalk.yellowBright("Restarting process..."));
@@ -77,11 +77,11 @@ function compile() {
 //* Prepare dist folder
 async function prepareDist() {
   //* Select files
-  var dist = await glob("dist/app/**/*", { onlyFiles: true }),
+  let dist = await glob("dist/app/**/*", { onlyFiles: true }),
     src = await glob("src/**/*", { onlyFiles: true });
 
   //* Filter file differences
-  var nDist = dist.map(f => [f.replace("dist/app/", ""), f]);
+  let nDist = dist.map(f => [f.replace("dist/app/", ""), f]);
   src = src
     .map(f => f.replace("src/", "").split(".")[0])
     .filter(sf => nDist.find(d => d[0].split(".")[0] == sf));
@@ -94,7 +94,7 @@ async function prepareDist() {
   );
 
   //* Copy package.json (minified)
-  var packageJSON = require("./package.json"),
+  let packageJSON = require("./package.json"),
     srcPackageJSON = packageJSON;
 
   //* only electron as devDependency

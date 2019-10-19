@@ -3,7 +3,7 @@ import { Response, Request } from "express";
 
 export const handler = async (req: Request, res: Response) => {
   //* fetch versions from MongoDB
-  var langFile = await MongoClient.db("PreMiD")
+  let langFile = await MongoClient.db("PreMiD")
     .collection("langFiles")
     .findOne({ lang: req.params.lang, project: "extension" });
 

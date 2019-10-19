@@ -1,6 +1,6 @@
 import { MongoClient as mongoClient } from "mongodb";
 
-export var MongoClient: mongoClient;
+export let MongoClient: mongoClient;
 
 
 export const connect = async (

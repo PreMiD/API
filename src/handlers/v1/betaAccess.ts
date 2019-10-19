@@ -8,7 +8,7 @@ export const handler = async (req: Request, res: Response) => {
   }
 
   //* fetch versions from MongoDB
-  var betaAccess = await MongoClient.db("PreMiD")
+  let betaAccess = await MongoClient.db("PreMiD")
     .collection("betaAccess")
     .findOne({ userId: req.params.userId });
 

@@ -4,7 +4,7 @@ import { readFileSync } from "fs";
 import { MongoClient } from "../../db/client";
 
 export const handler = async (req: Request, res: Response) => {
-  var xml = await parseStringPromise(
+  let xml = await parseStringPromise(
     readFileSync("./handlers/v1/data/updateApp.xml")
   );
 
@@ -26,7 +26,7 @@ export const handler = async (req: Request, res: Response) => {
     xml.installerInformation.version[0] = "2.0.2";
   }
 
-  var builder = new Builder();
+  let builder = new Builder();
 
   res.setHeader("Content-Type", "text/xml");
   res.send(builder.buildObject(xml));

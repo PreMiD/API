@@ -1,10 +1,10 @@
 import { MongoClient } from "../../db/client";
 import { Response, Request } from "express";
 
-var coll = MongoClient.db("PreMiD").collection("credits");
+let coll = MongoClient.db("PreMiD").collection("credits");
 
 export const handler = async (req: Request, res: Response) => {
-  var credits;
+  let credits;
 
   if (typeof req.params.userID === "undefined") {
     //* fetch versions from MongoDB

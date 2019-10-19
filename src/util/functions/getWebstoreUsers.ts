@@ -4,13 +4,14 @@ import puppeteer from "puppeteer";
  * Get the usage data of an extension
  * @param {String} id Chrome webstore item id
  */
-const getWebstoreUsers = async (): Promise<
-  Array<{ users: number; version: string }>
-> => {
-  var browser = await puppeteer.launch();
+const getWebstoreUsers = async (): Promise<{
+  users: number;
+  version: string;
+}> => {
+  let browser = await puppeteer.launch();
 
-  var page = await browser.newPage();
-  var res = [await getUsers(page, "agjnjboanicjcpenljmaaigopkgdnihi")];
+  let page = await browser.newPage();
+  let res = await getUsers(page, "agjnjboanicjcpenljmaaigopkgdnihi");
   await browser.close();
   return res;
 };

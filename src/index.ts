@@ -97,15 +97,19 @@ const start = async (): Promise<void> => {
 start();
 
 async function updateUsage(): Promise<void> {
-  var chromeData = await getWebstoreUsers();
+  info("Updating usage...");
+  let chromeData = await getWebstoreUsers();
+  success("Updated usage");
+
+  console.log(chromeData);
 
   const collection = MongoClient.db("PreMiD").collection("usage");
   await collection.findOneAndUpdate(
     { key: 0 },
     {
       $set: {
-        chrome: chromeData[0].users,
-        version: chromeData[0].version
+        chrome: chromeData.users,
+        version: chromeData.version
       }
     }
   );
