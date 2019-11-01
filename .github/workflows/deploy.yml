@@ -6,8 +6,6 @@ on:
       - "src/**/*"
       - "**.ts"
       - "**.json"
-env:
-  NODE_ENV: DePloY
 jobs:
   DePloY:
     runs-on: "ubuntu-latest"

@@ -21,6 +21,12 @@ const handler: RequestHandler = async (req, res) => {
     return;
   }
 
+  //* If presence "name" === versions
+  if (req.params['presence'] === "versions") {
+    res.send((await presences.find({}, {projection: {_id: false, name:true,url:true,metadata:true}}).toArray()).map(p => {return {name:p.name,url:p.url,version:p.metadata.version}}))
+    return
+  }
+
   //* If file not set
   if (!req.params["file"]) {
     //* Find presence
