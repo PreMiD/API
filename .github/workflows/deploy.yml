@@ -1,6 +1,7 @@
 name: DePloY
 on:
   push:
+    branches: master
     paths:
       - "src/**/*"
       - "**.ts"
