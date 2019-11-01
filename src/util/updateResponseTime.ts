@@ -1,7 +1,7 @@
 import axios from "axios";
-import debug from "../debug";
+import debug from "./debug";
 
-export default async function() {
+export default async function run() {
   const startTimestamp = Date.now();
 
   try {
@@ -31,8 +31,15 @@ export default async function() {
         }
       }
     );
+    debug(
+      "info",
+      "updateResponseTime.ts",
+      `Updated response time: ${responseTime}ms`
+    );
   } catch (err) {
     debug("error", "updateResponseTime", err.message);
     process.exit(1);
   }
 }
+
+run();

@@ -5,7 +5,7 @@ import express from "express";
 import debug from "./util/debug";
 import { connect } from "./db/client";
 import loadEndpoints from "./util/functions/loadEndpoints";
-import updateResponseTime from "./util/functions/updateResponseTime";
+import { fork } from "child_process";
 
 //* Create express server
 //* Disable x-powered-by HTTP header
@@ -28,7 +28,7 @@ connect()
 
     if (process.env.NODE_ENV !== "production") return;
     //* Update response Time (StatusPage)
-    updateResponseTime();
-    setInterval(updateResponseTime, 5 * 60 * 1000);
+    fork("./util/updateResponseTime");
+    setInterval(() => fork("./util/updateResponseTime"), 5 * 60 * 1000);
   })
   .catch(err => debug("error", "index.ts", err.message));
