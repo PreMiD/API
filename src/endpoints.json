@@ -1,70 +1,58 @@
-[
-  {
-    "path": "/",
-    "handler": "default"
-  },
-  {
-    "path": "/ping",
-    "handler": "ping"
-  },
-  {
-    "path": ["/credits", "/credits/:userID"],
-    "handler": "v1/credits"
-  },
-  {
-    "path": ["/betaAccess", "/betaAccess/:userId"],
-    "handler": "v1/betaAccess"
-  },
-  {
-    "path": "/firefox/updates",
-    "handler": "v1/updates"
-  },
-  {
-    "path": "/langFile/:lang",
-    "handler": "v1/langFile"
-  },
-  {
-    "path": ["/app/update", "/app/update/:bit", "/app/update/:bit/:os"],
-    "handler": "v1/appUpdate"
-  },
-  {
-    "path": "/users",
-    "handler": "v1/users"
-  },
-  {
-    "path": ["/presences", "/presences/:presence"],
-    "handler": "v1/presences"
-  },
-  {
-    "path": [
-      "/v2/presences",
-      "/v2/presences/:presence",
-      "/v2/presences/:presence/:file"
-    ],
-    "handler": "v2/presences"
-  },
-  {
-    "path": "/v2/versions",
-    "handler": "v2/versions"
-  },
-  {
-    "path": ["/v2/langFile/:project/:lang", "/v2/langFile/list"],
-    "handler": "v2/langFile"
-  },
-  {
-    "path": ["/v2/credits", "/v2/credits/:userId"],
-    "handler": "v2/credits"
-  },
-  {
-    "path": ["/v2/betaAccess", "/v2/betaAccess/:userId"],
-    "handler": "v2/betaAccess"
-  },
-  {
-    "path": [
-      "/v2/changelog",
-      "/v2/changelog/:project",
-      "/v2/changelog/:project/:version"
-    ],
-    "handler": "v2/changelog"
-  }
-]
+{
+  "default": [
+    {
+      "path": "/",
+      "handler": "default"
+    },
+    {
+      "path": "/ping",
+      "handler": "ping"
+    },
+    {
+      "path": "/users",
+      "handler": "users"
+    },
+    {
+      "path": ["/app/update", "/app/update/:bit", "/app/update/*"],
+      "handler": "appUpdate"
+    },
+    {
+      "path": "/firefox/updates",
+      "handler": "ffUpdate"
+    }
+  ],
+  "v2": [
+    {
+      "path": [
+        "/v2/presences",
+        "/v2/presences/:presence",
+        "/v2/presences/:presence/:file"
+      ],
+      "handler": "presences"
+    },
+    {
+      "path": "/v2/versions",
+      "handler": "versions"
+    },
+    {
+      "path": ["/v2/langFile/:project/:lang", "/v2/langFile/list"],
+      "handler": "langFile"
+    },
+    {
+      "path": ["/v2/credits", "/v2/credits/:userId"],
+      "handler": "credits"
+    },
+    {
+      "path": ["/v2/betaAccess", "/v2/betaAccess/:userId"],
+      "handler": "betaAccess"
+    },
+    {
+      "path": [
+        "/v2/changelog",
+        "/v2/changelog/:project",
+        "/v2/changelog/:project/:version"
+      ],
+      "handler": "changelog"
+    }
+  ]
+}

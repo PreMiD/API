@@ -1,8 +1,7 @@
 import axios from "axios";
-import { connect, MongoClient } from "../db/client";
-import { error } from "./debug";
+import debug from "../debug";
 
-const run = async (): Promise<void> => {
+export default async function() {
   const startTimestamp = Date.now();
 
   try {
@@ -22,22 +21,18 @@ const run = async (): Promise<void> => {
       {
         data: {
           timestamp: Math.floor(timestamp / 1000),
-          value: responseTime,
-        },
+          value: responseTime
+        }
       },
       {
         headers: {
           Authorization: `OAuth ${process.env.STATUSPAGE_APIKEY}`,
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"
+        }
       }
     );
   } catch (err) {
-    error(err.message);
+    debug("error", "updateResponseTime", err.message);
     process.exit(1);
   }
-
-  await MongoClient.close();
 }
-
-connect("PreMiD API - Translation Updater").then(run);

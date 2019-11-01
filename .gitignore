@@ -1,10 +1,3 @@
 node_modules
 dist
-src/package.json
-
-.vscode
 .env
-
-*.exe
-*.app
-*.js

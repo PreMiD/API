@@ -1,0 +1,25 @@
+name: DePloY
+on:
+  push:
+    paths:
+      - "src/**/*"
+      - "**.ts"
+      - "**.json"
+env:
+  NODE_ENV: DePloY
+jobs:
+  DePloY:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Deploying...
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSHHOST }}
+          username: ${{ secrets.SSHUSERNAME }}
+          password: ${{ secrets.SSHPASSWORD }}
+          script: |
+            cd /home/PreMiD/API/src
+            git reset --hard
+            git pull
+            yarn run init
+            pm2 restart PMD_API

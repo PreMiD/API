@@ -1,20 +1,16 @@
-import chalk from "chalk";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 
-export const info = (message: string) =>
-  console.log(
-    `${chalk.bgHex("#596cae")(chalk.bold(" API "))} ${chalk.blueBright(
-      message
-    )}`
-  );
+if (!existsSync(`${process.cwd()}/logs/`)) mkdirSync(`${process.cwd()}/logs/`);
 
-export const success = (message: string) =>
-  console.log(
-    `${chalk.bgHex("#596cae")(chalk.bold(" API "))} ${chalk.greenBright(
-      message
-    )}`
-  );
+let logs = existsSync(`${process.cwd()}/logs/log.txt`)
+  ? readFileSync(`${process.cwd()}/logs/log.txt`, "utf-8")
+  : "";
 
-export const error = (message: string) =>
-  console.log(
-    `${chalk.bgHex("#596cae")(chalk.bold(" API "))} ${chalk.redBright(message)}`
-  );
+export default function debug(
+  type: "info" | "warn" | "error",
+  file: string,
+  message: string
+) {
+  logs += `[${new Date().toUTCString()}] ${type.toUpperCase()} | ${file} > ${message}\n`;
+  writeFileSync(`${process.cwd()}/logs/log.txt`, logs);
+}

@@ -1,28 +1,23 @@
-import { MongoClient as mongoClient } from "mongodb";
+import { MongoClient as mClient, Db } from "mongodb";
 
-export let MongoClient: mongoClient;
+export let pmdDB: Db = null;
 
+export const client = new mClient(
+  `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_IP}:27017`,
+  {
+    appname: "PreMiD-API",
+    useUnifiedTopology: true
+  }
+);
 
-export const connect = async (
-  name: string = "PreMiD API",
-): Promise<mongoClient> => {
-  const client = await mongoClient.connect(
-    `mongodb://${process.env.MONGOUSER}:${process.env.MONGOPASS}@${process.env.MONGOIP}:27017`,
-    {
-      useNewUrlParser: true,
-      autoReconnect: true,
-      useUnifiedTopology: true,
-      appname: name,
-    }
-  );
-
-  MongoClient = client;
-  return client;
+export const connect = async () => {
+  return new Promise((resolve, reject) => {
+    client
+      .connect()
+      .then(mClient => {
+        resolve(mClient);
+        pmdDB = client.db("PreMiD");
+      })
+      .catch(reject);
+  });
 };
-
-process.on("SIGINT", cleanup);
-process.on("SIGTERM", cleanup);
-
-function cleanup() {
-  MongoClient.close().then(() => process.exit());
-}
