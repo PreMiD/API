@@ -26,7 +26,7 @@ const handler: RequestHandler = async (req, res) => {
     //* Find presence
     const presence = await presences.findOne(
       { name: req.params["presence"] },
-      { projection: { _id: false, metadata: true } }
+      { projection: { _id: false, metadata: true, name: true, url: true } }
     );
 
     //* If not found
