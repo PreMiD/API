@@ -25,6 +25,7 @@ connect()
   .then(() => {
     loadEndpoints(server, require("./endpoints.json"));
     server.listen(3001);
+    debug("info", "index.ts", "Listening on port 3001");
 
     if (process.env.NODE_ENV !== "production") return;
     //* Update response Time (StatusPage)

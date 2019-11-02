@@ -11,6 +11,9 @@ export default function debug(
   file: string,
   message: string
 ) {
+  console.log(
+    `[${new Date().toUTCString()}] ${type.toUpperCase()} | ${file} > ${message}\n`
+  );
   logs += `[${new Date().toUTCString()}] ${type.toUpperCase()} | ${file} > ${message}\n`;
   writeFileSync(`${process.cwd()}/logs/log.txt`, logs);
 }
