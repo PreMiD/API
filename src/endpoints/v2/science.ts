@@ -18,8 +18,8 @@ const handler: RequestHandler = async (req, res) => {
 
   //* Delete older ones than 7 days
   const date = new Date();
-  date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000);
-  science.deleteOne({ updated: { $lte: date.getTime() } });
+  date.setTime(date.getTime() - 7 * 24 * 60 * 60 * 1000);
+  science.deleteOne({ updated: { $lt: date.getTime() } });
 
   const user = await science.findOne({ identifier: req.body.identifier });
 
