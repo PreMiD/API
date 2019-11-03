@@ -23,6 +23,11 @@
   ],
   "v2": [
     {
+      "method": "post",
+      "path": "/v2/science",
+      "handler": "science"
+    },
+    {
       "path": [
         "/v2/presences",
         "/v2/presences/:presence",

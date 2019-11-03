@@ -6,12 +6,16 @@ export default function loadEndpoints(server: express.Express, endpoints) {
     endpoints[eV].map(e => {
       if (typeof e.path === "string")
         import(`../../endpoints/${eV}/${e.handler}`)
-          .then(module => server.get(e.path, module.handler))
+          .then(module =>
+            server[e.method ? e.method : "get"](e.path, module.handler)
+          )
           .catch(() => {});
       else
         e.path.map((path: string) =>
           import(`../../endpoints/${eV}/${e.handler}`)
-            .then(module => server.get(path, module.handler))
+            .then(module =>
+              server[e.method ? e.method : "get"](path, module.handler)
+            )
             .catch(() => {})
         );
     });
