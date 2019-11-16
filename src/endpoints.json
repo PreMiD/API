@@ -23,6 +23,10 @@
   ],
   "v2": [
     {
+      "path": "/v2/usage",
+      "handler": "usage"
+    },
+    {
       "method": "post",
       "path": "/v2/science",
       "handler": "science"
