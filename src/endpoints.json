@@ -36,6 +36,10 @@
       "handler": "presences"
     },
     {
+      "path": "/v2/presenceUsage",
+      "handler": "presenceUsage"
+    },
+    {
       "path": "/v2/versions",
       "handler": "versions"
     },
