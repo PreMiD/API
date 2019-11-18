@@ -227,8 +227,9 @@ destroy@~1.0.4:
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
 devscript@Timeraa/DevScript:
-  version "1.0.1"
-  resolved "https://codeload.github.com/Timeraa/DevScript/tar.gz/8e7e89317d0305b385e7cbecc411c7e9ea0d0550"
+  version "1.0.2"
+  uid ef9b9ec5bcc4c2c220f6340478d80c351b868e1e
+  resolved "https://codeload.github.com/Timeraa/DevScript/tar.gz/ef9b9ec5bcc4c2c220f6340478d80c351b868e1e"
   dependencies:
     chalk "^2.4.2"
     fast-glob "^3.1.0"
