@@ -21,6 +21,6 @@
     "@types/mongodb": "^3.3.10",
     "source-map-support": "^0.5.16",
     "typescript": "^3.6.4",
-    "yarn": "^1.19.1"
+    "yarn": "^1.19.2"
   }
 }
