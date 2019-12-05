@@ -17,9 +17,8 @@ const handler: RequestHandler = async (req, res) => {
           { projection: { _id: false, presenceJs: false, iframeJs: false } }
         )
         .toArray().map(p => {
-          p.metadata.logo.includes("imgur.com") ? p.metadata.logo = 'https://proxy.duckduckgo.com/iu/?u=' + p.metadata.logo : p.metadata.logo
-          p.metadata.thumbnail.includes("imgur.com") ? p.metadata.thumbnail = 'https://proxy.duckduckgo.com/iu/?u=' + p.metadata.thumbnail : p.metadata.thumbnail
-          return p;
+          const noImgur = imgurReplacer(p.metadata);
+          return noImgur;
         })
     );
     return;
@@ -58,7 +57,8 @@ const handler: RequestHandler = async (req, res) => {
 
     //* If found send response
     //* return
-    res.send(presence);
+    const noImgur = imgurReplacer(presence.metadata);
+    res.send(noImgur);
     return;
   }
 
@@ -108,6 +108,13 @@ const handler: RequestHandler = async (req, res) => {
   }
   res.send(response);
 };
+
+function imgurReplacer(metadata) {
+  metadata.logo.includes("imgur.com") ? metadata.logo = 'https://proxy.duckduckgo.com/iu/?u=' + metadata.logo : metadata.logo;
+  metadata.thumbnail.includes("imgur.com") ? metadata.thumbnail = 'https://proxy.duckduckgo.com/iu/?u=' + metadata.thumbnail : metadata.thumbnail;
+
+  return metadata;
+}
 
 //* Export handler
 export { handler };
