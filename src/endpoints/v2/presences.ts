@@ -16,7 +16,11 @@ const handler: RequestHandler = async (req, res) => {
           {},
           { projection: { _id: false, presenceJs: false, iframeJs: false } }
         )
-        .toArray()
+        .toArray().map(p => {
+          p.metadata.logo.includes("imgur.com") ? p.metadata.logo = 'https://proxy.duckduckgo.com/iu/?u=' + p.metadata.logo : p.metadata.logo
+          p.metadata.thumbnail.includes("imgur.com") ? p.metadata.thumbnail = 'https://proxy.duckduckgo.com/iu/?u=' + p.metadata.thumbnail : p.metadata.thumbnail
+          return p;
+        })
     );
     return;
   }
@@ -30,8 +34,8 @@ const handler: RequestHandler = async (req, res) => {
           { projection: { _id: false, name: true, url: true, metadata: true } }
         )
         .toArray()).map(p => {
-        return { name: p.name, url: p.url, version: p.metadata.version };
-      })
+          return { name: p.name, url: p.url, version: p.metadata.version };
+        })
     );
     return;
   }
