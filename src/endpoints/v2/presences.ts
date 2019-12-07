@@ -16,8 +16,8 @@ const handler: RequestHandler = async (req, res) => {
           {},
           { projection: { _id: false, presenceJs: false, iframeJs: false } }
         )
-        .toArray().map(p => {
-          const noImgur = imgurReplacer(p.metadata);
+        .toArray().map(presence => {
+          const noImgur = imgurReplacer(presence);
           return noImgur;
         })
     );
@@ -57,7 +57,7 @@ const handler: RequestHandler = async (req, res) => {
 
     //* If found send response
     //* return
-    const noImgur = imgurReplacer(presence.metadata);
+    const noImgur = imgurReplacer(presence);
     res.send(noImgur);
     return;
   }
@@ -109,11 +109,11 @@ const handler: RequestHandler = async (req, res) => {
   res.send(response);
 };
 
-function imgurReplacer(metadata) {
-  metadata.logo.includes("imgur.com") ? metadata.logo = 'https://proxy.duckduckgo.com/iu/?u=' + metadata.logo : metadata.logo;
-  metadata.thumbnail.includes("imgur.com") ? metadata.thumbnail = 'https://proxy.duckduckgo.com/iu/?u=' + metadata.thumbnail : metadata.thumbnail;
+function imgurReplacer(presence) {
+  presence.metadata.logo.includes("imgur.com") ? presence.metadata.logo = 'https://proxy.duckduckgo.com/iu/?u=' + presence.metadata.logo : presence.metadata.logo;
+  presence.metadata.thumbnail.includes("imgur.com") ? presence.metadata.thumbnail = 'https://proxy.duckduckgo.com/iu/?u=' + presence.metadata.thumbnail : presence.metadata.thumbnail;
 
-  return metadata;
+  return presence;
 }
 
 //* Export handler
