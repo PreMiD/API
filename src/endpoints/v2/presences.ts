@@ -11,15 +11,17 @@ const handler: RequestHandler = async (req, res) => {
     //* send all presences
     //* return
     res.send(
-      await presences
-        .find(
-          {},
-          { projection: { _id: false, presenceJs: false, iframeJs: false } }
-        )
-        .toArray().map(presence => {
-          const noImgur = imgurReplacer(presence);
-          return noImgur;
-        })
+      (
+        await presences
+          .find(
+            {},
+            { projection: { _id: false, presenceJs: false, iframeJs: false } }
+          )
+          .toArray()
+      ).map(presence => {
+        const noImgur = imgurReplacer(presence);
+        return noImgur;
+      })
     );
     return;
   }
@@ -27,14 +29,18 @@ const handler: RequestHandler = async (req, res) => {
   //* If presence "name" === versions
   if (req.params["presence"] === "versions") {
     res.send(
-      (await presences
-        .find(
-          {},
-          { projection: { _id: false, name: true, url: true, metadata: true } }
-        )
-        .toArray()).map(p => {
-          return { name: p.name, url: p.url, version: p.metadata.version };
-        })
+      (
+        await presences
+          .find(
+            {},
+            {
+              projection: { _id: false, name: true, url: true, metadata: true }
+            }
+          )
+          .toArray()
+      ).map(p => {
+        return { name: p.name, url: p.url, version: p.metadata.version };
+      })
     );
     return;
   }
@@ -110,8 +116,14 @@ const handler: RequestHandler = async (req, res) => {
 };
 
 function imgurReplacer(presence) {
-  presence.metadata.logo.includes("imgur.com") ? presence.metadata.logo = 'https://proxy.duckduckgo.com/iu/?u=' + presence.metadata.logo : presence.metadata.logo;
-  presence.metadata.thumbnail.includes("imgur.com") ? presence.metadata.thumbnail = 'https://proxy.duckduckgo.com/iu/?u=' + presence.metadata.thumbnail : presence.metadata.thumbnail;
+  presence.metadata.logo.includes("imgur.com")
+    ? (presence.metadata.logo =
+        "https://proxy.duckduckgo.com/iu/?u=" + presence.metadata.logo)
+    : presence.metadata.logo;
+  presence.metadata.thumbnail.includes("imgur.com")
+    ? (presence.metadata.thumbnail =
+        "https://proxy.duckduckgo.com/iu/?u=" + presence.metadata.thumbnail)
+    : presence.metadata.thumbnail;
 
   return presence;
 }
