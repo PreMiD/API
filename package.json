@@ -6,7 +6,7 @@
   "author": "Timeraa",
   "license": "MPL-2.0",
   "scripts": {
-    "init": "yarn && tsc && devScript --compile && cd dist && yarn --production",
+    "init": "yarn && tsc && devScript --copyOnly && cd dist && yarn --production",
     "dev": "devScript"
   },
   "dependencies": {
