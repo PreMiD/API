@@ -14,7 +14,7 @@
     "devscript": "Timeraa/DevScript",
     "dotenv": "8.2.0",
     "express": "4.17.1",
-    "mongodb": "3.3.5"
+    "mongodb": "3.5.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.2",
