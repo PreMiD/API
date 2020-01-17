@@ -116,14 +116,12 @@ const handler: RequestHandler = async (req, res) => {
 };
 
 function imgurReplacer(presence) {
-  presence.metadata.logo.includes("imgur.com")
-    ? (presence.metadata.logo =
-        "https://proxy.duckduckgo.com/iu/?u=" + presence.metadata.logo)
-    : presence.metadata.logo;
-  presence.metadata.thumbnail.includes("imgur.com")
-    ? (presence.metadata.thumbnail =
-        "https://proxy.duckduckgo.com/iu/?u=" + presence.metadata.thumbnail)
-    : presence.metadata.thumbnail;
+  if (presence.metadata.logo.includes("imgur.com"))
+    presence.metadata.logo =
+      "https://proxy.duckduckgo.com/iu/?u=" + presence.metadata.logo;
+  if (presence.metadata.thumbnail.includes("imgur.com"))
+    presence.metadata.thumbnail =
+      "https://proxy.duckduckgo.com/iu/?u=" + presence.metadata.thumbnail;
 
   return presence;
 }

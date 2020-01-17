@@ -2,7 +2,7 @@ import express from "express";
 
 export default function loadEndpoints(server: express.Express, endpoints) {
   let endpointVersions = Object.keys(endpoints);
-  endpointVersions.map(eV => {
+  endpointVersions.forEach(eV => {
     endpoints[eV].map(e => {
       if (typeof e.path === "string")
         import(`../../endpoints/${eV}/${e.handler}`)
