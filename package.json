@@ -10,17 +10,19 @@
     "dev": "devScript"
   },
   "dependencies": {
-    "axios": "0.19.0",
+    "axios": "0.19.1",
     "devscript": "Timeraa/DevScript",
     "dotenv": "8.2.0",
     "express": "4.17.1",
-    "mongodb": "3.3.5"
+    "helmet": "3.21.2",
+    "mongodb": "3.5.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.2",
-    "@types/mongodb": "^3.3.12",
+    "@types/helmet": "^0.0.45",
+    "@types/mongodb": "^3.3.14",
     "source-map-support": "^0.5.16",
-    "typescript": "^3.7.3",
+    "typescript": "^3.7.5",
     "yarn": "^1.21.1"
   }
 }

@@ -7,14 +7,15 @@ import { connect } from "./db/client";
 import loadEndpoints from "./util/functions/loadEndpoints";
 import { fork } from "child_process";
 import bodyParser from "body-parser";
+import helmet from "helmet";
 
 //* Create express server
 //* Parse JSON
-//* Disable x-powered-by HTTP header
 //* Set API Headers
 let server = express();
+
+server.use(helmet());
 server.use(bodyParser.json());
-server.disable("x-powered-by");
 server.use((_req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
