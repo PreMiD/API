@@ -3,17 +3,17 @@
   <version>VERSION</version>
   <platformFileList>
       <platformFile>
-          <filename>update.exe</filename>
+          <filename>upgrader.exe</filename>
           <platform>windows</platform>
       </platformFile>
       <platformFile>
-          <filename>update.app.tgz</filename>
+          <filename>upgrader.app.tgz</filename>
           <platform>osx</platform>
       </platformFile>
   </platformFileList>
   <downloadLocationList>
       <downloadLocation>
-          <url>https://dl.premid.app/app/update/BIT/</url>
+          <url>https://dl.premid.app/app/update/</url>
       </downloadLocation>
   </downloadLocationList>
 </installerInformation>
