@@ -38,11 +38,6 @@ if (cluster.isMaster) {
 			loadEndpoints(server, require("./endpoints.json"));
 			server.listen(3001);
 			debug("info", "index.ts", "Listening on port 3001");
-
-			if (process.env.NODE_ENV !== "production") return;
-			//* Update response Time (StatusPage)
-			fork("./util/updateResponseTime");
-			setInterval(() => fork("./util/updateResponseTime"), 5 * 60 * 1000);
 		})
 		.catch(err => debug("error", "index.ts", err.message));
 }
@@ -51,3 +46,9 @@ cluster.on("exit", worker => {
 	debug("error", "index.ts", `Cluster worker ${worker.id} crashed.`);
 	cluster.fork();
 });
+
+if (process.env.NODE_ENV === "production") {
+	//* Update response Time (StatusPage)
+	fork("./util/updateResponseTime");
+	setInterval(() => fork("./util/updateResponseTime"), 5 * 60 * 1000);
+}
