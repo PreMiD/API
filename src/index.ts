@@ -16,6 +16,12 @@ if (cluster.isMaster) {
 	for (let i = 0; i < cpuCount; i++) {
 		cluster.fork();
 	}
+
+	if (process.env.NODE_ENV === "production") {
+		//* Update response Time (StatusPage)
+		setTimeout(() => fork("./util/updateResponseTime"), 5 * 1000);
+		setInterval(() => fork("./util/updateResponseTime"), 5 * 60 * 1000);
+	}
 } else {
 	//* Create express server
 	//* Parse JSON
@@ -46,9 +52,3 @@ cluster.on("exit", worker => {
 	debug("error", "index.ts", `Cluster worker ${worker.id} crashed.`);
 	cluster.fork();
 });
-
-if (process.env.NODE_ENV === "production") {
-	//* Update response Time (StatusPage)
-	fork("./util/updateResponseTime");
-	setInterval(() => fork("./util/updateResponseTime"), 5 * 60 * 1000);
-}
