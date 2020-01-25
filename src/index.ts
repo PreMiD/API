@@ -8,32 +8,46 @@ import loadEndpoints from "./util/functions/loadEndpoints";
 import { fork } from "child_process";
 import bodyParser from "body-parser";
 import helmet from "helmet";
+import cluster from "cluster";
+import { cpus } from "os";
 
-//* Create express server
-//* Parse JSON
-//* Set API Headers
-let server = express();
+if (cluster.isMaster) {
+	const cpuCount = cpus().length;
+	for (let i = 0; i < cpuCount; i++) {
+		cluster.fork();
+	}
+} else {
+	//* Create express server
+	//* Parse JSON
+	//* Set API Headers
+	let server = express();
 
-server.use(helmet());
-server.use(bodyParser.json());
-server.use((_req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
+	server.use(helmet());
+	server.use(bodyParser.json());
+	server.use((_req, res, next) => {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header(
+			"Access-Control-Allow-Headers",
+			"Origin, X-Requested-With, Content-Type, Accept"
+		);
+		next();
+	});
+
+	connect()
+		.then(() => {
+			loadEndpoints(server, require("./endpoints.json"));
+			server.listen(3001);
+			debug("info", "index.ts", "Listening on port 3001");
+
+			if (process.env.NODE_ENV !== "production") return;
+			//* Update response Time (StatusPage)
+			fork("./util/updateResponseTime");
+			setInterval(() => fork("./util/updateResponseTime"), 5 * 60 * 1000);
+		})
+		.catch(err => debug("error", "index.ts", err.message));
+}
+
+cluster.on("exit", worker => {
+	debug("error", "index.ts", `Cluster worker ${worker.id} crashed.`);
+	cluster.fork();
 });
-
-connect()
-  .then(() => {
-    loadEndpoints(server, require("./endpoints.json"));
-    server.listen(3001);
-    debug("info", "index.ts", "Listening on port 3001");
-
-    if (process.env.NODE_ENV !== "production") return;
-    //* Update response Time (StatusPage)
-    fork("./util/updateResponseTime");
-    setInterval(() => fork("./util/updateResponseTime"), 5 * 60 * 1000);
-  })
-  .catch(err => debug("error", "index.ts", err.message));
