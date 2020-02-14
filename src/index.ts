@@ -36,6 +36,9 @@ if (cluster.isMaster) {
 			"Access-Control-Allow-Headers",
 			"Origin, X-Requested-With, Content-Type, Accept"
 		);
+		//* Don't hold connections open, we're an API duh
+		res.setHeader("Connection", "close");
+
 		next();
 	});
 
