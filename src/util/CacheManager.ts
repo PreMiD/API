@@ -1,72 +1,34 @@
-import cluster from "cluster";
 import { writeFileSync, readFileSync } from "fs";
+import { ensureDirSync } from "fs-extra";
+
+const cacheFolder = "../caches/";
 
 export default class CacheManager {
-	internalCache: Array<{ key: string; data: any; expires: number }> = [];
-
-	private syncResolver;
+	cacheFiles: Array<{ name: string; expires: number }> = [];
 
 	constructor() {
-		if (cluster.isWorker) {
-			process.on("message", msg => {
-				if (!msg.CACHE_SET) return;
-				this.internalCache = msg.CACHE_SET;
-				if (this.syncResolver) this.syncResolver();
-			});
-		}
-
-		if (cluster.isMaster) {
-			Object.values(cluster.workers).map(w =>
-				w.on("message", msg => {
-					if (msg === "CACHE_SYNC")
-						Object.values(cluster.workers).map(w =>
-							w.send({ CACHE_SET: this.internalCache })
-						);
-				})
-			);
-		}
+		ensureDirSync(cacheFolder);
 	}
 
 	set(key: string, data: any, expires: number = Date.now() + 300000) {
-		const cI = this.internalCache.findIndex(cI => cI.key === key),
-			obj = { key: key, data: data, expires: expires };
+		if (!this.cacheFiles.find(cF => cF.name === key))
+			this.cacheFiles.push({ name: key, expires: expires });
+		else this.cacheFiles.find(cF => cF.name === key).expires = expires;
 
-		if (cI > -1) this.internalCache[cI] = obj;
-		else this.internalCache.push(obj);
-
-		writeFileSync("../cache", JSON.stringify(this.internalCache));
-		this.internalCache = null;
-
-		if (cluster.isMaster)
-			Object.values(cluster.workers).map(w =>
-				w.send({ CACHE_SET: this.internalCache })
-			);
+		writeFileSync(cacheFolder + key, JSON.stringify(data));
 	}
 
 	get(key: string) {
-		this.internalCache = JSON.parse(readFileSync("../cache", "utf-8"));
+		const cache = JSON.parse(readFileSync(cacheFolder + key, "utf-8"));
 
-		const cache = this.internalCache.find(cI => cI.key === key);
-		if (typeof cache === "object")
-			return JSON.parse(
-				JSON.stringify(this.internalCache.find(cI => cI.key === key))
-			);
+		if (typeof cache === "object") return JSON.parse(JSON.stringify(cache));
 		else return cache;
 	}
 
 	hasExpired(key: string) {
-		this.internalCache = JSON.parse(readFileSync("../cache", "utf-8"));
+		const cacheFile = this.cacheFiles.find(cF => cF.name === key);
 
-		const cI = this.internalCache.find(cI => cI.key === key);
-
-		if (!cI) return true;
-		else return cI.expires <= Date.now();
-	}
-
-	async sync() {
-		return new Promise(resolve => {
-			this.syncResolver = resolve;
-			process.send("CACHE_SYNC");
-		});
+		if (!cacheFile) return true;
+		return cacheFile.expires <= Date.now();
 	}
 }

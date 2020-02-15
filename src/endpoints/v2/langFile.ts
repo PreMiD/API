@@ -3,7 +3,7 @@ import { cache } from "../../index";
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
-	const langFiles = cache.get("langFiles").data;
+	const langFiles = cache.get("langFiles");
 	if (req.path.endsWith("/list")) {
 		res.send(
 			langFiles.filter(lF => lF.project === "extension").map(lF => lF.lang)

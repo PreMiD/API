@@ -3,7 +3,7 @@ import { cache } from "../../index";
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
-	const presences = cache.get("presences").data;
+	const presences = cache.get("presences");
 
 	//* If presence not set
 	if (!req.params["presence"]) {

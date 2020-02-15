@@ -3,7 +3,7 @@ import { cache } from "../../index";
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
-	const credits = cache.get("credits").data;
+	const credits = cache.get("credits");
 
 	//* user param not set
 	if (!req.params["userId"]) {
