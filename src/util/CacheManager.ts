@@ -1,4 +1,5 @@
 import cluster from "cluster";
+import { writeFileSync, readFileSync } from "fs";
 
 export default class CacheManager {
 	internalCache: Array<{ key: string; data: any; expires: number }> = [];
@@ -33,6 +34,9 @@ export default class CacheManager {
 		if (cI > -1) this.internalCache[cI] = obj;
 		else this.internalCache.push(obj);
 
+		writeFileSync("../cache", JSON.stringify(this.internalCache));
+		this.internalCache = null;
+
 		if (cluster.isMaster)
 			Object.values(cluster.workers).map(w =>
 				w.send({ CACHE_SET: this.internalCache })
@@ -40,6 +44,8 @@ export default class CacheManager {
 	}
 
 	get(key: string) {
+		this.internalCache = JSON.parse(readFileSync("../cache", "utf-8"));
+
 		const cache = this.internalCache.find(cI => cI.key === key);
 		if (typeof cache === "object")
 			return JSON.parse(
@@ -49,6 +55,8 @@ export default class CacheManager {
 	}
 
 	hasExpired(key: string) {
+		this.internalCache = JSON.parse(readFileSync("../cache", "utf-8"));
+
 		const cI = this.internalCache.find(cI => cI.key === key);
 
 		if (!cI) return true;

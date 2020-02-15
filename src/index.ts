@@ -28,30 +28,31 @@ async function run() {
 				}
 			})
 			.catch(err => debug("error", "index.ts", err.message));
-	} else {
-		await cache.sync();
-		//* Create express server
-		//* Parse JSON
-		//* Set API Headers
-		let server = express();
-
-		server.use(helmet());
-		server.use(bodyParser.json());
-		server.use((_req, res, next) => {
-			res.header("Access-Control-Allow-Origin", "*");
-			res.header(
-				"Access-Control-Allow-Headers",
-				"Origin, X-Requested-With, Content-Type, Accept"
-			);
-			//* Don't hold connections open, we're an API duh
-			res.setHeader("Connection", "close");
-
-			next();
-		});
-
-		loadEndpoints(server, require("./endpoints.json"));
-		server.listen(3001);
+		return;
 	}
+
+	//* Create express server
+	//* Parse JSON
+	//* Set API Headers
+	let server = express();
+
+	server.use(helmet());
+	server.use(bodyParser.json());
+	server.use((_req, res, next) => {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header(
+			"Access-Control-Allow-Headers",
+			"Origin, X-Requested-With, Content-Type, Accept"
+		);
+		//* Don't hold connections open, we're an API duh
+		res.setHeader("Connection", "close");
+
+		next();
+	});
+
+	loadEndpoints(server, require("./endpoints.json"));
+	server.listen(3001);
+	debug("info", "index.ts", "Listening on port 3001");
 
 	cluster.on("exit", worker => {
 		debug("error", "index.ts", `Cluster worker ${worker.id} crashed.`);
@@ -64,7 +65,6 @@ function spawnWorkers() {
 	for (let i = 0; i < cpuCount; i++) {
 		cluster.fork();
 	}
-	debug("info", "index.ts", "Listening on port 3001");
 }
 
 let initialCacheI = null;
