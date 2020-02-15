@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { cache } from "../../index";
 
 //* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RequestHandler = (req, res) => {
 	const langFiles = cache.get("langFiles");
 	if (req.path.endsWith("/list")) {
 		res.send(
