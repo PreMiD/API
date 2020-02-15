@@ -1,27 +1,23 @@
 import { RequestHandler } from "express";
-import { pmdDB } from "../../db/client";
-
-//* Define credits collection
-const science = pmdDB.collection("science");
+import { cache } from "../../index";
 
 //* Request Handler
 const handler: RequestHandler = async (_req, res) => {
-  let ranking = {};
+	const science = cache.get("science").data;
 
-  [].concat
-    .apply(
-      [],
-      (
-        await science
-          .find({}, { projection: { _id: false, presences: true } })
-          .toArray()
-      ).map(p => p.presences)
-    )
-    .map(function(x: string) {
-      ranking[x] = (ranking[x] || 0) + 1;
-    });
+	let ranking = {};
 
-  res.send(ranking);
+	[].concat
+		.apply(
+			[],
+
+			science.map(s => s.presences)
+		)
+		.map(function(x: string) {
+			ranking[x] = (ranking[x] || 0) + 1;
+		});
+
+	res.send(ranking);
 };
 
 //* Export handler

@@ -1,15 +1,14 @@
 import { RequestHandler } from "express";
-import { pmdDB } from "../../db/client";
-
-//* Define credits collection
-const versions = pmdDB.collection("versions");
+import { cache } from "../../index";
 
 //* Request Handler
 const handler: RequestHandler = async (_req, res) => {
-  //* Return versions
-  res.send(
-    await versions.findOne({}, { projection: { _id: false, key: false } })
-  );
+	let versions = cache.get("versions").data[0];
+	delete versions._id;
+	delete versions._key;
+
+	//* Return versions
+	res.send(versions);
 };
 
 //* Export handler
