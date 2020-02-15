@@ -23,7 +23,7 @@ async function run() {
 
 				if (process.env.NODE_ENV === "production") {
 					//* Update response Time (StatusPage)
-					setTimeout(() => fork("./util/updateResponseTime"), 5 * 1000);
+					setTimeout(() => fork("./util/updateResponseTime"), 15 * 1000);
 					setInterval(() => fork("./util/updateResponseTime"), 5 * 60 * 1000);
 				}
 			})
@@ -69,7 +69,8 @@ function spawnWorkers() {
 
 let initialCacheI = null;
 async function initCache() {
-	if (cache.hasExpired("presences"))
+	if (cache.hasExpired("presences")) {
+		console.log("OLD CACHE");
 		cache.set(
 			"presences",
 			await pmdDB
@@ -77,6 +78,7 @@ async function initCache() {
 				.find()
 				.toArray()
 		);
+	}
 
 	if (cache.hasExpired("langFiles"))
 		cache.set(
