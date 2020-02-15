@@ -1,9 +1,15 @@
 import { RequestHandler } from "express";
 import { cache } from "../../index";
 
+let credits = cache.get("credits"),
+	lastCacheUpdate = Date.now() + 10000;
+
 //* Request Handler
 const handler: RequestHandler = (req, res) => {
-	const credits = cache.get("credits");
+	if (lastCacheUpdate <= Date.now()) {
+		lastCacheUpdate = Date.now() + 10000;
+		credits = cache.get("credits");
+	}
 
 	//* user param not set
 	if (!req.params["userId"]) {

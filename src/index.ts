@@ -94,7 +94,7 @@ async function initCache() {
 				.collection("credits")
 				.find()
 				.toArray(),
-			1000 * 1000
+			10000 * 1000
 		);
 
 	if (cache.hasExpired("science"))
@@ -103,8 +103,7 @@ async function initCache() {
 			await pmdDB
 				.collection("science")
 				.find()
-				.toArray(),
-			5 * 1000 * 1000
+				.toArray()
 		);
 
 	if (cache.hasExpired("versions"))

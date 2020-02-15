@@ -1,9 +1,17 @@
 import { RequestHandler } from "express";
 import { cache } from "../../index";
 
+let versions = cache.get("versions"),
+	lastCacheUpdate = Date.now() + 300000;
+
 //* Request Handler
 const handler: RequestHandler = async (_req, res) => {
-	let versions = cache.get("versions")[0];
+	if (lastCacheUpdate <= Date.now()) {
+		lastCacheUpdate = Date.now() + 300000;
+		versions = cache.get("versions");
+	}
+
+	versions = versions[0];
 	delete versions._id;
 	delete versions._key;
 
