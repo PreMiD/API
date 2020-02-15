@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { cache } from "../../index";
 
 //* Request Handler
-const handler: RequestHandler = (_req, res) => {
+const handler: RequestHandler = async (_req, res) => {
 	const science = cache.get("science");
 
 	let ranking = {};

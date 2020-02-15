@@ -38,7 +38,7 @@ async function run() {
 
 	server.use(helmet());
 	server.use(bodyParser.json());
-	server.use((req, res, next) => {
+	server.use(async (req, res, next) => {
 		debug("info", "index.ts", `${req.ip} - ${req.path}`);
 
 		res.header("Access-Control-Allow-Origin", "*");
