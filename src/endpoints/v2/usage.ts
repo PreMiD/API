@@ -1,13 +1,10 @@
 import { RequestHandler } from "express";
-import { pmdDB } from "../../db/client";
-
-//* Define credits collection
-const science = pmdDB.collection("science");
+import { cache } from "../../index";
 
 //* Request Handler
 const handler: RequestHandler = async (_req, res) => {
-  //* Return versions
-  res.send({ users: await science.countDocuments() });
+	//* Return versions
+	res.send({ users: cache.get("science").length });
 };
 
 //* Export handler
