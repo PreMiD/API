@@ -11,12 +11,11 @@ const handler: RequestHandler = async (_req, res) => {
 		versions = cache.get("versions");
 	}
 
-	versions = versions[0];
-	delete versions._id;
-	delete versions._key;
+	delete versions[0]._id;
+	delete versions[0]._key;
 
 	//* Return versions
-	res.send(versions);
+	res.send(versions[0]);
 };
 
 //* Export handler
