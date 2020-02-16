@@ -15,9 +15,11 @@ const handler: RequestHandler = (req, res) => {
 		//* return
 		res.send(
 			presences.map(p => {
-				delete p.presenceJs;
-				delete p.iframeJs;
-				return p;
+				return {
+					name: p.name,
+					url: p.url,
+					metadata: p.metadata
+				};
 			})
 		);
 		return;
