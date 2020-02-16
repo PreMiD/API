@@ -57,7 +57,8 @@ export default class CacheManager {
 
 let initialCacheI = null;
 export async function initCache() {
-	if (!initialCacheI) emptyDirSync(cacheFolder);
+	if (!initialCacheI && process.env.NODE_ENV === "production")
+		emptyDirSync(cacheFolder);
 
 	if (cache.hasExpired("presences")) {
 		cache.set(
@@ -124,5 +125,5 @@ export async function initCache() {
 				.toArray()
 		);
 
-	if (!initialCacheI) initialCacheI = setInterval(initCache, 1000);
+	if (!initialCacheI) initialCacheI = setInterval(initCache, 10 * 1000);
 }
