@@ -58,6 +58,12 @@ function prepareLangFiles(langFiles) {
 			case "zh_CN":
 				lF.lang = "zh-CN";
 				break;
+			case "zh_TW": 
+				lF.lang	= "zh-TW";
+				break;
+			case "zh_HK": 
+				lF.lang	= "zh-TW";
+				break;
 			case "ko_KR":
 				lF.lang = "ko";
 				break;
