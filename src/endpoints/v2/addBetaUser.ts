@@ -29,7 +29,7 @@ const handler: RequestHandler = async (req, res) => {
 			return;
 		} else if (!user && discordUser) {
 			await betaUsers.insertOne({ userId: req.params["userId"] }).then(() => res.sendStatus(200));
-		} else if (!user && !discordUser) {
+		} else {
 			res.send({ error: 3, message: "User not in Discord Server." });
 			return;
 		}
