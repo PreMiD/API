@@ -31,6 +31,8 @@ async function run() {
 		return;
 	}
 
+	await connect();
+
 	//* Create express server
 	//* Parse JSON
 	//* Set API Headers
