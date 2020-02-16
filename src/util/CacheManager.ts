@@ -33,7 +33,7 @@ export default class CacheManager {
 	}
 
 	get(key: string) {
-		const cache = JSON.parse(readFileSync(cacheFolder + key, "utf-8"));
+		const cache = readFileSync(cacheFolder + key, "utf-8");
 
 		if (typeof cache === "object") return JSON.parse(JSON.stringify(cache));
 		else return cache;
