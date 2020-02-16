@@ -9,7 +9,11 @@
 			"handler": "ping"
 		},
 		{
-			"path": ["/app/update", "/app/update/:bit", "/app/update/*"],
+			"path": [
+				"/app/update",
+				"/app/update/:bit",
+				"/app/update/*"
+			],
 			"handler": "appUpdate"
 		},
 		{
@@ -44,15 +48,24 @@
 			"handler": "versions"
 		},
 		{
-			"path": ["/v2/langFile/:project/:lang", "/v2/langFile/list"],
+			"path": [
+				"/v2/langFile/:project/:lang",
+				"/v2/langFile/list"
+			],
 			"handler": "langFile"
 		},
 		{
-			"path": ["/v2/credits", "/v2/credits/:userId"],
+			"path": [
+				"/v2/credits",
+				"/v2/credits/:userId"
+			],
 			"handler": "credits"
 		},
 		{
-			"path": ["/v2/betaAccess", "/v2/betaAccess/:userId"],
+			"path": [
+				"/v2/betaAccess",
+				"/v2/betaAccess/:userId"
+			],
 			"handler": "betaAccess"
 		},
 		{
@@ -62,6 +75,11 @@
 				"/v2/changelog/:project/:version"
 			],
 			"handler": "changelog"
+		},
+		{
+			"method": "post",
+			"path": "/v2/addBetaUser/:userId",
+			"handler": "addBetaUser"
 		}
 	]
 }
