@@ -115,5 +115,14 @@ export async function initCache() {
 				.toArray()
 		);
 
+	if (cache.hasExpired("changelog"))
+		cache.set(
+			"changelog",
+			await pmdDB
+				.collection("changelog")
+				.find()
+				.toArray()
+		);
+
 	if (!initialCacheI) initialCacheI = setInterval(initCache, 1000);
 }
