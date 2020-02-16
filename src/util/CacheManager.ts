@@ -34,9 +34,11 @@ export default class CacheManager {
 
 	get(key: string) {
 		const cache = readFileSync(cacheFolder + key, "utf-8");
-
-		if (typeof cache === "object") return JSON.parse(JSON.stringify(cache));
-		else return cache;
+		try {
+			return JSON.parse(cache);
+		} catch (_) {
+			return cache;
+		}
 	}
 
 	hasExpired(key: string) {
