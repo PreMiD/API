@@ -15,8 +15,8 @@ export async function master() {
 
 				if (process.env.NODE_ENV === "production") {
 					//* Update response Time (StatusPage)
-					setTimeout(() => fork("./updateResponseTime"), 15 * 1000);
-					setInterval(() => fork("./updateResponseTime"), 5 * 60 * 1000);
+					setTimeout(() => fork("../updateResponseTime"), 15 * 1000);
+					setInterval(() => fork("../updateResponseTime"), 5 * 60 * 1000);
 				}
 
 				//* Delete older ones than 7 days
