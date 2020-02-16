@@ -1,30 +1,24 @@
 import { RequestHandler } from "express";
 import { cache } from "../../index";
-import jsonStringify from "fast-json-stable-stringify";
 
-let prs = cache.get("presences");
+let prs = preparePresences(cache.get("presences"));
 
-cache.onUpdate("presences", data => (prs = data));
+cache.onUpdate("presences", data => (prs = preparePresences(data)));
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
-	let presences = JSON.parse(jsonStringify(prs));
+	const presences = prs;
 
 	//* If presence not set
 	if (!req.params["presence"]) {
 		//* send all presences
 		//* return
 		res.send(
-			presences
-				.map(p => {
-					delete p._id;
-					delete p.presenceJs;
-					delete p.iframeJs;
-					return p;
-				})
-				.map(presence => {
-					return imgurReplacer(presence);
-				})
+			presences.map(p => {
+				delete p.presenceJs;
+				delete p.iframeJs;
+				return p;
+			})
 		);
 		return;
 	}
@@ -56,13 +50,11 @@ const handler: RequestHandler = async (req, res) => {
 			return;
 		}
 
-		presence = {
+		res.send({
 			name: presence.name,
 			url: presence.url,
 			metadata: presence.metadata
-		};
-
-		res.send(imgurReplacer(presence));
+		});
 		return;
 	}
 
@@ -74,7 +66,7 @@ const handler: RequestHandler = async (req, res) => {
 		case "metadata.json":
 			//* Enable metadata
 			//* return
-			presence = imgurReplacer({ metadata: presence.metadata }).metadata;
+			presence = { metadata: presence.metadata };
 			break;
 		case "presence.js":
 			//* Enable presence
@@ -103,18 +95,21 @@ const handler: RequestHandler = async (req, res) => {
 		res.setHeader("content-type", "text/javascript");
 		presence = unescape(<string>presence);
 	}
+
 	res.send(presence);
 };
 
-function imgurReplacer(presence) {
-	const p = JSON.parse(jsonStringify(presence));
-	if (p.metadata.logo.includes("imgur.com"))
-		p.metadata.logo = "https://proxy.duckduckgo.com/iu/?u=" + p.metadata.logo;
-	if (p.metadata.thumbnail.includes("imgur.com"))
-		p.metadata.thumbnail =
-			"https://proxy.duckduckgo.com/iu/?u=" + p.metadata.thumbnail;
+function preparePresences(presences) {
+	return presences.map(presence => {
+		delete presence._id;
 
-	return p;
+		if (presence.metadata.logo.includes("imgur.com"))
+			presence.metadata.logo = `https://proxy.duckduckgo.com/iu/?u=${presence.metadata.logo}`;
+		if (presence.metadata.thumbnail.includes("imgur.com"))
+			presence.metadata.thumbnail = `https://proxy.duckduckgo.com/iu/?u=${presence.metadata.thumbnail}`;
+
+		return presence;
+	});
 }
 
 //* Export handler
