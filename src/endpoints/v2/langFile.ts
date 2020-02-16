@@ -1,16 +1,11 @@
 import { RequestHandler } from "express";
 import { cache } from "../../index";
 
-let langFiles = cache.get("langFiles"),
-	lastCacheUpdate = Date.now() + 300000;
+let langFiles = cache.get("langFiles");
+cache.onUpdate("langFiles", data => (langFiles = data));
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
-	if (lastCacheUpdate <= Date.now()) {
-		lastCacheUpdate = Date.now() + 300000;
-		langFiles = cache.get("langFiles");
-	}
-
 	if (req.path.endsWith("/list")) {
 		res.send(
 			langFiles.filter(lF => lF.project === "extension").map(lF => lF.lang)

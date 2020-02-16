@@ -1,20 +1,33 @@
 import { writeFileSync, readFileSync, existsSync } from "fs";
+import { basename } from "path";
 import { ensureDirSync } from "fs-extra";
+import chokidar from "chokidar";
 
 const cacheFolder = "../caches/";
-
 export default class CacheManager {
-	cacheFiles: Array<{ name: string; expires: number }> = [];
+	updateListeners = [];
+	watcher: chokidar.FSWatcher;
 
 	constructor() {
 		ensureDirSync(cacheFolder);
+
+		this.watcher = chokidar.watch("*", {
+			cwd: cacheFolder,
+			ignoreInitial: true
+		});
+
+		this.watcher.on("all", (event, path) => {
+			if (!["add", "change"].includes(event) || path.endsWith(".expires"))
+				return;
+			this.updateListeners.map(l =>
+				l.key === basename(path)
+					? l.handler(this.get(basename(path)))
+					: undefined
+			);
+		});
 	}
 
-	set(key: string, data: any, expires: number = Date.now() + 300000) {
-		if (!this.cacheFiles.find(cF => cF.name === key))
-			this.cacheFiles.push({ name: key, expires: Date.now() + expires });
-		else this.cacheFiles.find(cF => cF.name === key).expires = expires;
-
+	set(key: string, data: any, expires: number = 300000) {
 		writeFileSync(cacheFolder + key, JSON.stringify(data));
 		writeFileSync(cacheFolder + key + ".expires", Date.now() + expires);
 	}
@@ -32,5 +45,9 @@ export default class CacheManager {
 		const expires = readFileSync(cacheFolder + key + ".expires", "utf-8");
 
 		return parseInt(expires) <= Date.now();
+	}
+
+	onUpdate(key: string, handler: (data: any) => void) {
+		this.updateListeners.push({ key, handler });
 	}
 }

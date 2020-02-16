@@ -1,16 +1,12 @@
 import { RequestHandler } from "express";
 import { cache } from "../../index";
 
-let presences = cache.get("presences"),
-	lastCacheUpdate = Date.now() + 300000;
+let presences = cache.get("presences");
+
+cache.onUpdate("presences", data => (presences = data));
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
-	if (lastCacheUpdate <= Date.now()) {
-		lastCacheUpdate = Date.now() + 300000;
-		presences = cache.get("presences");
-	}
-
 	//* If presence not set
 	if (!req.params["presence"]) {
 		//* send all presences

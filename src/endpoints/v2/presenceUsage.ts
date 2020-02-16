@@ -1,16 +1,12 @@
 import { RequestHandler } from "express";
 import { cache } from "../../index";
 
-let science = cache.get("science"),
-	lastCacheUpdate = Date.now() + 300000;
+let science = cache.get("science");
+
+cache.onUpdate("science", data => (science = data));
 
 //* Request Handler
 const handler: RequestHandler = async (_req, res) => {
-	if (lastCacheUpdate <= Date.now()) {
-		lastCacheUpdate = Date.now() + 300000;
-		science = cache.get("science");
-	}
-
 	let ranking = {};
 
 	[].concat

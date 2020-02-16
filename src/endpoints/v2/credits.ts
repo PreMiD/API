@@ -1,16 +1,12 @@
 import { RequestHandler } from "express";
 import { cache } from "../../index";
 
-let credits = cache.get("credits"),
-	lastCacheUpdate = Date.now() + 10000;
+let credits = cache.get("credits");
+
+cache.onUpdate("credits", data => (credits = data));
 
 //* Request Handler
 const handler: RequestHandler = (req, res) => {
-	if (lastCacheUpdate <= Date.now()) {
-		lastCacheUpdate = Date.now() + 10000;
-		credits = cache.get("credits");
-	}
-
 	//* user param not set
 	if (!req.params["userId"]) {
 		//* Send all users

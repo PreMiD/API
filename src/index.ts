@@ -26,8 +26,17 @@ async function run() {
 					setTimeout(() => fork("./util/updateResponseTime"), 15 * 1000);
 					setInterval(() => fork("./util/updateResponseTime"), 5 * 60 * 1000);
 				}
+
+				//* Delete older ones than 7 days
+				const date = new Date();
+				date.setTime(date.getTime() - 7 * 24 * 60 * 60 * 1000);
+				pmdDB.collection("science").deleteOne({
+					updated: { $lt: date.getTime() }
+				});
 			})
 			.catch(err => debug("error", "index.ts", err.message));
+
+		debug("info", "index.ts", "Listening on port 3001");
 		return;
 	}
 
@@ -54,7 +63,6 @@ async function run() {
 
 	loadEndpoints(server, require("./endpoints.json"));
 	server.listen(3001);
-	debug("info", "index.ts", "Listening on port 3001");
 
 	cluster.on("exit", worker => {
 		debug("error", "index.ts", `Cluster worker ${worker.id} crashed.`);
@@ -72,7 +80,6 @@ function spawnWorkers() {
 let initialCacheI = null;
 async function initCache() {
 	if (cache.hasExpired("presences")) {
-		console.log("OLD CACHE");
 		cache.set(
 			"presences",
 			await pmdDB
@@ -98,7 +105,7 @@ async function initCache() {
 				.collection("credits")
 				.find()
 				.toArray(),
-			10000 * 1000
+			10 * 1000
 		);
 
 	if (cache.hasExpired("science"))
@@ -115,6 +122,15 @@ async function initCache() {
 			"versions",
 			await pmdDB
 				.collection("versions")
+				.find()
+				.toArray()
+		);
+
+	if (cache.hasExpired("ffUpdates"))
+		cache.set(
+			"ffUpdates",
+			await pmdDB
+				.collection("ffUpdates")
 				.find()
 				.toArray()
 		);
