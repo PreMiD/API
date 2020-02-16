@@ -1,7 +1,10 @@
 import { writeFileSync, readFileSync, existsSync } from "fs";
 import { basename } from "path";
-import { ensureDirSync } from "fs-extra";
+import { ensureDirSync, emptyDirSync } from "fs-extra";
 import chokidar from "chokidar";
+import { cache } from "../index";
+import { pmdDB } from "../db/client";
+import jsonStringify from "fast-json-stable-stringify";
 
 const cacheFolder = "../caches/";
 export default class CacheManager {
@@ -13,12 +16,14 @@ export default class CacheManager {
 
 		this.watcher = chokidar.watch("*", {
 			cwd: cacheFolder,
-			ignoreInitial: true
+			ignoreInitial: true,
+			awaitWriteFinish: true
 		});
 
 		this.watcher.on("all", (event, path) => {
 			if (!["add", "change"].includes(event) || path.endsWith(".expires"))
 				return;
+
 			this.updateListeners.map(l =>
 				l.key === basename(path)
 					? l.handler(this.get(basename(path)))
@@ -28,23 +33,19 @@ export default class CacheManager {
 	}
 
 	set(key: string, data: any, expires: number = 300000) {
-		writeFileSync(cacheFolder + key, JSON.stringify(data));
-		writeFileSync(cacheFolder + key + ".expires", Date.now() + expires);
+		ensureDirSync(cacheFolder + key);
+		writeFileSync(cacheFolder + key + "/data", jsonStringify({ data: data }));
+		writeFileSync(cacheFolder + key + "/info", Date.now() + expires);
 	}
 
 	get(key: string) {
-		const cache = readFileSync(cacheFolder + key, "utf-8");
-		try {
-			return JSON.parse(cache);
-		} catch (_) {
-			return cache;
-		}
+		return JSON.parse(readFileSync(cacheFolder + key + "/data", "utf-8")).data;
 	}
 
 	hasExpired(key: string) {
-		if (!existsSync(cacheFolder + key + ".expires")) return true;
+		if (!existsSync(cacheFolder + key + "/info")) return true;
 
-		const expires = readFileSync(cacheFolder + key + ".expires", "utf-8");
+		const expires = readFileSync(cacheFolder + key + "/info", "utf-8");
 
 		return parseInt(expires) <= Date.now();
 	}
@@ -52,4 +53,67 @@ export default class CacheManager {
 	onUpdate(key: string, handler: (data: any) => void) {
 		this.updateListeners.push({ key, handler });
 	}
+}
+
+let initialCacheI = null;
+export async function initCache() {
+	if (!initialCacheI) emptyDirSync(cacheFolder);
+
+	if (cache.hasExpired("presences")) {
+		cache.set(
+			"presences",
+			await pmdDB
+				.collection("presences")
+				.find()
+				.toArray()
+		);
+	}
+
+	if (cache.hasExpired("langFiles"))
+		cache.set(
+			"langFiles",
+			await pmdDB
+				.collection("langFiles")
+				.find()
+				.toArray()
+		);
+
+	if (cache.hasExpired("credits"))
+		cache.set(
+			"credits",
+			await pmdDB
+				.collection("credits")
+				.find()
+				.toArray(),
+			10 * 1000
+		);
+
+	if (cache.hasExpired("science"))
+		cache.set(
+			"science",
+			await pmdDB
+				.collection("science")
+				.find()
+				.toArray()
+		);
+
+	if (cache.hasExpired("versions"))
+		cache.set(
+			"versions",
+			await pmdDB
+				.collection("versions")
+				.find()
+				.toArray()
+		);
+
+	if (cache.hasExpired("ffUpdates"))
+		cache.set(
+			"ffUpdates",
+			await pmdDB
+				.collection("ffUpdates")
+				.find()
+				.toArray()
+		);
+
+	if (!initialCacheI) initialCacheI = setInterval(initCache, 1000);
 }

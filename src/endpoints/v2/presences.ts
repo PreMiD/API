@@ -1,18 +1,21 @@
 import { RequestHandler } from "express";
 import { cache } from "../../index";
+import jsonStringify from "fast-json-stable-stringify";
 
-let presences = cache.get("presences");
+let prs = cache.get("presences");
 
-cache.onUpdate("presences", data => (presences = data));
+cache.onUpdate("presences", data => (prs = data));
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
+	let presences = JSON.parse(jsonStringify(prs));
+
 	//* If presence not set
 	if (!req.params["presence"]) {
 		//* send all presences
 		//* return
 		res.send(
-			JSON.parse(JSON.stringify(presences))
+			presences
 				.map(p => {
 					delete p._id;
 					delete p.presenceJs;
@@ -104,7 +107,7 @@ const handler: RequestHandler = async (req, res) => {
 };
 
 function imgurReplacer(presence) {
-	const p = JSON.parse(JSON.stringify(presence));
+	const p = JSON.parse(jsonStringify(presence));
 	if (p.metadata.logo.includes("imgur.com"))
 		p.metadata.logo = "https://proxy.duckduckgo.com/iu/?u=" + p.metadata.logo;
 	if (p.metadata.thumbnail.includes("imgur.com"))
