@@ -1,8 +1,8 @@
 import { RequestHandler } from "express";
 import { cache } from "../../index";
 
-let langFiles = cache.get("langFiles");
-cache.onUpdate("langFiles", data => (langFiles = data));
+let langFiles = prepareLangFiles(cache.get("langFiles"));
+cache.onUpdate("langFiles", data => (langFiles = prepareLangFiles(data)));
 
 //* Request Handler
 const handler: RequestHandler = (req, res) => {
@@ -46,6 +46,25 @@ const handler: RequestHandler = (req, res) => {
 		)
 	);
 };
+
+function prepareLangFiles(langFiles) {
+	langFiles.map(lF => {
+		if (lF.project !== "extension") return;
+
+		switch (lF.lang) {
+			case "ja_JP":
+				lF.lang = "ja";
+				break;
+			case "zh_CN":
+				lF.lang = "zh-CN";
+				break;
+			case "ko_KR":
+				lF.lang = "ko";
+				break;
+		}
+	});
+	return langFiles;
+}
 
 //* Export handler
 export { handler };
