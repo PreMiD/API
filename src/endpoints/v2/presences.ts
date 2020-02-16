@@ -16,7 +16,7 @@ const handler: RequestHandler = async (req, res) => {
 		//* send all presences
 		//* return
 		res.send(
-			presences
+			JSON.parse(JSON.stringify(presences))
 				.map(p => {
 					delete p._id;
 					delete p.presenceJs;
