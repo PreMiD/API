@@ -6,7 +6,7 @@ let prs = preparePresences(cache.get("presences"));
 cache.onUpdate("presences", data => (prs = preparePresences(data)));
 
 //* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RequestHandler = (req, res) => {
 	const presences = prs;
 
 	//* If presence not set

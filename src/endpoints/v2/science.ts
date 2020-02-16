@@ -5,7 +5,7 @@ import { pmdDB } from "../../db/client";
 const science = pmdDB.collection("science");
 
 //* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RequestHandler = (req, res) => {
 	if (
 		!req.body.identifier ||
 		typeof req.body.identifier !== "string" ||

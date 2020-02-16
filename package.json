@@ -6,6 +6,7 @@
 	"author": "Timeraa",
 	"license": "MPL-2.0",
 	"scripts": {
+		"start": "cd dist && node index.js",
 		"init": "yarn && tsc && devScript --copyOnly && cd dist && yarn --production",
 		"dev": "devScript"
 	},
@@ -25,8 +26,9 @@
 		"@types/fs-extra": "^8.0.1",
 		"@types/helmet": "^0.0.45",
 		"@types/mongodb": "^3.3.16",
+		"@types/node": "^13.7.1",
 		"source-map-support": "^0.5.16",
 		"typescript": "^3.7.5",
-		"yarn": "^1.21.1"
+		"yarn": "^1.22.0"
 	}
 }

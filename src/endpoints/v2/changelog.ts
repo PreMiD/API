@@ -16,7 +16,7 @@ cache.onUpdate(
 );
 
 //* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RequestHandler = (req, res) => {
 	//* project || version not set
 	if (!req.params["project"] || !req.params["version"]) {
 		//* send error

@@ -6,7 +6,7 @@ let versions = prepare(cache.get("versions"));
 
 cache.onUpdate("versions", data => (versions = prepare(data)));
 
-const handler: RequestHandler = async (_, res) => {
+const handler: RequestHandler = (_, res) => {
 	res.setHeader("Content-Type", "text/xml");
 	res.send(versions);
 };

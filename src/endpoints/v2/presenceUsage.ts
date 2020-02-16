@@ -6,7 +6,7 @@ let science = prepareUsage(cache.get("science"));
 cache.onUpdate("science", data => (science = prepareUsage(data)));
 
 //* Request Handler
-const handler: RequestHandler = async (_req, res) => res.send(science);
+const handler: RequestHandler = (_req, res) => res.send(science);
 
 function prepareUsage(science) {
 	let ranking = {};

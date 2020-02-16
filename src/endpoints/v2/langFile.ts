@@ -5,7 +5,7 @@ let langFiles = cache.get("langFiles");
 cache.onUpdate("langFiles", data => (langFiles = data));
 
 //* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RequestHandler = (req, res) => {
 	if (req.path.endsWith("/list")) {
 		res.send(
 			langFiles.filter(lF => lF.project === "extension").map(lF => lF.lang)
