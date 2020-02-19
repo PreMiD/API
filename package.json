@@ -26,7 +26,7 @@
 		"@types/fs-extra": "^8.1.0",
 		"@types/helmet": "^0.0.45",
 		"@types/mongodb": "^3.3.16",
-		"@types/node": "^13.7.2",
+		"@types/node": "^13.7.4",
 		"source-map-support": "^0.5.16",
 		"typescript": "^3.7.5",
 		"yarn": "^1.22.0"
