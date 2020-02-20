@@ -80,6 +80,10 @@
 			"method": "post",
 			"path": "/v2/addBetaUser/:userId",
 			"handler": "addBetaUser"
+		},
+		{
+			"path": "/v2/discordUsers",
+			"handler": "discordUsers"
 		}
 	]
 }
