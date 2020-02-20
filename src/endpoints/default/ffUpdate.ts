@@ -6,10 +6,6 @@ let ffUpdates = cache.get("ffUpdates");
 cache.onUpdate("ffUpdates", data => (ffUpdates = data));
 
 const handler: RequestHandler = (_req, res) => {
-	ffUpdates.map(fU => {
-		delete fU._id;
-	});
-
 	res.send({
 		addons: {
 			"support@premid.app": {
