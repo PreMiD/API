@@ -7,7 +7,7 @@ cache.onUpdate("discordUsers", data => (discordUsers = data));
 
 //* Request Handler
 const handler: RequestHandler = (_, res) => {
-    res.send(discordUsers);
+      res.send(discordUsers);
 };
 
 //* Export handler
