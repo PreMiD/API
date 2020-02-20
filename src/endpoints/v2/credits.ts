@@ -1,9 +1,9 @@
 import { RequestHandler } from "express";
 import { cache } from "../../index";
 
-let credits = prepareCredits(cache.get("credits"));
+let credits = cache.get("credits");
 
-cache.onUpdate("credits", data => (credits = prepareCredits(data)));
+cache.onUpdate("credits", data => (credits = data));
 
 //* Request Handler
 const handler: RequestHandler = (req, res) => {
@@ -23,13 +23,6 @@ const handler: RequestHandler = (req, res) => {
 	if (user) res.send(user);
 	else res.send({ error: 2, message: "User not found." });
 };
-
-function prepareCredits(credits) {
-	return credits.map(c => {
-		delete c._id;
-		return c;
-	});
-}
 
 //* Export handler
 export { handler };

@@ -103,8 +103,6 @@ const handler: RequestHandler = (req, res) => {
 
 function preparePresences(presences) {
 	return presences.map(presence => {
-		delete presence._id;
-
 		if (presence.metadata.logo.includes("imgur.com"))
 			presence.metadata.logo = `https://proxy.duckduckgo.com/iu/?u=${presence.metadata.logo}`;
 		if (presence.metadata.thumbnail.includes("imgur.com"))

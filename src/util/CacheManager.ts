@@ -33,13 +33,13 @@ export default class CacheManager {
 	}
 
 	set(key: string, data: any, expires: number = 300000) {
-		ensureDirSync(cacheFolder + key);
-		writeFileSync(cacheFolder + key + "/data", jsonStringify({ data: data }));
+		emptyDirSync(cacheFolder + key);
+		writeFileSync(cacheFolder + key + "/data", jsonStringify(data));
 		writeFileSync(cacheFolder + key + "/info", Date.now() + expires);
 	}
 
 	get(key: string) {
-		return JSON.parse(readFileSync(cacheFolder + key + "/data", "utf-8")).data;
+		return JSON.parse(readFileSync(cacheFolder + key + "/data", "utf-8"));
 	}
 
 	hasExpired(key: string) {
@@ -65,7 +65,7 @@ export async function initCache() {
 			"presences",
 			await pmdDB
 				.collection("presences")
-				.find()
+				.find({}, { projection: { _id: false } })
 				.toArray()
 		);
 	}
@@ -75,7 +75,7 @@ export async function initCache() {
 			"langFiles",
 			await pmdDB
 				.collection("langFiles")
-				.find()
+				.find({}, { projection: { _id: false } })
 				.toArray()
 		);
 
@@ -84,7 +84,7 @@ export async function initCache() {
 			"credits",
 			await pmdDB
 				.collection("credits")
-				.find()
+				.find({}, { projection: { _id: false } })
 				.toArray(),
 			10 * 1000
 		);
@@ -94,7 +94,7 @@ export async function initCache() {
 			"science",
 			await pmdDB
 				.collection("science")
-				.find()
+				.find({}, { projection: { _id: false } })
 				.toArray()
 		);
 
@@ -103,7 +103,7 @@ export async function initCache() {
 			"versions",
 			await pmdDB
 				.collection("versions")
-				.find()
+				.find({}, { projection: { _id: false } })
 				.toArray()
 		);
 
@@ -112,7 +112,7 @@ export async function initCache() {
 			"ffUpdates",
 			await pmdDB
 				.collection("ffUpdates")
-				.find()
+				.find({}, { projection: { _id: false } })
 				.toArray()
 		);
 
@@ -121,7 +121,7 @@ export async function initCache() {
 			"changelog",
 			await pmdDB
 				.collection("changelog")
-				.find()
+				.find({}, { projection: { _id: false } })
 				.toArray()
 		);
 

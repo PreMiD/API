@@ -7,7 +7,6 @@ cache.onUpdate("versions", data => (versions = data));
 
 //* Request Handler
 const handler: RequestHandler = (_, res) => {
-	delete versions[0]._id;
 	delete versions[0].key;
 
 	//* Return versions

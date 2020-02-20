@@ -1,19 +1,9 @@
 import { RequestHandler } from "express";
 import { cache } from "../../index";
 
-let changelog = cache.get("changelog").map(c => {
-	delete c._id;
-	return c;
-});
+let changelog = cache.get("changelog");
 
-cache.onUpdate(
-	"changelog",
-	data =>
-		(changelog = data.map(c => {
-			delete c._id;
-			return c;
-		}))
-);
+cache.onUpdate("changelog", data => (changelog = data));
 
 //* Request Handler
 const handler: RequestHandler = (req, res) => {
