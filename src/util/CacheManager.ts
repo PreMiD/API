@@ -125,5 +125,14 @@ export async function initCache() {
 				.toArray()
 		);
 
+	if (cache.hasExpired("discordUsers"))
+		cache.set(
+			"discordUsers",
+			await pmdDB
+				.collection("discordUsers")
+				.find()
+				.toArray()
+		);
+
 	if (!initialCacheI) initialCacheI = setInterval(initCache, 10 * 1000);
 }
