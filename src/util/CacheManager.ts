@@ -32,6 +32,7 @@ export default class CacheManager {
 	}
 
 	async set(key: string, data: any, expires: number = 300000) {
+		ensureDirSync(cacheFolder + key);
 		writeFileSync(cacheFolder + key + "/data", jsonStringify(data));
 		writeFileSync(cacheFolder + key + "/info", Date.now() + expires);
 	}
