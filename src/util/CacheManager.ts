@@ -1,6 +1,6 @@
 import { writeFileSync, readFileSync, existsSync } from "fs";
 import { basename } from "path";
-import { ensureDirSync, emptyDirSync, emptyDir } from "fs-extra";
+import { ensureDirSync, emptyDirSync } from "fs-extra";
 import chokidar from "chokidar";
 import { cache } from "../index";
 import { pmdDB } from "../db/client";
@@ -14,15 +14,14 @@ export default class CacheManager {
 	constructor() {
 		ensureDirSync(cacheFolder);
 
-		this.watcher = chokidar.watch("*", {
+		this.watcher = chokidar.watch("**/*", {
 			cwd: cacheFolder,
 			ignoreInitial: true,
 			awaitWriteFinish: true
 		});
 
 		this.watcher.on("all", (event, path) => {
-			if (!["add", "change"].includes(event) || path.endsWith(".expires"))
-				return;
+			if (!["add", "change"].includes(event) || path.endsWith("info")) return;
 
 			this.updateListeners.map(l =>
 				l.key === basename(path)
@@ -33,7 +32,6 @@ export default class CacheManager {
 	}
 
 	async set(key: string, data: any, expires: number = 300000) {
-		await emptyDir(cacheFolder + key);
 		writeFileSync(cacheFolder + key + "/data", jsonStringify(data));
 		writeFileSync(cacheFolder + key + "/info", Date.now() + expires);
 	}
