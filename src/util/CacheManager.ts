@@ -1,10 +1,11 @@
 import { writeFileSync, readFileSync, existsSync } from "fs";
 import { basename } from "path";
-import { ensureDirSync, emptyDirSync } from "fs-extra";
+import { ensureDirSync } from "fs-extra";
 import chokidar from "chokidar";
 import { cache } from "../index";
 import { pmdDB } from "../db/client";
 import jsonStringify from "fast-json-stable-stringify";
+import cluster from "cluster";
 
 const cacheFolder = "../caches/";
 export default class CacheManager {
@@ -56,8 +57,7 @@ export default class CacheManager {
 
 let initialCacheI = null;
 export async function initCache() {
-	if (!initialCacheI && process.env.NODE_ENV === "production")
-		emptyDirSync(cacheFolder);
+	if (!cluster.isMaster) return;
 
 	if (cache.hasExpired("presences")) {
 		cache.set(
