@@ -18,7 +18,7 @@
 		"express": "4.17.1",
 		"fast-json-stable-stringify": "^2.1.0",
 		"fs-extra": "8.1.0",
-		"helmet": "3.21.2",
+		"helmet": "3.21.3",
 		"mongodb": "3.5.3"
 	},
 	"devDependencies": {
