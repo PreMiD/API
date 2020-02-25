@@ -25,9 +25,7 @@ export default class CacheManager {
 			if (!["add", "change"].includes(event) || path.endsWith("info")) return;
 
 			this.updateListeners.map(l =>
-				l.key === basename(path)
-					? l.handler(this.get(basename(path)))
-					: undefined
+				l.key === basename(path) ? l.handler(this.get(basename(path))) : undefined
 			);
 		});
 	}
@@ -129,6 +127,24 @@ export async function initCache() {
 			"discordUsers",
 			await pmdDB
 				.collection("discordUsers")
+				.find({}, { projection: { _id: false } })
+				.toArray()
+		);
+
+	if (cache.hasExpired("partners"))
+		cache.set(
+			"partners",
+			await pmdDB
+				.collection("partners")
+				.find({}, { projection: { _id: false } })
+				.toArray()
+		);
+
+	if (cache.hasExpired("sponsors"))
+		cache.set(
+			"sponsors",
+			await pmdDB
+				.collection("sponsors")
 				.find({}, { projection: { _id: false } })
 				.toArray()
 		);
