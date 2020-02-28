@@ -1,5 +1,5 @@
 import { writeFileSync, readFileSync, existsSync } from "fs";
-import { basename } from "path";
+import { dirname } from "path";
 import { ensureDirSync } from "fs-extra";
 import chokidar from "chokidar";
 import { cache } from "../index";
@@ -25,12 +25,12 @@ export default class CacheManager {
 			if (!["add", "change"].includes(event) || path.endsWith("info")) return;
 
 			this.updateListeners.map(l =>
-				l.key === basename(path) ? l.handler(this.get(basename(path))) : undefined
+				l.key === dirname(path) ? l.handler(this.get(dirname(path))) : undefined
 			);
 		});
 	}
 
-	async set(key: string, data: any, expires: number = 300000) {
+	set(key: string, data: any, expires: number = 300000) {
 		ensureDirSync(cacheFolder + key);
 		writeFileSync(cacheFolder + key + "/data", jsonStringify(data));
 		writeFileSync(cacheFolder + key + "/info", Date.now() + expires);
@@ -76,7 +76,8 @@ export async function initCache() {
 				.toArray()
 		);
 
-	if (cache.hasExpired("credits"))
+	if (cache.hasExpired("credits")) {
+		console.log("UPDATING CACHE");
 		cache.set(
 			"credits",
 			await pmdDB
@@ -85,6 +86,7 @@ export async function initCache() {
 				.toArray(),
 			10 * 1000
 		);
+	}
 
 	if (cache.hasExpired("science"))
 		cache.set(
