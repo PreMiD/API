@@ -77,7 +77,6 @@ export async function initCache() {
 		);
 
 	if (cache.hasExpired("credits")) {
-		console.log("UPDATING CACHE");
 		cache.set(
 			"credits",
 			await pmdDB
