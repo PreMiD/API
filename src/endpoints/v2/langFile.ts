@@ -15,16 +15,16 @@ const handler: RequestHandler = (req, res) => {
 
           switch (lang.toLowerCase()) {
             case "ja":
-              lF.lang = "ja_JP";
+              lang = "ja_JP";
               break;
             case "zh-cn":
-              lF.lang = "zh_CN";
+              lang = "zh_CN";
               break;
             case "zh-tw":
-              lF.lang = "zh_TW";
+              lang = "zh_TW";
               break;
             case "ko":
-              lF.lang = "ko_KR";
+              lang = "ko_KR";
               break;
             default:
               break;
