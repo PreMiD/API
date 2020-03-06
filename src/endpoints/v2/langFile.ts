@@ -34,7 +34,7 @@ const handler: RequestHandler = async (req, res) => {
 
   switch (req.params["lang"].toLowerCase()) {
     case "ja":
-      lang = "ja-JP";
+      lang = "ja_JP";
       break;
     case "zh-cn":
       lang = "zh_CN";
