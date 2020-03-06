@@ -68,7 +68,7 @@ function prepareLangFiles(langFiles) {
           break;
       }
     } else if (lF.project == "website") {
-      switch (lF.lang) {
+      switch (lF.lang.toLowerCase()) {
         case "ja":
           lF.lang = "ja_JP";
           break;
