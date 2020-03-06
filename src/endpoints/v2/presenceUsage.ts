@@ -1,28 +1,28 @@
 import { RequestHandler } from "express";
-import { pmdDB } from "../../db/client";
+import { cache } from "../../index";
 
-//* Define credits collection
-const science = pmdDB.collection("science");
+let science = prepareUsage(cache.get("science"));
+
+cache.onUpdate("science", data => (science = prepareUsage(data)));
 
 //* Request Handler
-const handler: RequestHandler = async (_req, res) => {
-  let ranking = {};
+const handler: RequestHandler = (_req, res) => res.send(science);
 
-  [].concat
-    .apply(
-      [],
-      (
-        await science
-          .find({}, { projection: { _id: false, presences: true } })
-          .toArray()
-      ).map(p => p.presences)
-    )
-    .map(function(x: string) {
-      ranking[x] = (ranking[x] || 0) + 1;
-    });
+function prepareUsage(science) {
+	let ranking = {};
 
-  res.send(ranking);
-};
+	[].concat
+		.apply(
+			[],
+
+			science.map(s => s.presences)
+		)
+		.map(function(x: string) {
+			ranking[x] = (ranking[x] || 0) + 1;
+		});
+
+	return ranking;
+}
 
 //* Export handler
 export { handler };

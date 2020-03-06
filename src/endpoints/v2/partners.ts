@@ -1,16 +1,13 @@
 import { RequestHandler } from "express";
 import { cache } from "../../index";
 
-let versions = cache.get("versions");
+let partners = cache.get("partners");
 
-cache.onUpdate("versions", data => (versions = data));
+cache.onUpdate("partners", data => (partners = data));
 
 //* Request Handler
 const handler: RequestHandler = (_, res) => {
-	delete versions[0].key;
-
-	//* Return versions
-	res.send(versions[0]);
+	res.send(partners);
 };
 
 //* Export handler

@@ -1,71 +1,84 @@
 {
-  "default": [
-    {
-      "path": "/",
-      "handler": "default"
-    },
-    {
-      "path": "/ping",
-      "handler": "ping"
-    },
-    {
-      "path": "/users",
-      "handler": "users"
-    },
-    {
-      "path": ["/app/update", "/app/update/:bit", "/app/update/*"],
-      "handler": "appUpdate"
-    },
-    {
-      "path": "/firefox/updates",
-      "handler": "ffUpdate"
-    }
-  ],
-  "v2": [
-    {
-      "path": "/v2/usage",
-      "handler": "usage"
-    },
-    {
-      "method": "post",
-      "path": "/v2/science",
-      "handler": "science"
-    },
-    {
-      "path": [
-        "/v2/presences",
-        "/v2/presences/:presence",
-        "/v2/presences/:presence/:file"
-      ],
-      "handler": "presences"
-    },
-    {
-      "path": "/v2/presenceUsage",
-      "handler": "presenceUsage"
-    },
-    {
-      "path": "/v2/versions",
-      "handler": "versions"
-    },
-    {
-      "path": ["/v2/langFile/:project/:lang", "/v2/langFile/list"],
-      "handler": "langFile"
-    },
-    {
-      "path": ["/v2/credits", "/v2/credits/:userId"],
-      "handler": "credits"
-    },
-    {
-      "path": ["/v2/betaAccess", "/v2/betaAccess/:userId"],
-      "handler": "betaAccess"
-    },
-    {
-      "path": [
-        "/v2/changelog",
-        "/v2/changelog/:project",
-        "/v2/changelog/:project/:version"
-      ],
-      "handler": "changelog"
-    }
-  ]
+	"default": [
+		{
+			"path": "/",
+			"handler": "default"
+		},
+		{
+			"path": "/ping",
+			"handler": "ping"
+		},
+		{
+			"path": ["/app/update", "/app/update/:bit", "/app/update/*"],
+			"handler": "appUpdate"
+		},
+		{
+			"path": "/firefox/updates",
+			"handler": "ffUpdate"
+		}
+	],
+	"v2": [
+		{
+			"path": "/v2/usage",
+			"handler": "usage"
+		},
+		{
+			"method": "post",
+			"path": "/v2/science",
+			"handler": "science"
+		},
+		{
+			"path": [
+				"/v2/presences",
+				"/v2/presences/:presence",
+				"/v2/presences/:presence/:file"
+			],
+			"handler": "presences"
+		},
+		{
+			"path": "/v2/presenceUsage",
+			"handler": "presenceUsage"
+		},
+		{
+			"path": "/v2/versions",
+			"handler": "versions"
+		},
+		{
+			"path": ["/v2/langFile/:project/:lang", "/v2/langFile/list"],
+			"handler": "langFile"
+		},
+		{
+			"path": ["/v2/credits", "/v2/credits/:userId"],
+			"handler": "credits"
+		},
+		{
+			"path": ["/v2/betaAccess", "/v2/betaAccess/:userId"],
+			"handler": "betaAccess"
+		},
+		{
+			"path": [
+				"/v2/changelog",
+				"/v2/changelog/:project",
+				"/v2/changelog/:project/:version"
+			],
+			"handler": "changelog"
+		},
+		{
+			"method": "post",
+			"path": "/v2/addBetaUser/:userId",
+			"handler": "addBetaUser"
+		},
+		{
+			"path": "/v2/discordUsers",
+			"handler": "discordUsers"
+		},
+		{
+			"path": "/v2/partners",
+			"handler": "partners"
+		},
+		{
+			"path": "/v2/sponsors",
+			"handler": "sponsors"
+		}
+	]
 }
