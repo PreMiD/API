@@ -8,12 +8,14 @@ const langFiles = pmdDB.collection("langFiles");
 const handler: RequestHandler = async (req, res) => {
   if (req.path.endsWith("/list")) {
     res.send(
-      (await langFiles
-        .find(
-          { project: "extension" },
-          { projection: { _id: false, lang: true } }
-        )
-        .toArray()).map(lF => lF.lang)
+      (
+        await langFiles
+          .find(
+            { project: "extension" },
+            { projection: { _id: false, lang: true } }
+          )
+          .toArray()
+      ).map(lF => lF.lang)
     );
     return;
   }
@@ -28,10 +30,29 @@ const handler: RequestHandler = async (req, res) => {
     return;
   }
 
+  let lang = req.params["lang"];
+
+  switch (req.params["lang"].toLowerCase()) {
+    case "ja":
+      lang = "ja-JP";
+      break;
+    case "zh-cn":
+      lang = "zh_CN";
+      break;
+    case "zh-tw":
+      lang = "zh_TW";
+      break;
+    case "ko":
+      lang = "ko_KR";
+      break;
+    default:
+      break;
+  }
+
   const langFile = await langFiles.findOne(
     {
       project: req.params["project"],
-      lang: req.params["lang"]
+      lang: lang
     },
     { projection: { _id: false, translations: true } }
   );
