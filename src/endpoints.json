@@ -65,7 +65,7 @@
 		},
 		{
 			"method": "post",
-			"path": "/v2/addBetaUser/:userId",
+			"path": "/v2/addBetaUser/:token",
 			"handler": "addBetaUser"
 		},
 		{
