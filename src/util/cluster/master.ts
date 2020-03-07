@@ -26,7 +26,10 @@ export async function master() {
 					updated: { $lt: date.getTime() }
 				});
 			})
-			.catch(err => debug("error", "index.ts", err.message));
+			.catch(err => {
+				debug("error", "index.ts", err.message);
+				process.exit();
+			});
 
 		debug("info", "index.ts", "Listening on port 3001");
 		return;
