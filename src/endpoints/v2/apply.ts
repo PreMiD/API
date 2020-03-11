@@ -26,13 +26,18 @@ const handler: RequestHandler = async (req, res) => {
 					})
 					.catch(function(err) {
 						if (err)
-							res.send({ status: 500, message: "Error posting to Discord Webhook." });
+							res.send({
+								status: 500,
+								message: "Error posting to Discord Webhook.",
+								error: err
+							});
 						console.log(err);
 					});
 			} else res.sendStatus(401);
 		})
 		.catch(err => {
-			if (err) res.send({ status: 500, message: "Error posting to Google." });
+			if (err)
+				res.send({ status: 500, message: "Error posting to Google.", error: err });
 			console.log(err);
 		});
 };
