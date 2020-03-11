@@ -17,7 +17,10 @@ const handler: RequestHandler = async (req, res) => {
 						embeds: [
 							{
 								title: "New partner application",
-								description: `**Name**: ${req.body.name}\n**Type**: ${req.body.type}\n**URL**: ${req.body.link}\n**Description:** ${req.body.description}\n**Image Link:** ${req.body.imageLink}\n\n ~ ${req.body.discordUser.userTag} / <@${req.body.discordUser.userId}>`
+								description: `**Name**: ${req.body.name}\n**Type**: ${req.body.type}\n**URL**: ${req.body.link}\n**Description:** ${req.body.description}\n\n ~ ${req.body.discordUser.userTag} / <@${req.body.discordUser.userId}>`,
+								thumbnail: {
+									url: req.body.imageLink
+								}
 							}
 						]
 					})
@@ -26,18 +29,13 @@ const handler: RequestHandler = async (req, res) => {
 					})
 					.catch(function(err) {
 						if (err)
-							res.send({
-								status: 500,
-								message: "Error posting to Discord Webhook.",
-								error: err
-							});
+							res.send({ status: 500, message: "Error posting to Discord Webhook." });
 						console.log(err);
 					});
 			} else res.sendStatus(401);
 		})
 		.catch(err => {
-			if (err)
-				res.send({ status: 500, message: "Error posting to Google.", error: err });
+			if (err) res.send({ status: 500, message: "Error posting to Google." });
 			console.log(err);
 		});
 };
