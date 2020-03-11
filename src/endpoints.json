@@ -77,6 +77,11 @@
 			"handler": "partners"
 		},
 		{
+			"method": "post",
+			"path": "/v2/partners/apply",
+			"handler": "apply"
+		},
+		{
 			"path": "/v2/sponsors",
 			"handler": "sponsors"
 		}
