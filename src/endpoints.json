@@ -86,6 +86,10 @@
 			"handler": "jobs"
 		},
 		{
+			"path": "/v2/benefits",
+			"handler": "benefits"
+		},
+		{
 			"path": "/v2/sponsors",
 			"handler": "sponsors"
 		}
