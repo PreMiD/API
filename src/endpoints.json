@@ -82,6 +82,10 @@
 			"handler": "apply"
 		},
 		{
+			"path": "/v2/jobs",
+			"handler": "jobs"
+		},
+		{
 			"path": "/v2/sponsors",
 			"handler": "sponsors"
 		}

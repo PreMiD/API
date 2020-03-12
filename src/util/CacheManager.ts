@@ -150,5 +150,14 @@ export async function initCache() {
 				.toArray()
 		);
 
+	if (cache.hasExpired("jobs"))
+		cache.set(
+			"jobs",
+			await pmdDB
+				.collection("jobs")
+				.find({}, { projection: { _id: false } })
+				.toArray()
+		);
+
 	if (!initialCacheI) initialCacheI = setInterval(initCache, 10 * 1000);
 }
