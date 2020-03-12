@@ -86,7 +86,7 @@
 			"handler": "jobs"
 		},
 		{
-			"path": "/v2/benefits",
+			"path": "/v2/jobs/benefits",
 			"handler": "benefits"
 		},
 		{
