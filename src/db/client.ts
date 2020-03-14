@@ -3,7 +3,7 @@ import { MongoClient as mClient, Db } from "mongodb";
 export let pmdDB: Db = null;
 
 export const client = new mClient(
-	`mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_IP}:27017`,
+	process.env.MONGO_URL,
 	{
 		appname: "PreMiD-API",
 		useUnifiedTopology: true

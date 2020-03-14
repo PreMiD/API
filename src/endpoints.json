@@ -77,6 +77,24 @@
 			"handler": "partners"
 		},
 		{
+			"method": "post",
+			"path": "/v2/partners/apply",
+			"handler": "partnerApply"
+		},
+		{
+			"path": "/v2/jobs",
+			"handler": "jobs"
+		},
+		{
+			"method": "post",
+			"path": "/v2/jobs/apply",
+			"handler": "jobApply"
+		},
+		{
+			"path": "/v2/jobs/benefits",
+			"handler": "benefits"
+		},
+		{
 			"path": "/v2/sponsors",
 			"handler": "sponsors"
 		}
