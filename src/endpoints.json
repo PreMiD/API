@@ -79,11 +79,16 @@
 		{
 			"method": "post",
 			"path": "/v2/partners/apply",
-			"handler": "apply"
+			"handler": "partnerApply"
 		},
 		{
 			"path": "/v2/jobs",
 			"handler": "jobs"
+		},
+		{
+			"method": "post",
+			"path": "/v2/jobs/apply",
+			"handler": "jobApply"
 		},
 		{
 			"path": "/v2/jobs/benefits",

@@ -14,6 +14,7 @@ const handler: RequestHandler = async (req, res) => {
 			if (data.data.success) {
 				await axios
 					.post(`${process.env.DISCORD_WEBHOOK}`, {
+						username: "Partner Applications",
 						embeds: [
 							{
 								title: "New partner application",
