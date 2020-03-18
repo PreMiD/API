@@ -1,42 +1,61 @@
 import { RequestHandler } from "express";
-import axios from "axios";
+import { pmdDB } from "../../db/client";
+import { getDiscordUser } from "../../util/functions/getDiscordUser";
+import { WebhookClient } from "discord.js";
+
+const coll = pmdDB.collection("applications");
+const webhook = new WebhookClient(
+	process.env.DISCORD_WEBHOOK_ID,
+	process.env.DISCORD_WEBHOOK_TOKEN
+);
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
-	//! Decide if we will use Google Recaptcha. I know this is a mess, sorry :omegalul:
-
-	interface Embed {
-		title: String;
-		description: String;
-		fields: Array<{ name: String; value: String; inline?: boolean }>;
+	if (!req.body.token) {
+		res.send({ error: 1, message: "No token providen." });
+		return;
 	}
 
-	var questions: String = "",
-		embed: Embed = { title: "", description: "", fields: [] };
+	if (!req.body.questions) {
+		res.send({ error: 2, message: "No questions providen." });
+		return;
+	}
 
-	embed.title = "New job application";
-	embed.description = `User: <@${req.body.discordUser.id}>\n${questions}`;
+	getDiscordUser(req.body.token).then(async dUser => {
+		if (
+			await coll.findOne({ type: "job", userId: dUser.id, reviewed: false })
+		) {
+			res.send({ error: 3, message: "You already applied before." });
+			return;
+		}
 
-	req.body.questions.map(question => {
-		embed.fields.push({
-			name: `**${question.label}**`,
-			value: question.response ? question.response : "No response."
+		res.sendStatus(200);
+
+		coll.insertOne({
+			type: "job",
+			userId: dUser.id,
+			reviewed: false,
+			position: { name: req.body.position, questions: req.body.questions }
+		});
+
+		webhook.send({
+			embeds: [
+				{
+					title: `Job Application (${req.body.position})`,
+					description: `By <@${dUser.id}>`,
+					fields: req.body.questions.map(q => {
+						return {
+							name: q.label,
+							value: q.response ? q.response : "No response."
+						};
+					}),
+					thumbnail: {
+						url: `https://cdn.discordapp.com/avatars/${dUser.id}/${dUser.avatar}.png`
+					}
+				}
+			]
 		});
 	});
-
-	await axios
-		.post(`${process.env.DISCORD_WEBHOOK}`, {
-			username: "Job Applications",
-			embeds: [embed]
-		})
-		.then(function(response) {
-			res.sendStatus(200);
-		})
-		.catch(function(err) {
-			if (err)
-				res.send({ status: 500, message: "Error posting to Discord Webhook." });
-			console.log(err);
-		});
 };
 
 //* Export handler
