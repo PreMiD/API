@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { pmdDB } from "../../db/client";
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
 
-const applications = pmdDB.collection("applications");
+const tickets = pmdDB.collection("tickets");
 const credits = pmdDB.collection("credits");
 
 //* Request Handler
@@ -22,7 +22,7 @@ const handler: RequestHandler = async (req, res) => {
 					roles: { $in: ["Staff Head"] }
 				})
 			) {
-				res.send(await applications.find({}, { projection: { _id: false } }).toArray());
+				res.send(await tickets.find({}, { projection: { _id: false } }).toArray());
 				return;
 			}
 		})
