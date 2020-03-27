@@ -102,6 +102,16 @@
 		{
 			"path": "/v2/sponsors",
 			"handler": "sponsors"
+		},
+		{
+			"method": "post",
+			"path": "/v2/applications/:token",
+			"handler": "applications"
+		},
+		{
+			"method": "post",
+			"path": "/v2/tickets/:token",
+			"handler": "tickets"
 		}
 	]
 }
