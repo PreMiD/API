@@ -28,6 +28,11 @@
 			"handler": "science"
 		},
 		{
+			"method": "delete",
+			"path": "/v2/science",
+			"handler": "science"
+		},
+		{
 			"path": [
 				"/v2/presences",
 				"/v2/presences/:presence",
