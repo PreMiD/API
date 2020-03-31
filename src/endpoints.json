@@ -61,6 +61,10 @@
 			"handler": "betaAccess"
 		},
 		{
+			"path": ["/v2/alphaAccess", "/v2/alphaAccess/:userId"],
+			"handler": "alphaAccess"
+		},
+		{
 			"path": [
 				"/v2/changelog",
 				"/v2/changelog/:project",
