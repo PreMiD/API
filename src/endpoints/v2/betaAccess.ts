@@ -3,6 +3,7 @@ import { pmdDB } from "../../db/client";
 
 //* Define credits collection
 const betaUsers = pmdDB.collection("betaUsers");
+const alphaUsers = pmdDB.collection("alphaUsers");
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
@@ -17,10 +18,16 @@ const handler: RequestHandler = async (req, res) => {
 	//* Find user in db
 	//* Send response
 	try {
-		const user = await betaUsers.findOne(
-			{ userId: req.params["userId"] },
-			{ projection: { _id: false, keysLeft: false } }
-		);
+		const user =
+			(await betaUsers.findOne(
+				{ userId: req.params["userId"] },
+				{ projection: { _id: false, keysLeft: false } }
+			)) ||
+			(await alphaUsers.findOne(
+				{ userId: req.params["userId"] },
+				{ projection: { _id: false, keysLeft: false } }
+			));
+
 		res.send({ access: user ? true : false });
 	} catch (err) {
 		res.sendStatus(500);
