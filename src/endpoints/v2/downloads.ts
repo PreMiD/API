@@ -16,14 +16,15 @@ const handler: RequestHandler = async (req, res) => {
 
 	getDiscordUser(req.params["token"])
 		.then(async (dUser) => {
-			let cUser = await credits.findOne({
-				userId: dUser.id,
-			});
+			let cUser = await credits.findOne({ userId: dUser.id });
 
-			let d = await downloads.findOne({ item: req.params["item"] });
+			let d = await downloads.findOne(
+				{ item: req.params["item"] },
+				{ projection: { _id: false } }
+			);
 
 			if (d && cUser.roles.includes(req.params["item"].toUpperCase())) {
-				res.send({ link: d.link });
+				res.json(d);
 				return;
 			} else {
 				res.send({
