@@ -31,7 +31,7 @@ const handler: RequestHandler = async (req, res) => {
 				else
 					return res.send({
 						error: 3,
-						message: `An error occured.`
+						message: `User doesn't have ${req.params["item"]} access.`
 					});
 			}
 		})
