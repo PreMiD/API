@@ -2,7 +2,8 @@ import { RequestHandler } from "express";
 import { pmdDB } from "../../db/client";
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
 
-const credits = pmdDB.collection("credits");
+const alphaUsers = pmdDB.collection("alphaUsers");
+const betaUsers = pmdDB.collection("betaUsers");
 const downloads = pmdDB.collection("downloads");
 
 //* Request Handler
@@ -15,26 +16,26 @@ const handler: RequestHandler = async (req, res) => {
 	}
 
 	getDiscordUser(req.params["token"])
-		.then(async (dUser) => {
-			let cUser = await credits.findOne({ userId: dUser.id });
+		.then(async dUser => {
+			let alphaUser = await alphaUsers.findOne({ userId: dUser.id });
+			let betaUser = await betaUsers.findOne({ userId: dUser.id });
 
 			let d = await downloads.findOne(
 				{ item: req.params["item"] },
 				{ projection: { _id: false } }
 			);
 
-			if (d && cUser.roles.includes(req.params["item"].toUpperCase())) {
-				res.json(d);
-				return;
-			} else {
-				res.send({
-					error: 2,
-					message: `Item not found / User doesn't have ${req.params["item"]} access.`,
-				});
-				return;
+			if (d) {
+				if (alphaUser) return res.json(d);
+				else if (betaUser && req.params["item"] == "beta") return res.json(d);
+				else
+					return res.send({
+						error: 3,
+						message: `User doesn't have ${req.params["item"]} access.`
+					});
 			}
 		})
-		.catch((err) => {
+		.catch(err => {
 			res.sendStatus(401);
 		});
 };
