@@ -6,6 +6,7 @@ import loadEndpoints from "../functions/loadEndpoints";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import cluster from "cluster";
+import connect_datadog from "connect-datadog";
 
 export async function worker() {
 	await connect();
@@ -14,7 +15,12 @@ export async function worker() {
 	//* Parse JSON
 	//* Set API Headers
 	let server = express();
+	const connectDatadog = connect_datadog({
+		response_code: true,
+		tags: [`API:${cluster.worker.id}`]
+	});
 
+	server.use(connectDatadog);
 	server.use(helmet());
 	server.use(bodyParser.json());
 	server.use((_, res, next) => {
