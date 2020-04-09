@@ -121,6 +121,11 @@
 			"method": "post",
 			"path": "/v2/downloads/:token/:item",
 			"handler": "downloads"
+		},
+		{
+			"method": "post",
+			"path": "/v2/bugPost",
+			"handler": "bugPost"
 		}
 	]
 }
