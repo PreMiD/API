@@ -11,12 +11,12 @@ const handler: RequestHandler = async (req, res) => {
 	}
 
 	if (!req.body.bug_brief) {
-		res.send({ error: 2, message: "No brief providen." });
+		res.send({ error: 2, message: "No Bug brief providen." });
 		return;
     }
     
     if (!req.body.bug_description) {
-		res.send({ error: 2, message: "No description providen." });
+		res.send({ error: 2, message: "No Bug description providen." });
 		return;
 	}
 
