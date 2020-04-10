@@ -78,6 +78,10 @@
 			"handler": "addBetaUser"
 		},
 		{
+			"path": "/v2/betaUsers",
+			"handler": "betaUsers"
+		},
+		{
 			"path": "/v2/discordUsers",
 			"handler": "discordUsers"
 		},
