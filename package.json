@@ -1,6 +1,6 @@
 {
 	"name": "pmd-api",
-	"version": "3.5.1",
+	"version": "3.5.2",
 	"main": "index.js",
 	"repository": "https://github.com/PreMiD/API",
 	"author": "Timeraa",
