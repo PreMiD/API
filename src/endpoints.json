@@ -123,7 +123,7 @@
 			"handler": "downloads"
 		},
 		{
-			"method": "pos",
+			"method": "post",
 			"path": "/v2/bugPost",
 			"handler": "bugPost"
 		}
