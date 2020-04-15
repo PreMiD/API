@@ -100,10 +100,10 @@
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.1.tgz#dc488842312a7f075149312905b5e3c0b054c79d"
   integrity sha512-FwI9gX75FgVBJ7ywgnq/P7tw+/o1GUbtP0KzbtusLigAOgIgNISRK0ZPl4qertvXSIE8YbsVJueQ90cDt9YYyw==
 
-"@types/mongodb@^3.5.6":
-  version "3.5.6"
-  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.5.6.tgz#12db62658fe0812a95d6edf9384c48da9b910794"
-  integrity sha512-wzT+hGqltu13OPuajXruez8DNzJuK3M4ZRa8nAuXNIw8wywIl8xfI1Ut2wc4DOH0gv0VtI/fblzFh7tVDbiwMA==
+"@types/mongodb@^3.5.8":
+  version "3.5.8"
+  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.5.8.tgz#519eb342a92c1b21a6f53a7ef26cad8320c1b6fd"
+  integrity sha512-2yOociZaXyiJ9CvGp/svjtlMCIPdl82XIRVmx35ehuWA046bipLwwcXfwVyvTYIU98yWYK5p44knCVQ+ZS4Bdw==
   dependencies:
     "@types/bson" "*"
     "@types/node" "*"
