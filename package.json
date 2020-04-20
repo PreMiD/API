@@ -30,7 +30,7 @@
 		"@types/helmet": "^0.0.45",
 		"@types/mongodb": "^3.5.8",
 		"@types/node": "^13.13.1",
-		"source-map-support": "^0.5.16",
+		"source-map-support": "^0.5.17",
 		"typescript": "^3.8.3",
 		"yarn": "^1.22.4"
 	}
