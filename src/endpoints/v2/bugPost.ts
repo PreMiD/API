@@ -5,10 +5,6 @@ const coll = pmdDB.collection("bugs");
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
-	if (!req.body.token) {
-		res.send({ error: 1, message: "No token providen." });
-		return;
-	}
 
 	if (!req.body.bug_brief) {
 		res.send({ error: 2, message: "No Bug brief providen." });
