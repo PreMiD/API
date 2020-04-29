@@ -1,13 +1,13 @@
 {
 	"name": "pmd-api",
-	"version": "3.5.2",
+	"version": "3.5.3",
 	"main": "index.js",
 	"repository": "https://github.com/PreMiD/API",
 	"author": "Timeraa",
 	"license": "MPL-2.0",
 	"scripts": {
 		"start": "cd dist && node index.js",
-		"init": "yarn && tsc && devScript --copyOnly && cd dist && yarn --production",
+		"init": "yarn && rimraf dist && tsc && devScript --copyOnly && cd dist && yarn --production",
 		"dev": "devScript"
 	},
 	"dependencies": {
@@ -21,7 +21,7 @@
 		"fast-json-stable-stringify": "^2.1.0",
 		"fs-extra": "9.0.0",
 		"helmet": "3.22.0",
-		"mongodb": "3.5.6"
+		"mongodb": "3.5.7"
 	},
 	"devDependencies": {
 		"@types/connect-datadog": "^0.0.4",
@@ -29,7 +29,8 @@
 		"@types/fs-extra": "^8.1.0",
 		"@types/helmet": "^0.0.45",
 		"@types/mongodb": "^3.5.10",
-		"@types/node": "^13.13.2",
+		"@types/node": "^13.13.4",
+		"rimraf": "^3.0.2",
 		"source-map-support": "^0.5.16",
 		"typescript": "^3.8.3",
 		"yarn": "^1.22.4"
