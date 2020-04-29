@@ -31,7 +31,7 @@
 		"@types/mongodb": "^3.5.10",
 		"@types/node": "^13.13.4",
 		"rimraf": "^3.0.2",
-		"source-map-support": "^0.5.16",
+		"source-map-support": "^0.5.19",
 		"typescript": "^3.8.3",
 		"yarn": "^1.22.4"
 	}
