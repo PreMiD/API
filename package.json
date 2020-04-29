@@ -12,7 +12,7 @@
 	},
 	"dependencies": {
 		"axios": "0.19.2",
-		"chokidar": "3.3.1",
+		"chokidar": "3.4.0",
 		"connect-datadog": "^0.0.9",
 		"devscript": "Timeraa/DevScript",
 		"discord.js": "^12.2.0",
