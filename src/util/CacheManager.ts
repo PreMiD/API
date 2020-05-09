@@ -1,11 +1,11 @@
-import { writeFileSync, readFileSync, existsSync } from "fs";
-import { dirname } from "path";
-import { ensureDirSync } from "fs-extra";
 import chokidar from "chokidar";
+import cluster from "cluster";
+import jsonStringify from "fast-json-stable-stringify";
 import { cache } from "../index";
 import { pmdDB } from "../db/client";
-import jsonStringify from "fast-json-stable-stringify";
-import cluster from "cluster";
+import { dirname } from "path";
+import { ensureDirSync } from "fs-extra";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 
 const cacheFolder = "../caches/";
 export default class CacheManager {
@@ -33,7 +33,10 @@ export default class CacheManager {
 	set(key: string, data: any, expires: number = 300000) {
 		ensureDirSync(cacheFolder + key);
 		writeFileSync(cacheFolder + key + "/data", jsonStringify(data));
-		writeFileSync(cacheFolder + key + "/info", Date.now() + expires);
+		writeFileSync(
+			cacheFolder + key + "/info",
+			(Date.now() + expires).toString()
+		);
 	}
 
 	get(key: string) {
