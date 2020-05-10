@@ -1,7 +1,13 @@
+import { changelog } from "../fields/changelog";
 import { credits } from "../fields/credits";
 import { downloads } from "../fields/downloads";
+import { langFiles } from "../fields/langFiles";
+import { partners } from "../fields/partners";
 import { presences } from "../fields/presences";
-import { GraphQLObjectType,  GraphQLSchema,   } from "graphql";
+import { science } from "../fields/science";
+import { sponsors } from "../fields/sponsors";
+import { versions } from "../fields/versions";
+import { GraphQLObjectType, GraphQLSchema } from "graphql";
 
 //* Root Query
 const rootQuery = new GraphQLObjectType({
@@ -9,7 +15,13 @@ const rootQuery = new GraphQLObjectType({
 	fields: {
 		credits,
 		downloads,
-		presences
+		presences,
+		science,
+		sponsors,
+		versions,
+		changelog,
+		partners,
+		langFiles
 	}
 });
 
