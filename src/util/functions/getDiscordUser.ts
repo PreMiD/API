@@ -13,7 +13,7 @@ export function getDiscordUser(token: string) {
 		flags: number;
 		premium_type: number;
 	}>(async (resolve, reject) => {
-		Axios("https://discordapp.com/api/users/@me", {
+		Axios("https://discord.com/api/users/@me", {
 			headers: { Authorization: token }
 		})
 			.then(({ data }) => resolve(data))
