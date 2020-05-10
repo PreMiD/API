@@ -2,34 +2,44 @@ import { RequestHandler } from "express";
 import { pmdDB } from "../../db/client";
 
 const coll = pmdDB.collection("bugs");
+const coll2 = pmdDB.collection("bugUsers");
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
 
-	if (!req.body.bug_brief) {
-		res.send({ error: 2, message: "No Bug brief providen." });
-		return;
-    }
+	if (!req.body.brief) {
+		return res.send({ error: 2, message: "No Bug brief providen." });
+  }
     
-    if (!req.body.bug_description) {
-		res.send({ error: 2, message: "No Bug description providen." });
-		return;
+  if (!req.body.description) {
+    return res.send({ error: 2, message: "No Bug description providen." });
 	}
 
-    res.sendStatus(200);
 
-    const id = await coll.countDocuments();
-    console.log(id);
+  await coll2.findOneAndUpdate(
+    {userId:req.body.userId},
+    {$setOnInsert: {
+      userId:req.body.userId,
+      total:0,
+      count:3
+      }},
+    {upsert:true}
+  )
 
-    coll.insertOne({
-        bug_id: id+1,
-        bug_brief:req.body.bug_brief,
-        bug_description:req.body.bug_description,
-        bug_status: req.body.bug_status,
-        bug_date: req.body.bug_date,
-        bug_userName:req.body.bug_userName,
-        bug_userId:req.body.bug_userId
-    });
+  const result = await coll2.updateOne({userId:req.body.userId, count: {$gt: 0}}, {$inc: {total: +1, count: -1}})
+    
+  if (result.modifiedCount === 0) return res.status(403).send('Too many active reports');
+
+  console.log(result)
+
+  coll.insertOne({
+    brief:req.body.brief,
+    description:req.body.description,
+    status: req.body.status,
+    date: req.body.date,
+    userName:req.body.userName,
+    userId:req.body.userId
+  });
 };
 
 //* Export handler
