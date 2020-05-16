@@ -34,7 +34,7 @@
 		"@types/node": "^13.13.5",
 		"rimraf": "^3.0.2",
 		"source-map-support": "^0.5.19",
-		"typescript": "^3.8.3",
+		"typescript": "^3.9.2",
 		"yarn": "^1.22.4"
 	}
 }
