@@ -29,14 +29,14 @@ async function firstTimeInitialization() {
   let { data } = await axios.get(config.crowdinBase).catch(null);
   let cleanData = tidyApiData(data);
 
-  let item = await collection.findOne({ id: "crowdin_old_data " });
+  let item = await collection.findOne({ id: "crowdin_old_data" });
 
   if (!item) {
     await collection.insertOne({ id: "crowdin_old_data", items: cleanData });
   } else if ((item && !item.items) || (item && !item.items.length)) {
-    collection.findOneAndUpdate(
+    collection.updateOne(
       { id: "crowdin_old_data" },
-      { items: cleanData }
+      { $set: { items: cleanData } }
     );
   } else return;
 }
@@ -131,9 +131,9 @@ async function sendDiscord(changes) {
   };
 
   axios.post(config.webhookUri, scheme).catch(null);
-  await collection.findOneAndUpdate(
+  await collection.updateOne(
     { id: "crowdin_old_data" },
-    { items: changes }
+    { $set: { items: changes } }
   );
 }
 
