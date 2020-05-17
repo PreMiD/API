@@ -12,7 +12,7 @@ const config = {
 export async function initialize() {
   if (!config.crowdinBase || !config.webhookUri)
     return console.warn(
-      "[WARN] Some config options are not set correctly. Please check your enviorenment variables and make sure 'CROWDINBASE' and 'CROWDINEBHOOK' exist."
+      "[WARN] Some config options are not set correctly. Please check your environment variables and make sure 'CROWDINBASE' and 'CROWDINEBHOOK' exist."
     );
 
   connect()
