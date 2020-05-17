@@ -36,6 +36,13 @@ const handler: RequestHandler = (req, res) => {
     return;
   }
 
+  const handler: RequestHandler = (req, res) => {
+    if (req.path.includes("/presence/")) {
+      res.sendStatus(500);
+      return;
+    }
+  }
+
   if (!req.params["project"] || !req.params["lang"]) {
     res.sendStatus(404);
     return;

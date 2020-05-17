@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { pmdDB } from "../../db/client";
 
 //* Define credits collection
-const bug = pmdDB.collection("bugs");
+const bug = pmdDB.collection("bugUsers");
 
 
 //* Request Handler
@@ -16,9 +16,11 @@ const handler: RequestHandler = async (req, res) => {
 	}
 
 	//* find user
-    //* Return found bugs
-    let result = await bug.find({userId: req.params["userId"], status: 'New'}, { projection: { _id: false }}).toArray();
-	res.send(result);
+	//* Return user if found
+	//* Else return default 3
+	bug.findOne({userId:req.params["userId"]}, function(err, result){
+		res.send({info:result});
+	});
 };
 
 //* Export handler

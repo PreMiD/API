@@ -146,6 +146,13 @@
 		},
 		{
 			"path": [
+				"/v2/bugUserInfo",
+				"/v2/bugUserInfo/:userId"
+			],
+			"handler": "bugUserInfo"
+		},
+		{
+			"path": [
 				"/v2/bugInfo",
 				"/v2/bugInfo/:userId"
 			],

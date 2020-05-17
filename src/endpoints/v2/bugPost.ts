@@ -30,9 +30,7 @@ const handler: RequestHandler = async (req, res) => {
     
   if (result.modifiedCount === 0) return res.status(403).send('Too many active reports');
 
-  console.log(result)
-
-  coll.insertOne({
+  await coll.insertOne({
     brief:req.body.brief,
     description:req.body.description,
     status: req.body.status,
@@ -40,6 +38,8 @@ const handler: RequestHandler = async (req, res) => {
     userName:req.body.userName,
     userId:req.body.userId
   });
+
+  res.sendStatus(200);
 };
 
 //* Export handler
