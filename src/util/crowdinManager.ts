@@ -134,7 +134,9 @@ async function sendDiscord(changes) {
 
 function tidyApiData(pureData) {
   let master = pureData.files.find((file) => file.name == "master");
-  let documentation = pureData.files.find((file) => file.name == "documentation");
+  let documentation = pureData.files.find(
+    (file) => file.name == "documentation"
+  );
 
   let result = {
     website: [],
