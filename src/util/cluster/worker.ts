@@ -1,12 +1,13 @@
-import "source-map-support/register";
-import express from "express";
-import debug from "../debug";
-import { connect } from "../../db/client";
-import loadEndpoints from "../functions/loadEndpoints";
 import bodyParser from "body-parser";
-import helmet from "helmet";
 import cluster from "cluster";
 import connect_datadog from "connect-datadog";
+import debug from "../debug";
+import express from "express";
+import graphqlHTTP from "express-graphql";
+import helmet from "helmet";
+import loadEndpoints from "../functions/loadEndpoints";
+import { connect } from "../../db/client";
+import "source-map-support/register";
 
 export async function worker() {
 	await connect();
@@ -22,6 +23,13 @@ export async function worker() {
 
 	server.use(connectDatadog);
 	server.use(helmet());
+	server.use(
+		"/v3",
+		graphqlHTTP({
+			schema: await (await import("../../endpoints/v3/schema/schema")).default,
+			graphiql: true
+		})
+	);
 	server.use(bodyParser.json());
 	server.use((_, res, next) => {
 		res.header("Access-Control-Allow-Origin", "*");

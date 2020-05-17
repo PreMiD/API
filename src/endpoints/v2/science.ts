@@ -17,15 +17,19 @@ const handler: RequestHandler = (req, res) => {
 			return;
 		}
 
+		let data: any = {
+			identifier: req.body.identifier,
+			presences: req.body.presences,
+			updated: Date.now()
+		};
+
+		if (req.body.platform) data.platform = req.body.platform;
+
 		science
 			.findOneAndUpdate(
 				{ identifier: req.body.identifier },
 				{
-					$set: {
-						identifier: req.body.identifier,
-						presences: req.body.presences,
-						updated: Date.now()
-					}
+					$set: data
 				},
 				{ upsert: true }
 			)

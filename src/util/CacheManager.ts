@@ -1,11 +1,11 @@
-import { writeFileSync, readFileSync, existsSync } from "fs";
-import { dirname } from "path";
-import { ensureDirSync } from "fs-extra";
 import chokidar from "chokidar";
+import cluster from "cluster";
+import jsonStringify from "fast-json-stable-stringify";
 import { cache } from "../index";
 import { pmdDB } from "../db/client";
-import jsonStringify from "fast-json-stable-stringify";
-import cluster from "cluster";
+import { dirname } from "path";
+import { ensureDirSync } from "fs-extra";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 
 const cacheFolder = "../caches/";
 export default class CacheManager {
@@ -33,7 +33,10 @@ export default class CacheManager {
 	set(key: string, data: any, expires: number = 300000) {
 		ensureDirSync(cacheFolder + key);
 		writeFileSync(cacheFolder + key + "/data", jsonStringify(data));
-		writeFileSync(cacheFolder + key + "/info", Date.now() + expires);
+		writeFileSync(
+			cacheFolder + key + "/info",
+			(Date.now() + expires).toString()
+		);
 	}
 
 	get(key: string) {
@@ -57,116 +60,47 @@ let initialCacheI = null;
 export async function initCache() {
 	if (!cluster.isMaster) return;
 
-	if (cache.hasExpired("presences")) {
-		cache.set(
+	await Promise.all(
+		cacheBuilder([
 			"presences",
-			await pmdDB
-				.collection("presences")
-				.find({}, { projection: { _id: false } })
-				.toArray()
-		);
-	}
-
-	if (cache.hasExpired("langFiles"))
-		cache.set(
 			"langFiles",
-			await pmdDB
-				.collection("langFiles")
-				.find({}, { projection: { _id: false } })
-				.toArray()
-		);
-
-	if (cache.hasExpired("credits")) {
-		cache.set(
-			"credits",
-			await pmdDB
-				.collection("credits")
-				.find({}, { projection: { _id: false } })
-				.toArray(),
-			10 * 1000
-		);
-	}
-
-	if (cache.hasExpired("science"))
-		cache.set(
+			{ name: "credits", expires: 5 * 1000 },
 			"science",
-			await pmdDB
-				.collection("science")
-				.find({}, { projection: { _id: false } })
-				.toArray()
-		);
-
-	if (cache.hasExpired("versions"))
-		cache.set(
 			"versions",
-			await pmdDB
-				.collection("versions")
-				.find({}, { projection: { _id: false } })
-				.toArray()
-		);
-
-	if (cache.hasExpired("ffUpdates"))
-		cache.set(
 			"ffUpdates",
-			await pmdDB
-				.collection("ffUpdates")
-				.find({}, { projection: { _id: false } })
-				.toArray()
-		);
-
-	if (cache.hasExpired("changelog"))
-		cache.set(
 			"changelog",
-			await pmdDB
-				.collection("changelog")
-				.find({}, { projection: { _id: false } })
-				.toArray()
-		);
-
-	if (cache.hasExpired("discordUsers"))
-		cache.set(
 			"discordUsers",
-			await pmdDB
-				.collection("discordUsers")
-				.find({}, { projection: { _id: false } })
-				.toArray()
-		);
-
-	if (cache.hasExpired("partners"))
-		cache.set(
 			"partners",
-			await pmdDB
-				.collection("partners")
-				.find({}, { projection: { _id: false } })
-				.toArray()
-		);
-
-	if (cache.hasExpired("sponsors"))
-		cache.set(
 			"sponsors",
-			await pmdDB
-				.collection("sponsors")
-				.find({}, { projection: { _id: false } })
-				.toArray()
-		);
-
-	if (cache.hasExpired("jobs"))
-		cache.set(
 			"jobs",
-			await pmdDB
-				.collection("jobs")
-				.find({}, { projection: { _id: false } })
-				.toArray()
-		);
-
-	if (cache.hasExpired("benefits"))
-		cache.set(
 			"benefits",
-			await pmdDB
-				.collection("benefits")
-				.find({}, { projection: { _id: false } })
-				.toArray()
-		);
-
+			"downloads",
+			"alphaUsers",
+			"betaUsers"
+		])
+	);
 	if (!initialCacheI) initialCacheI = setInterval(initCache, 10 * 1000);
+}
+
+function cacheBuilder(
+	cachesToGet: Array<string | { name: string; expires: number }>
+) {
+	return cachesToGet.map(cTG => {
+		return new Promise(async resolve => {
+			// @ts-ignore
+			if (cache.hasExpired(cTG.name || cTG))
+				cache.set(
+					// @ts-ignore
+					cTG.name || cTG,
+					await pmdDB
+						// @ts-ignore
+						.collection(cTG.name || cTG)
+						.find({}, { projection: { _id: false } })
+						.toArray(),
+					// @ts-ignore
+					cTG.expires ? cTG.expires : undefined
+				);
+			resolve();
+		});
+	});
 }

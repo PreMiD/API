@@ -10,9 +10,9 @@
 		},
 		{
 			"path": [
-					"/app/update",
-					"/app/update/:bit", 
-					"/app/update/*"
+				"/app/update",
+				"/app/update/:bit",
+				"/app/update/*"
 			],
 			"handler": "appUpdate"
 		},
@@ -54,31 +54,30 @@
 		},
 		{
 			"path": [
-					"/v2/langFile/list",
-					"/v2/langFile/:project/:lang",
-					"/v2/langFile/presence/:presence/:lang"
-			],
+				"/v2/langFile/list",
+				"/v2/langFile/:project/:lang",
+				"/v2/langFile/:project/list"			],
 			"handler": "langFile"
 		},
 		{
 			"path": [
-					"/v2/credits",
-					"/v2/credits/:userId"
-			],
+				"/v2/credits",
+				"/v2/credits/:userId"
+      ],
 			"handler": "credits"
 		},
 		{
 			"path": [
-					"/v2/betaAccess", 
-					"/v2/betaAccess/:userId"
+				"/v2/betaAccess",
+				"/v2/betaAccess/:userId"
 			],
 			"handler": "betaAccess"
 		},
 		{
 			"path": [
-					"/v2/alphaAccess",
-					"/v2/alphaAccess/:userId"
-			],
+				"/v2/alphaAccess",
+				"/v2/alphaAccess/:userId"
+      ],
 			"handler": "alphaAccess"
 		},
 		{
@@ -93,6 +92,10 @@
 			"method": "post",
 			"path": "/v2/addBetaUser/:token",
 			"handler": "addBetaUser"
+		},
+		{
+			"path": "/v2/betaUsers",
+			"handler": "betaUsers"
 		},
 		{
 			"path": "/v2/discordUsers",

@@ -1,10 +1,10 @@
-import "source-map-support/register";
+import cluster from "cluster";
 import debug from "../debug";
 import { connect, pmdDB } from "../../db/client";
-import { fork } from "child_process";
-import cluster from "cluster";
 import { initCache } from "../CacheManager";
 import { cpus } from "os";
+import { fork } from "child_process";
+import "source-map-support/register";
 
 export async function master() {
 	if (cluster.isMaster) {
@@ -18,13 +18,8 @@ export async function master() {
 					setTimeout(() => fork("util/updateResponseTime"), 15 * 1000);
 					setInterval(() => fork("util/updateResponseTime"), 5 * 60 * 1000);
 				}
-
-				//* Delete older ones than 7 days
-				const date = new Date();
-				date.setTime(date.getTime() - 7 * 24 * 60 * 60 * 1000);
-				pmdDB.collection("science").deleteOne({
-					updated: { $lt: date.getTime() }
-				});
+				setInterval(() => deleteOldCredits, 60 * 60 * 1000);
+				deleteOldCredits();
 			})
 			.catch(err => {
 				debug("error", "index.ts", err.message);
@@ -41,4 +36,13 @@ function spawnWorkers() {
 	for (let i = 0; i < cpuCount; i++) {
 		cluster.fork();
 	}
+}
+
+function deleteOldCredits() {
+	//* Delete older ones than 7 days
+	return pmdDB.collection("science").deleteMany({
+		updated: {
+			$lt: Date.now() - 7 * 24 * 60 * 60 * 1000
+		}
+	});
 }
