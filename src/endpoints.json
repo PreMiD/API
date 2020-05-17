@@ -9,7 +9,11 @@
 			"handler": "ping"
 		},
 		{
-			"path": ["/app/update", "/app/update/:bit", "/app/update/*"],
+			"path": [
+				"/app/update",
+				"/app/update/:bit",
+				"/app/update/*"
+			],
 			"handler": "appUpdate"
 		},
 		{
@@ -24,6 +28,11 @@
 		},
 		{
 			"method": "post",
+			"path": "/v2/science",
+			"handler": "science"
+		},
+		{
+			"method": "delete",
 			"path": "/v2/science",
 			"handler": "science"
 		},
@@ -44,16 +53,33 @@
 			"handler": "versions"
 		},
 		{
-			"path": ["/v2/langFile/:project/:lang", "/v2/langFile/list"],
+			"path": [
+				"/v2/langFile/list",
+				"/v2/langFile/:project/:lang",
+				"/v2/langFile/:project/list"
+			],
 			"handler": "langFile"
 		},
 		{
-			"path": ["/v2/credits", "/v2/credits/:userId"],
+			"path": [
+				"/v2/credits",
+				"/v2/credits/:userId"
+			],
 			"handler": "credits"
 		},
 		{
-			"path": ["/v2/betaAccess", "/v2/betaAccess/:userId"],
+			"path": [
+				"/v2/betaAccess",
+				"/v2/betaAccess/:userId"
+			],
 			"handler": "betaAccess"
+		},
+		{
+			"path": [
+				"/v2/alphaAccess",
+				"/v2/alphaAccess/:userId"
+			],
+			"handler": "alphaAccess"
 		},
 		{
 			"path": [
@@ -65,8 +91,12 @@
 		},
 		{
 			"method": "post",
-			"path": "/v2/addBetaUser/:userId",
+			"path": "/v2/addBetaUser/:token",
 			"handler": "addBetaUser"
+		},
+		{
+			"path": "/v2/betaUsers",
+			"handler": "betaUsers"
 		},
 		{
 			"path": "/v2/discordUsers",
@@ -77,8 +107,41 @@
 			"handler": "partners"
 		},
 		{
+			"method": "post",
+			"path": "/v2/partners/apply",
+			"handler": "partnerApply"
+		},
+		{
+			"path": "/v2/jobs",
+			"handler": "jobs"
+		},
+		{
+			"method": "post",
+			"path": "/v2/jobs/apply",
+			"handler": "jobApply"
+		},
+		{
+			"path": "/v2/jobs/benefits",
+			"handler": "benefits"
+		},
+		{
 			"path": "/v2/sponsors",
 			"handler": "sponsors"
+		},
+		{
+			"method": "post",
+			"path": "/v2/applications/:token",
+			"handler": "applications"
+		},
+		{
+			"method": "post",
+			"path": "/v2/tickets/:token",
+			"handler": "tickets"
+		},
+		{
+			"method": "post",
+			"path": "/v2/downloads/:token/:item",
+			"handler": "downloads"
 		}
 	]
 }

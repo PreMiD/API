@@ -21,4 +21,4 @@ jobs:
             git reset --hard
             git pull
             yarn run init
-            pm2 restart PMD_API
+            pm2 reload /home/PreMiD/ecosystem.config.js --only API
