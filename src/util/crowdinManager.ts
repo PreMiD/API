@@ -1,7 +1,7 @@
 import axios from "axios";
-import { pmdDB } from "../db/client";
+import { connect, pmdDB } from "../db/client";
 
-const collection = pmdDB.collection("crowdin");
+let collection = null;
 
 const config = {
   crowdinBase: process.env.CROWDINBASE,
@@ -10,8 +10,14 @@ const config = {
 };
 
 export async function initialize() {
-  firstTimeInitialization();
-  setInterval(checkForChanges, 900000); // 15 minutes interval;
+  connect()
+    .then(async () => {
+      collection = pmdDB.collection("crowdin");
+
+      firstTimeInitialization();
+      setInterval(checkForChanges, 900000); // 15 minutes interval;
+    })
+    .catch(null);
 }
 
 async function firstTimeInitialization() {
@@ -23,7 +29,10 @@ async function firstTimeInitialization() {
   if (!item) {
     await collection.insertOne({ id: "crowdin_old_data", items: cleanData });
   } else if ((item && !item.items) || (item && !item.items.length)) {
-    collection.findOneAndUpdate({ id: "crowdin_old_data", items: cleanData });
+    collection.findOneAndUpdate(
+      { id: "crowdin_old_data" },
+      { items: cleanData }
+    );
   } else return;
 }
 
@@ -47,7 +56,7 @@ function compareChanges(oldData, newData) {
   };
 
   oldData.website?.forEach((d, index) => {
-    if (Number(d.phrases) < Number(newData.website[index].phrases))
+    if (Number(d.phrases) < Number(newData.website[index]?.phrases))
       return changes.website.push({
         file: d.name,
         newStrings: Number(newData.website[index].phrases) - Number(d.phrases),
@@ -55,7 +64,7 @@ function compareChanges(oldData, newData) {
   });
 
   oldData.docs?.forEach((d, index) => {
-    if (Number(d.phrases) < Number(newData.docs[index].phrases))
+    if (Number(d.phrases) < Number(newData.docs[index]?.phrases))
       return changes.docs.push({
         file: d.name,
         newStrings: Number(newData.docs[index].phrases) - Number(d.phrases),
@@ -124,8 +133,8 @@ async function sendDiscord(changes) {
 }
 
 function tidyApiData(pureData) {
-  let master = pureData.find((file) => file.name == "master");
-  let documentation = pureData.find((file) => file.name == "documentation");
+  let master = pureData.files.find((file) => file.name == "master");
+  let documentation = pureData.files.find((file) => file.name == "documentation");
 
   let result = {
     website: [],
