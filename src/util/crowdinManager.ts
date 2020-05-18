@@ -279,7 +279,7 @@ function tidyApiData(pureData) {
 
   pureData.files[0].files[0].files.forEach((file) =>
     object.master.push({
-      folder: file.name,
+      folder: file?.name,
       files:
         file?.files?.map((f) => {
           return { file: f.name, phrases: Number(f.phrases) };
@@ -288,14 +288,14 @@ function tidyApiData(pureData) {
   );
 
   pureData.files[1].files[0].files.forEach((file) => {
-    if (file["node_type"] == "file")
+    if (file?.["node_type"] == "file")
       return object.documentation.push({
         file: file.name,
         phrases: Number(file.phrases),
       });
 
     object.documentation.push({
-      folder: file.name,
+      folder: file?.name,
       files:
         file?.files?.map((f) => {
           return { file: f.name, phrases: Number(f.phrases) };
