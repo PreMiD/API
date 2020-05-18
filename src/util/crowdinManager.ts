@@ -20,7 +20,7 @@ export async function initialize() {
       collection = pmdDB.collection("crowdin");
 
       firstTimeInitialization();
-      setInterval(checkForChanges, 30000); // 10 minutes interval;
+      setInterval(checkForChanges, 600000); // 10 minutes interval;
     })
     .catch(null);
 }
