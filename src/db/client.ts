@@ -16,7 +16,7 @@ export const connect = async () => {
 			.connect()
 			.then(mClient => {
 				resolve(mClient);
-				pmdDB = client.db("PreMiD");
+				pmdDB = client.db("PreMiD-DEV");
 			})
 			.catch(reject);
 	});
