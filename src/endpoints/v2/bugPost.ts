@@ -32,6 +32,7 @@ const handler: RequestHandler = async (req, res) => {
 
   await coll.insertOne({
     brief:req.body.brief,
+    system:req.body.system,
     description:req.body.description,
     status: req.body.status,
     date: req.body.date,
