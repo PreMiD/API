@@ -21,9 +21,17 @@ const handler: RequestHandler = async (req, res) => {
 			//* find user
 			//* Return user if found
 			//* Else return default 3
-			bug.findOne({userId:dUser.id}, function(err, result){
-			res.send({info:result});
-			})
+			bug.findOne({userId:dUser.id})
+				.then(result => {
+					if(result){
+					res.send({info:result});
+					} else {
+						res.send({info:null});
+					}
+				})
+				.catch(err => 
+					res.send({info:null})
+				)
 		})
 		.catch(err => {
 			res.sendStatus(401);
