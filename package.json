@@ -13,6 +13,7 @@
 	"dependencies": {
 		"axios": "0.19.2",
 		"chokidar": "3.4.0",
+		"compression": "^1.7.4",
 		"connect-datadog": "^0.0.9",
 		"devscript": "Timeraa/DevScript",
 		"discord.js": "^12.2.0",
@@ -26,15 +27,16 @@
 		"mongodb": "3.5.7"
 	},
 	"devDependencies": {
+		"@types/compression": "^1.7.0",
 		"@types/connect-datadog": "^0.0.4",
 		"@types/express": "^4.17.6",
-		"@types/fs-extra": "^9.0.0",
+		"@types/fs-extra": "^9.0.1",
 		"@types/helmet": "^0.0.47",
-		"@types/mongodb": "^3.5.17",
-		"@types/node": "^14.0.1",
+		"@types/mongodb": "^3.5.18",
+		"@types/node": "^14.0.4",
 		"rimraf": "^3.0.2",
 		"source-map-support": "^0.5.19",
-		"typescript": "^3.9.2",
+		"typescript": "^3.9.3",
 		"yarn": "^1.22.4"
 	}
 }

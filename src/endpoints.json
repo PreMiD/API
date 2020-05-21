@@ -32,6 +32,10 @@
 			"handler": "science"
 		},
 		{
+			"path": "/v2/science/:identifier",
+			"handler": "science"
+		},
+		{
 			"method": "delete",
 			"path": "/v2/science",
 			"handler": "science"
