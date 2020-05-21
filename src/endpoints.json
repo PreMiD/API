@@ -49,6 +49,10 @@
 			"handler": "presenceUsage"
 		},
 		{
+			"path": "/v2/presenceInfo/:presence",
+			"handler": "presenceInfo"
+		},
+		{
 			"path": "/v2/versions",
 			"handler": "versions"
 		},
@@ -63,7 +67,7 @@
 			"path": [
 				"/v2/credits",
 				"/v2/credits/:userId"
-      ],
+        ],
 			"handler": "credits"
 		},
 		{
@@ -144,20 +148,20 @@
 		},
 		{
 			"method": "post",
-			"path": "/v2/bugPost",
+			"path": "/v2/bugPost/:token",
 			"handler": "bugPost"
 		},
 		{
 			"path": [
 				"/v2/bugUserInfo",
-				"/v2/bugUserInfo/:userId"
+				"/v2/bugUserInfo/:token"
 			],
 			"handler": "bugUserInfo"
 		},
 		{
 			"path": [
 				"/v2/bugInfo",
-				"/v2/bugInfo/:userId"
+				"/v2/bugInfo/:token"
 			],
 			"handler": "bugInfo"
 		}
