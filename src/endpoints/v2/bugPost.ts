@@ -19,7 +19,7 @@ const handler: RequestHandler = async (req, res) => {
     return res.send({ error: 3, message: "No token providen." });
 	}
 
-  getDiscordUser(req.body.token)
+  getDiscordUser(req.params["token"])
     .then(async dUser => {
         await coll2.findOneAndUpdate(
           {userId:dUser.id},
