@@ -1,11 +1,11 @@
-import { RequestHandler } from "express";
 import { pmdDB } from "../../db/client";
+import { RequestHandler } from "express";
 
 //* Define credits collection
 const science = pmdDB.collection("science");
 
 //* Request Handler
-const handler: RequestHandler = (req, res) => {
+const handler: RequestHandler = async (req, res) => {
 	if (req.method === "POST") {
 		if (
 			!req.body.identifier ||
@@ -35,17 +35,35 @@ const handler: RequestHandler = (req, res) => {
 			)
 			.then(() => res.sendStatus(200))
 			.catch(() => res.sendStatus(500));
-	} else if (req.method === "DELETE") {
-		if (!req.body.identifier) {
+	} else {
+		let identifier;
+
+		if (req.method === "DELETE") {
+			if (!req.body.identifier) {
+				res.sendStatus(404);
+				return;
+			}
+
+			identifier = req.body.identifier;
+		} else if (req.method === "GET") {
+			if (!req.params.identifier) {
+				res.sendStatus(404);
+				return;
+			}
+
+			identifier = req.params.identifier;
+		} else {
 			res.sendStatus(404);
 			return;
 		}
 
 		science
-			.findOneAndDelete({ identifier: req.body.identifier })
+			.findOneAndDelete({ identifier: identifier })
 			.then(response => {
-				if (response.value) res.sendStatus(200);
-				else res.sendStatus(404);
+				if (response.value) {
+					if (req.method === "DELETE") res.sendStatus(200);
+					else res.redirect("https://premid.app");
+				} else res.sendStatus(404);
 			})
 			.catch(() => res.sendStatus(500));
 	}

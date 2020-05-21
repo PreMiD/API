@@ -1,12 +1,12 @@
-import { RequestHandler } from "express";
 import { cache } from "../../index";
+import { RequestHandler } from "express";
 
 let changelog = cache.get("changelog");
 
 cache.onUpdate("changelog", data => (changelog = data));
 
 //* Request Handler
-const handler: RequestHandler = (req, res) => {
+const handler: RequestHandler = async (req, res) => {
 	//* project || version not set
 	if (!req.params["project"] || !req.params["version"]) {
 		//* send error
