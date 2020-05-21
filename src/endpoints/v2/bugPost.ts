@@ -41,7 +41,7 @@ const handler: RequestHandler = async (req, res) => {
           description:req.body.description,
           status: req.body.status,
           date: req.body.date,
-          userName:dUser.username+dUser.discriminator,
+          userName:dUser.username+"#"+dUser.discriminator,
           userId:dUser.id
         });
 
