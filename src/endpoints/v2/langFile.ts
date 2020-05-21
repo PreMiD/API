@@ -1,153 +1,157 @@
-import { RequestHandler } from "express";
 import { cache } from "../../index";
+import { RequestHandler } from "express";
 
 let langFiles = prepareLangFiles(cache.get("langFiles"));
 cache.onUpdate("langFiles", data => (langFiles = prepareLangFiles(data)));
 
 //* Request Handler
-const handler: RequestHandler = (req, res) => {
-  if (req.path.endsWith("/list") && !req.params["project"]) {
-    res.send(
-      langFiles
-        .filter(lF => lF.project === "extension")
-        .map(lF => {
-          let lang = lF.lang;
+const handler: RequestHandler = async (req, res) => {
+	if (req.path.endsWith("/list") && !req.params["project"]) {
+		res.send(
+			langFiles
+				.filter(lF => lF.project === "extension")
+				.map(lF => {
+					let lang = lF.lang;
 
-          switch (lang.toLowerCase()) {
-            case "ja":
-              lang = "ja_JP";
-              break;
-            case "zh-cn":
-              lang = "zh_CN";
-              break;
-            case "zh-tw":
-              lang = "zh_TW";
-              break;
-            case "ko":
-              lang = "ko_KR";
-              break;
-            default:
-              break;
-          }
+					switch (lang.toLowerCase()) {
+						case "ja":
+							lang = "ja_JP";
+							break;
+						case "zh-cn":
+							lang = "zh_CN";
+							break;
+						case "zh-tw":
+							lang = "zh_TW";
+							break;
+						case "ko":
+							lang = "ko_KR";
+							break;
+						default:
+							break;
+					}
 
-          return lang;
-        })
-    );
-    return;
-  }
+					return lang;
+				})
+		);
+		return;
+	}
 
-  let langFile;
-  const projectParamLwr = req.params["project"].toLowerCase();
+	let langFile;
+	const projectParamLwr = req.params["project"].toLowerCase();
 
-  // get strings of given project name
-  if (["extension", "website", "presence"].includes(req.params["project"])) {
+	// get strings of given project name
+	if (["extension", "website", "presence"].includes(req.params["project"])) {
+		langFile = langFiles.find(
+			lF =>
+				lF.project === req.params["project"] && lF.lang === req.params["lang"]
+		);
+	} else {
+		const masterLangFile = langFiles.find(
+			lF => lF.project === "presence" && lF.lang === "en"
+		);
+		const masterLangKeys = Object.keys(masterLangFile.translations);
 
-    langFile = langFiles.find(
-      lF => lF.project === req.params["project"] && lF.lang === req.params["lang"]
-    );
+		if (!masterLangKeys.find(key => key.startsWith(`${projectParamLwr}_`))) {
+			res.sendStatus(404);
+			return;
+		}
 
-  } else {
-    const masterLangFile = langFiles.find(
-      lF => lF.project === "presence" && lF.lang === "en"
-    );
-    const masterLangKeys = Object.keys(masterLangFile.translations);
+		// list 100% translated locales for given presence
+		if (req.path.endsWith("/list")) {
+			let referenceKeys = masterLangKeys.filter(
+				keyName =>
+					keyName.startsWith(`${projectParamLwr}_`) ||
+					keyName.startsWith(`general_`)
+			);
 
-    if (!masterLangKeys.find(
-      key => key.startsWith(`${projectParamLwr}_`)
-    )) {
-      res.sendStatus(404);
-      return;
-    }
+			const locales = [];
+			for (const langFile of langFiles.filter(
+				lF => lF.project === "presence"
+			)) {
+				let fileKeys = Object.keys(langFile.translations).filter(
+					lF =>
+						lF.startsWith(`${projectParamLwr}_`) || lF.startsWith(`general_`)
+				);
 
-    // list 100% translated locales for given presence
-    if (req.path.endsWith("/list")) {
-      let referenceKeys = masterLangKeys.filter(
-        keyName => keyName.startsWith(`${projectParamLwr}_`) || keyName.startsWith(`general_`)
-      );
+				if (fileKeys.length === referenceKeys.length) {
+					locales.push(langFile.lang);
+				}
+			}
 
-      const locales = [];
-      for (const langFile of langFiles.filter(lF => lF.project === "presence")) {
-        let fileKeys = Object.keys(langFile.translations).filter(
-          lF => lF.startsWith(`${projectParamLwr}_`) || lF.startsWith(`general_`)
-        );
+			return res.send(locales);
 
-        if (fileKeys.length === referenceKeys.length) {
-          locales.push(langFile.lang);
-        }
-      }
+			// get presence strings in given language
+		} else if (req.params["lang"]) {
+			let allStrings = langFiles.find(
+				lF => lF.project === "presence" && lF.lang === req.params["lang"]
+			);
 
-    return res.send(locales);
+			if (!allStrings) {
+				return res.sendStatus(404);
+			}
 
-    // get presence strings in given language
-    } else if (req.params["lang"]) {
-      let allStrings = langFiles.find(lF => lF.project === "presence" && lF.lang === req.params["lang"]);
+			allStrings = formatLangFile(allStrings);
 
-      if (!allStrings) {
-        return res.sendStatus(404);
-      }
+			const strings = {};
 
-      allStrings = formatLangFile(allStrings);
+			for (const key of Object.keys(allStrings)) {
+				if (key.startsWith(`${projectParamLwr}.`)) {
+					strings[key] = allStrings[key];
+				}
+			}
 
-      const strings = {};
+			return res.send(strings);
+		}
 
-      for (const key of Object.keys(allStrings)) {
-        if (key.startsWith(`${projectParamLwr}.`)) {
-          strings[key] = allStrings[key];
-        }
-      }
+		res.sendStatus(404);
+		return;
+	}
 
-      return res.send(strings);
-    }
+	if (!langFile) {
+		res.send({ error: 6, message: "No translations found." });
+		return;
+	}
 
-    res.sendStatus(404);
-    return;
-  }
+	langFile = { translations: langFile.translations };
 
-  if (!langFile) {
-    res.send({ error: 6, message: "No translations found." });
-    return;
-  }
-
-  langFile = { translations: langFile.translations };
-
-  res.send(formatLangFile(langFile));
+	res.send(formatLangFile(langFile));
 };
 
 function formatLangFile(langFile) {
-  return Object.assign(
-    {},
-    ...Object.keys(langFile.translations).map(translationKey => {
-      const newKey = translationKey.replace(/[_]/g, ".");
-      return {
-        [newKey]: langFile.translations[translationKey]
-      };
-    })
-  );
+	return Object.assign(
+		{},
+		...Object.keys(langFile.translations).map(translationKey => {
+			const newKey = translationKey.replace(/[_]/g, ".");
+			return {
+				[newKey]: langFile.translations[translationKey]
+			};
+		})
+	);
 }
 
 function prepareLangFiles(langFiles) {
-  langFiles.map(lF => {
-    if (lF.project !== "extension") return;
+	langFiles.map(lF => {
+		if (lF.project !== "extension") return;
 
-    switch (lF.lang) {
-      case "ja_JP":
-        lF.lang = "ja";
-        break;
-      case "zh_CN":
-        lF.lang = "zh-CN";
-        break;
-      case "zh_TW":
-        lF.lang = "zh-TW";
-        break;
-      case "zh_HK":
-        lF.lang = "zh-TW";
-        break;
-      case "ko_KR":
-        lF.lang = "ko";
-        break;
-    }
-  });
-  return langFiles;
+		switch (lF.lang) {
+			case "ja_JP":
+				lF.lang = "ja";
+				break;
+			case "zh_CN":
+				lF.lang = "zh-CN";
+				break;
+			case "zh_TW":
+				lF.lang = "zh-TW";
+				break;
+			case "zh_HK":
+				lF.lang = "zh-TW";
+				break;
+			case "ko_KR":
+				lF.lang = "ko";
+				break;
+		}
+	});
+	return langFiles;
 }
 
 //* Export handler

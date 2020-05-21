@@ -1,12 +1,12 @@
-import { RequestHandler } from "express";
 import { cache } from "../../index";
+import { RequestHandler } from "express";
 
 let benefits = cache.get("benefits");
 
 cache.onUpdate("benefits", data => (benefits = data));
 
 //* Request Handler
-const handler: RequestHandler = (_, res) => {
+const handler: RequestHandler = async (_, res) => {
 	res.send(benefits);
 };
 

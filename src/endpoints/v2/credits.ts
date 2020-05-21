@@ -1,12 +1,12 @@
-import { RequestHandler } from "express";
 import { cache } from "../../index";
+import { RequestHandler } from "express";
 
 let credits = cache.get("credits");
 
 cache.onUpdate("credits", data => (credits = data));
 
 //* Request Handler
-const handler: RequestHandler = (req, res) => {
+const handler: RequestHandler = async (req, res) => {
 	//* user param not set
 	if (!req.params["userId"]) {
 		//* Send all users

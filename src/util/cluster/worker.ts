@@ -1,5 +1,6 @@
 import bodyParser from "body-parser";
 import cluster from "cluster";
+import compression from "compression";
 import connect_datadog from "connect-datadog";
 import debug from "../debug";
 import express from "express";
@@ -22,11 +23,12 @@ export async function worker() {
 	});
 
 	server.use(connectDatadog);
+	server.use(compression());
 	server.use(helmet());
 	server.use(
 		"/v3",
 		graphqlHTTP({
-			schema: await (await import("../../endpoints/v3/schema/schema")).default,
+			schema: (await import("../../endpoints/v3/schema/schema")).default,
 			graphiql: true
 		})
 	);
