@@ -10,6 +10,10 @@ export const creditUserType = new GraphQLObjectType({
 		avatar: { type: GraphQLString },
 		status: { type: GraphQLString },
 		flags: { type: GraphQLList(GraphQLString) },
-		premium_since: { type: GraphQLInt }
+		premium_since: { type: GraphQLInt },
+		role: { type: GraphQLString },
+		roleId: { type: GraphQLString },
+		roleColor: { type: GraphQLString },
+		rolePosition: { type: GraphQLInt }
 	})
 });

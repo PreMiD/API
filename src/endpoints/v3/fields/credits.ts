@@ -34,7 +34,11 @@ function prepareCredits(credits) {
 			avatar: c.avatar,
 			status: c.status,
 			flags: c.flags,
-			premium_since: c.premium_since
+			premium_since: c.premium_since,
+			role: c.role,
+			roleId: c.roleId,
+			roleColor: c.roleColor,
+			rolePosition: c.rolePosition
 		},
 		highestRole: {
 			id: c.roleId,

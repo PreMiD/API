@@ -1,6 +1,9 @@
+import { benefits } from "../fields/benefits";
 import { changelog } from "../fields/changelog";
 import { credits } from "../fields/credits";
+import { discordUsers } from "../fields/discordUsers";
 import { downloads } from "../fields/downloads";
+import { jobs } from "../fields/jobs";
 import { langFiles } from "../fields/langFiles";
 import { partners } from "../fields/partners";
 import { presences } from "../fields/presences";
@@ -13,8 +16,11 @@ import { GraphQLObjectType, GraphQLSchema } from "graphql";
 const rootQuery = new GraphQLObjectType({
 	name: "Root",
 	fields: {
+		benefits,
 		credits,
+		discordUsers,
 		downloads,
+		jobs,
 		presences,
 		science,
 		sponsors,
