@@ -2,12 +2,11 @@ import bodyParser from "body-parser";
 import cluster from "cluster";
 import compression from "compression";
 import connect_datadog from "connect-datadog";
-import debug from "../debug";
 import express from "express";
 import graphqlHTTP from "express-graphql";
 import helmet from "helmet";
 import loadEndpoints from "../functions/loadEndpoints";
-import { connect } from "../../db/client";
+import { client, connect } from "../../db/client";
 import "source-map-support/register";
 
 export async function worker() {
@@ -17,12 +16,14 @@ export async function worker() {
 	//* Parse JSON
 	//* Set API Headers
 	let server = express();
-	const connectDatadog = connect_datadog({
-		response_code: true,
-		tags: [`API:${cluster.worker.id}`]
-	});
+	if (process.env.NODE_ENV === "production") {
+		const connectDatadog = connect_datadog({
+			response_code: true,
+			tags: [`API:${cluster.worker.id}`]
+		});
+		server.use(connectDatadog);
+	}
 
-	server.use(connectDatadog);
 	server.use(compression());
 	server.use(helmet());
 	server.use(
@@ -46,10 +47,10 @@ export async function worker() {
 	});
 
 	loadEndpoints(server, require("../../endpoints.json"));
-	server.listen(3001);
+	const expressServer = server.listen(3001);
 
-	cluster.on("exit", worker => {
-		debug("error", "index.ts", `Cluster worker ${worker.id} crashed.`);
-		cluster.fork();
+	process.on("SIGINT", async function () {
+		await Promise.all([client.close(), expressServer.close()]);
+		process.exit(0);
 	});
 }

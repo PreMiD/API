@@ -1,6 +1,7 @@
 import cluster from "cluster";
 import debug from "../debug";
-import { connect, pmdDB } from "../../db/client";
+import { worker } from "./worker";
+import { client, connect, pmdDB } from "../../db/client";
 import { initCache } from "../CacheManager";
 import { cpus } from "os";
 import { fork } from "child_process";
@@ -22,7 +23,7 @@ export async function master() {
 				deleteOldCredits();
 			})
 			.catch(err => {
-				debug("error", "index.ts", err.message);
+				debug("error", "index.ts", err);
 				process.exit();
 			});
 
@@ -31,10 +32,12 @@ export async function master() {
 	}
 }
 
+let workers: Array<cluster.Worker> = [];
 function spawnWorkers() {
-	const cpuCount = cpus().length;
+	const cpuCount =
+		process.env.NODE_ENV === "dev" ? cpus().length : cpus().length / 2;
 	for (let i = 0; i < cpuCount; i++) {
-		cluster.fork();
+		workers.push(cluster.fork());
 	}
 }
 
@@ -46,3 +49,17 @@ function deleteOldCredits() {
 		}
 	});
 }
+
+process.on("SIGINT", async function () {
+	await Promise.all([
+		client.close(),
+
+		...workers.map(w => {
+			return new Promise(resolve => {
+				w.once("exit", resolve);
+				if (!w.isDead) w.process.kill("SIGINT");
+			});
+		})
+	]);
+	process.exit(0);
+});
