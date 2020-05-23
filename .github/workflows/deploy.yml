@@ -3,6 +3,7 @@ on:
   push:
     branches: master
     paths:
+      - "**/*.yml"
       - "src/**/*"
       - "**.ts"
       - "**.json"
