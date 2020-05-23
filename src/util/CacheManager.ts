@@ -11,7 +11,6 @@ const cacheFolder = "../caches/";
 export default class CacheManager {
 	updateListeners = [];
 	watcher: chokidar.FSWatcher;
-	private internalCache: any = {};
 
 	constructor() {
 		ensureDirSync(cacheFolder);
@@ -32,11 +31,6 @@ export default class CacheManager {
 	}
 
 	set(key: string, data: any, expires: number = 300000) {
-		this.internalCache[key] = {
-			data,
-			expires: (Date.now() + expires).toString()
-		};
-
 		ensureDirSync(cacheFolder + key);
 		writeFileSync(cacheFolder + key + "/data", jsonStringify(data));
 		writeFileSync(
@@ -46,29 +40,15 @@ export default class CacheManager {
 	}
 
 	get(key: string) {
-		if (this.internalCache[key]) return this.internalCache[key].data;
-		else {
-			const data = JSON.parse(
-				readFileSync(cacheFolder + key + "/data", "utf-8")
-			);
-
-			this.internalCache[key] = {
-				data,
-				expires: readFileSync(cacheFolder + key + "/info", "utf-8")
-			};
-
-			return data;
-		}
+		return JSON.parse(readFileSync(cacheFolder + key + "/data", "utf-8"));
 	}
 
 	hasExpired(key: string) {
-		if (!this.internalCache[key]) {
-			if (!existsSync(cacheFolder + key + "/info")) return true;
+		if (!existsSync(cacheFolder + key + "/info")) return true;
 
-			const expires = readFileSync(cacheFolder + key + "/info", "utf-8");
+		const expires = readFileSync(cacheFolder + key + "/info", "utf-8");
 
-			return parseInt(expires) <= Date.now();
-		} else return this.internalCache[key].expires <= Date.now();
+		return parseInt(expires) <= Date.now();
 	}
 
 	onUpdate(key: string, handler: (data: any) => void) {
