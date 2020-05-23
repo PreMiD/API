@@ -10,7 +10,7 @@ jobs:
   DePloY:
     strategy:
       matrix:
-        host: ${{ secrets.HOSTS }}
+        host: [1.premid.app, 2.premid.app, 3.premid.app]
     runs-on: "ubuntu-latest"
     steps:
       - name: Deploying...
