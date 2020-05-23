@@ -17,7 +17,7 @@ export const credits = {
 	resolve(_, args: { id?: string; limit?: number; random: false }) {
 		let res = creditsCache;
 
-		if (args.id) res.filter(c => c.user.id == args.id);
+		if (args.id) res = res.filter(c => c.user.id === args.id);
 		if (args.random) res = shuffle(res);
 		if (args.limit) res = res.slice(0, args.limit);
 
