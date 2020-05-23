@@ -8,12 +8,15 @@ on:
       - "**.json"
 jobs:
   DePloY:
+    strategy:
+      matrix:
+        host: ${{ secrets.HOSTS }}
     runs-on: "ubuntu-latest"
     steps:
       - name: Deploying...
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSHHOST }}
+          host: ${{ matrix.host }}
           username: ${{ secrets.SSHUSERNAME }}
           password: ${{ secrets.SSHPASSWORD }}
           script: |
