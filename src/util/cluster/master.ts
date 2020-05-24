@@ -1,6 +1,5 @@
 import cluster from "cluster";
 import debug from "../debug";
-import { worker } from "./worker";
 import { client, connect, pmdDB } from "../../db/client";
 import { initCache } from "../CacheManager";
 import { cpus } from "os";
@@ -34,9 +33,7 @@ export async function master() {
 
 let workers: Array<cluster.Worker> = [];
 function spawnWorkers() {
-	const cpuCount =
-		process.env.NODE_ENV === "dev" ? cpus().length : cpus().length / 2;
-	for (let i = 0; i < cpuCount; i++) {
+	for (let i = 0; i < cpus().length; i++) {
 		workers.push(cluster.fork());
 	}
 }
