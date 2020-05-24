@@ -7,6 +7,7 @@ import graphqlHTTP from "express-graphql";
 import helmet from "helmet";
 import loadEndpoints from "../functions/loadEndpoints";
 import { client, connect } from "../../db/client";
+import { hostname } from "os";
 import "source-map-support/register";
 
 export async function worker() {
@@ -35,6 +36,7 @@ export async function worker() {
 	);
 	server.use(bodyParser.json());
 	server.use((_, res, next) => {
+		res.header("X-PreMiD-Host", hostname());
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header(
 			"Access-Control-Allow-Headers",
