@@ -44,7 +44,7 @@ function prepareCredits(credits) {
 			id: c.roleId,
 			name: c.role
 		},
-		roles: c.roles.map((r, i) => ({ id: c.roleIds[i], name: r }))
+		roles: c.roles?.map((r, i) => ({ id: c.roleIds[i], name: r }))
 	}));
 }
 
