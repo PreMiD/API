@@ -24,40 +24,51 @@ export const addReview = {
 	},
 	resolve(_, args) {
 		return new Promise((resolve, reject) => {
-			getDiscordUser(args.token).then(async dUser => {
-				let user = await creditsColl.findOne({ userId: dUser.id });
+			getDiscordUser(args.token)
+				.then(async dUser => {
+					let user = await creditsColl.findOne({ userId: dUser.id });
 
-				if (user) {
-					if (user.roleIds.includes("685969048399249459")) {
-						let reviewedApplication = await applicationsColl.findOne({
-							userId: args.userId,
-							reviewed: false
-						});
+					if (user) {
+						if (user.roleIds.includes("685969048399249459")) {
+							let reviewedApplication = await applicationsColl.findOne({
+								userId: args.userId,
+								reviewed: false
+							});
+							if (reviewedApplication) {
+								if (!reviewedApplication.reviewers)
+									reviewedApplication.reviewers = [];
 
-						if (!reviewedApplication.reviewers)
-							reviewedApplication.reviewers = [];
+								if (
+									reviewedApplication.reviewers.find(
+										r => r.userId == dUser.id
+									) !== undefined
+								)
+									return reject(
+										new Error("You already reviewed this application.")
+									);
 
-						if (
-							reviewedApplication.reviewers.find(r => r.userId == dUser.id) !==
-							undefined
-						)
-							reject("You already reviewed this application.");
+								reviewedApplication.reviewers.push({
+									userId: dUser.id,
+									accepted: args.accepted,
+									reviewedAt: Date.now()
+								});
 
-						reviewedApplication.reviewers.push({
-							userId: dUser.id,
-							accepted: args.accepted,
-							reviewedAt: Date.now()
-						});
+								await applicationsColl.findOneAndUpdate(
+									{ userId: args.userId, reviewed: false },
+									{ $set: reviewedApplication }
+								);
 
-						await applicationsColl.findOneAndUpdate(
-							{ userId: args.userId, reviewed: false },
-							{ $set: reviewedApplication }
-						);
-
-						resolve({ userId: args.userId, accepted: args.accepted });
-					}
-				} else reject("No permissions");
-			});
+								return resolve({
+									userId: args.userId,
+									accepted: args.accepted
+								});
+							} else return reject(new Error("Application not found"));
+						} else return reject(new Error("No permissions"));
+					} else return reject(new Error("User not found"));
+				})
+				.catch(err => {
+					if (err) return reject(new Error("An error occured"));
+				});
 		});
 	}
 };
