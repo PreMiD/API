@@ -1,4 +1,5 @@
 import { addReview } from "../fields/addReview";
+import { applications } from "../fields/applications";
 import { benefits } from "../fields/benefits";
 import { changelog } from "../fields/changelog";
 import { credits } from "../fields/credits";
@@ -10,6 +11,7 @@ import { partners } from "../fields/partners";
 import { presences } from "../fields/presences";
 import { science } from "../fields/science";
 import { sponsors } from "../fields/sponsors";
+import { tickets } from "../fields/tickets";
 import { versions } from "../fields/versions";
 import { GraphQLObjectType, GraphQLSchema } from "graphql";
 
@@ -17,18 +19,20 @@ import { GraphQLObjectType, GraphQLSchema } from "graphql";
 const rootQuery = new GraphQLObjectType({
 	name: "Root",
 	fields: {
+		applications,
 		benefits,
+		changelog,
 		credits,
 		discordUsers,
 		downloads,
 		jobs,
+		langFiles,
+		partners,
 		presences,
 		science,
 		sponsors,
-		versions,
-		changelog,
-		partners,
-		langFiles
+		tickets,
+		versions
 	}
 });
 
