@@ -83,8 +83,11 @@ export async function initCache() {
 	await Promise.all(
 		cacheBuilder([
 			"presences",
+			"presenceData",
 			"langFiles",
 			{ name: "credits", expires: 5 * 1000 },
+			{ name: "bugUsers", expires: 2 * 1000 },
+			{ name: "bugs", expires: 2 * 1000 },
 			"science",
 			"versions",
 			"ffUpdates",

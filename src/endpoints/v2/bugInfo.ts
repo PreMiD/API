@@ -1,9 +1,14 @@
 import { RequestHandler } from "express";
-import { pmdDB } from "../../db/client";
+import { cache } from "../../index";
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
+import { log } from "util";
 
 //* Define credits collection
-const bug = pmdDB.collection("bugs");
+let bug = cache.get("bugs");
+cache.onUpdate("bugs", data => (bug = data));
+let bugs = cache.get("bugUsers")
+cache.onUpdate("bugUsers", data => (bug = data));
+
 
 
 //* Request Handler
@@ -15,13 +20,17 @@ const handler: RequestHandler = async (req, res) => {
 		return;
 	}
 
+
+
 	getDiscordUser(req.params["token"])
 		.then(async dUser => {
 
 			//* find user
 			//* Return found bugs
-			let result = await bug.find({userId: dUser.id, status: 'New'}, { projection: { _id: false }}).toArray();
-			res.send(result);
+			var result = new Array();
+			bug.filter(b => b.userId === dUser.id && b.status === "New")
+			if (bug) res.send(bug);
+			else res.send({ error: 2, message: "No bugs found." });
 		})
 		.catch(err => {
 			res.sendStatus(401);

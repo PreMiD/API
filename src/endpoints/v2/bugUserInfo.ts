@@ -1,10 +1,12 @@
+import { cache } from "../../index";
 import { RequestHandler } from "express";
-import { pmdDB } from "../../db/client";
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
 
-//* Define credits collection
-const bug = pmdDB.collection("bugUsers");
-
+//* Define bugUserInfo collection
+let bug = cache.get("bugUsers")
+cache.onUpdate("bugUsers", data => (bug = data));
+let bugs = cache.get("bugs")
+cache.onUpdate("bugs", data => (bugs = data));
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
@@ -21,17 +23,10 @@ const handler: RequestHandler = async (req, res) => {
 			//* find user
 			//* Return user if found
 			//* Else return default 3
-			bug.findOne({userId:dUser.id})
-				.then(result => {
-					if(result){
-					res.send({info:result});
-					} else {
-						res.send({info:null});
-					}
-				})
-				.catch(err => 
-					res.send({info:null})
-				)
+			const info = bug.find(b => b.userId === dUser.id);
+			if (info === undefined || info === "" || !info) res.send(null);
+			else res.send(info);
+			
 		})
 		.catch(err => {
 			res.sendStatus(401);
