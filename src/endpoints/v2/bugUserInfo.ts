@@ -1,10 +1,9 @@
-import { cache } from "../../index";
 import { RequestHandler } from "express";
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
+import { pmdDB } from "../../db/client";
 
 //* Define bugUserInfo collection
-let bug = cache.get("bugUsers");
-cache.onUpdate("bugUsers", (data) => (bug = data));
+let bugs = Array();
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
@@ -20,13 +19,19 @@ const handler: RequestHandler = async (req, res) => {
     .then(async (dUser) => {
       //* find user
       //* Return user if found
-      //* Else return default 3
-      const info = bug.find((b) => b.userId === dUser.id);
-      if (info === undefined || info === "" || !info) res.send(null);
-      else res.send(info);
+      // @ts-ignore
+      bugs = await pmdDB
+        .collection("bugs")
+        .find(
+          { userId: dUser.id, status: "New" },
+          { projection: { _id: false } }
+        )
+        .toArray();
+      if (bugs === undefined || !bugs) res.send({ count: 3 });
+      else res.send({ count: 3 - bugs.length, bugs: bugs });
     })
     .catch((err) => {
-      res.sendStatus(401);
+      res.sendStatus(500);
     });
 };
 
