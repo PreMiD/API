@@ -290,8 +290,8 @@ bytes@3.1.0:
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
 cache@Timeraa/Cache:
-  version "1.1.0"
-  resolved "https://codeload.github.com/Timeraa/Cache/tar.gz/939a09f1e85c3959e22c7c3d7dba5380b105234e"
+  version "1.1.1"
+  resolved "https://codeload.github.com/Timeraa/Cache/tar.gz/6621b4176eb28a98479d3e36d1270f10e6bae1ef"
 
 camelize@1.0.0:
   version "1.0.0"
