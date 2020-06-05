@@ -2,10 +2,6 @@ import { cache } from "../../../index";
 import { discordUserType } from "../types/discordUsers/discordUserType";
 import { GraphQLList, GraphQLString } from "graphql";
 
-let discordUsersCache = cache.get("discordUsers");
-
-cache.onUpdate("discordUsers", data => (discordUsersCache = data));
-
 export const discordUsers = {
 	type: GraphQLList(discordUserType),
 	args: {
@@ -13,7 +9,7 @@ export const discordUsers = {
 	},
 	resolve(_, args: { userId?: string }) {
 		return args.userId
-			? discordUsersCache.filter(u => u.userId == args.userId)
-			: discordUsersCache;
+			? cache.get("discordUsers").filter(u => u.userId == args.userId)
+			: cache.get("discordUsers");
 	}
 };

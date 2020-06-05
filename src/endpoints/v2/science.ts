@@ -13,7 +13,7 @@ const handler: RequestHandler = async (req, res) => {
 			!req.body.presences ||
 			!Array.isArray(req.body.presences)
 		) {
-			res.sendStatus(404);
+			res.sendStatus(400);
 			return;
 		}
 
@@ -40,20 +40,20 @@ const handler: RequestHandler = async (req, res) => {
 
 		if (req.method === "DELETE") {
 			if (!req.body.identifier) {
-				res.sendStatus(404);
+				res.sendStatus(400);
 				return;
 			}
 
 			identifier = req.body.identifier;
 		} else if (req.method === "GET") {
 			if (!req.params.identifier) {
-				res.sendStatus(404);
+				res.sendStatus(400);
 				return;
 			}
 
 			identifier = req.params.identifier;
 		} else {
-			res.sendStatus(404);
+			res.sendStatus(405);
 			return;
 		}
 

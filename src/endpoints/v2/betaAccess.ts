@@ -1,5 +1,5 @@
-import { RequestHandler } from "express";
 import { pmdDB } from "../../db/client";
+import { RequestHandler } from "express";
 
 //* Define credits collection
 const betaUsers = pmdDB.collection("betaUsers");
@@ -11,7 +11,7 @@ const handler: RequestHandler = async (req, res) => {
 	if (!req.params["userId"]) {
 		//* send error
 		//* return
-		res.send({ error: 1, message: "No userId providen." });
+		res.status(401).send({ error: 1, message: "No userId providen." });
 		return;
 	}
 

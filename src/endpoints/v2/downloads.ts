@@ -1,6 +1,6 @@
-import { RequestHandler } from "express";
-import { pmdDB } from "../../db/client";
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
+import { pmdDB } from "../../db/client";
+import { RequestHandler } from "express";
 
 const alphaUsers = pmdDB.collection("alphaUsers");
 const betaUsers = pmdDB.collection("betaUsers");
@@ -11,7 +11,7 @@ const handler: RequestHandler = async (req, res) => {
 	if (!req.params["token"] || !req.params["item"]) {
 		//* send error
 		//* return
-		res.send({ error: 1, message: "No token/item providen." });
+		res.status(400).send({ error: 1, message: "No token/item providen." });
 		return;
 	}
 
@@ -29,7 +29,7 @@ const handler: RequestHandler = async (req, res) => {
 				if (alphaUser) return res.json(d);
 				else if (betaUser && req.params["item"] == "beta") return res.json(d);
 				else
-					return res.send({
+					return res.status(401).send({
 						error: 3,
 						message: `User doesn't have ${req.params["item"]} access.`
 					});

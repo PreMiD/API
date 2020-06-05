@@ -4,7 +4,9 @@ import { RequestHandler } from "express";
 
 let versions = prepare(cache.get("versions"));
 
-cache.onUpdate("versions", data => (versions = prepare(data)));
+cache.on("update", (_, data) => (versions = prepare(data)), {
+	only: "versions"
+});
 
 const handler: RequestHandler = async (_, res) => {
 	res.setHeader("Content-Type", "text/xml");

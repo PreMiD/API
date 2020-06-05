@@ -12,6 +12,7 @@
 	},
 	"dependencies": {
 		"axios": "0.19.2",
+		"cache": "Timeraa/Cache",
 		"chokidar": "3.4.0",
 		"compression": "^1.7.4",
 		"connect-datadog": "^0.0.9",

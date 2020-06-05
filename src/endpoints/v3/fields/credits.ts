@@ -5,7 +5,9 @@ import { GraphQLList } from "graphql/type/definition";
 
 let creditsCache = prepareCredits(cache.get("credits"));
 
-cache.onUpdate("credits", data => (creditsCache = prepareCredits(data)));
+cache.on("update", (_, data) => (creditsCache = prepareCredits(data)), {
+	only: "credits"
+});
 
 export const credits = {
 	type: GraphQLList(creditsType),

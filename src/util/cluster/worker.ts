@@ -12,7 +12,6 @@ import "source-map-support/register";
 
 export async function worker() {
 	await connect();
-
 	//* Create express server
 	//* Parse JSON
 	//* Set API Headers

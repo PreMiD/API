@@ -1,10 +1,9 @@
-import { RequestHandler } from "express";
-import { pmdDB } from "../../db/client";
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
+import { pmdDB } from "../../db/client";
+import { RequestHandler } from "express";
 
 //* Define credits collection
 const bug = pmdDB.collection("bugUsers");
-
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
@@ -12,7 +11,7 @@ const handler: RequestHandler = async (req, res) => {
 	if (!req.params["token"]) {
 		//* send error
 		//* return
-		res.send({ error: 1, message: "No token providen." });
+		res.status(401).send({ error: 1, message: "No token providen." });
 		return;
 	}
 
@@ -21,9 +20,9 @@ const handler: RequestHandler = async (req, res) => {
 			//* find user
 			//* Return user if found
 			//* Else return default 3
-			bug.findOne({userId:dUser.id}, function(err, result){
-			res.send({info:result});
-			})
+			bug.findOne({ userId: dUser.id }, function (err, result) {
+				res.send({ info: result });
+			});
 		})
 		.catch(err => {
 			res.sendStatus(401);
