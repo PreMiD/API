@@ -1,4 +1,4 @@
-import CacheManager from "cache";
+import CacheManager from "fast-node-cache";
 import cluster from "cluster";
 import { master } from "./util/cluster/master";
 import { worker } from "./util/cluster/worker";

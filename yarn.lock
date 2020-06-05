@@ -289,10 +289,6 @@ bytes@3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
-cache@Timeraa/Cache:
-  version "1.1.1"
-  resolved "https://codeload.github.com/Timeraa/Cache/tar.gz/6621b4176eb28a98479d3e36d1270f10e6bae1ef"
-
 camelize@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/camelize/-/camelize-1.0.0.tgz#164a5483e630fa4321e5af07020e531831b2609b"
@@ -306,7 +302,7 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-chokidar@3.4.0, chokidar@^3.3.1:
+chokidar@3.4.0, chokidar@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.4.0.tgz#b30611423ce376357c765b9b8f904b9fba3c0be8"
   integrity sha512-aXAaho2VJtisB/1fg1+3nlLJqGOuewTzQpd/Tz0yTg2R0e4IGtshYvtjowyEumcBv2z+y4+kc75Mz7j5xJskcQ==
@@ -448,16 +444,6 @@ destroy@~1.0.4:
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
-devscript@Timeraa/DevScript:
-  version "1.0.4"
-  resolved "https://codeload.github.com/Timeraa/DevScript/tar.gz/4b11f60572409704ddb2bbbe0483050f0e429495"
-  dependencies:
-    chalk "^4.0.0"
-    chokidar "^3.3.1"
-    fast-glob "^3.2.2"
-    fs-extra "^9.0.0"
-    typescript "^3.8.3"
-
 discord.js@^12.2.0:
   version "12.2.0"
   resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-12.2.0.tgz#31018732e42a495c92655055192221eab2ad11a9"
@@ -580,6 +566,11 @@ fast-json-stable-stringify@^2.1.0:
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz#874bf69c6f404c2b5d99c481341399fd55892633"
   integrity sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==
 
+fast-node-cache@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/fast-node-cache/-/fast-node-cache-1.1.1.tgz#c76831a0b09fe2cd15c152a7b93ecf7c0e6ea002"
+  integrity sha512-Dj8t1fB1hQGS3wVRP7WbI/8iZY00W6ETtmXX7J7hD3pSC5cK2NQnRXzKtGcpo1Khyb2i1ZKSzIcVW7nI2CFUKw==
+
 fastq@^1.6.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/fastq/-/fastq-1.8.0.tgz#550e1f9f59bbc65fe185cb6a9b4d95357107f481"
@@ -639,7 +630,7 @@ fresh@0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-fs-extra@9.0.1, fs-extra@^9.0.0:
+fs-extra@9.0.1, fs-extra@^9.0.1:
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-9.0.1.tgz#910da0062437ba4c39fedd863f1675ccfefcb9fc"
   integrity sha512-h2iAoN838FqAFJY2/qVpzFXy+EBxfVE220PalAqQLDVsFOHLJrZvut5puAbCdNv6WJk+B8ihI+k0c7JK5erwqQ==
@@ -1212,6 +1203,17 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
+ts-devscript@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/ts-devscript/-/ts-devscript-1.0.4.tgz#ec07df3f92364e2b95f58176f7e887c41d0bf515"
+  integrity sha512-EnCv36num+HyIgVYbfkywmQUptVU7sM56akWXqm86pE65wPm8s9ej5Tf/JtltFGYhl7RrdyOYtal2AEpJ0efEA==
+  dependencies:
+    chalk "^4.0.0"
+    chokidar "^3.4.0"
+    fast-glob "^3.2.2"
+    fs-extra "^9.0.1"
+    typescript "^3.9.5"
+
 tweetnacl@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.3.tgz#ac0af71680458d8a6378d0d0d050ab1407d35596"
@@ -1225,7 +1227,7 @@ type-is@~1.6.17, type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typescript@^3.8.3, typescript@^3.9.5:
+typescript@^3.9.5:
   version "3.9.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.5.tgz#586f0dba300cde8be52dd1ac4f7e1009c1b13f36"
   integrity sha512-hSAifV3k+i6lEoCJ2k6R2Z/rp/H3+8sdmcn5NrS3/3kE7+RyZXm9aqvxWqjEXHAd8b0pShatpcdMTvEdvAJltQ==
