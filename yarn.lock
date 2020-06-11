@@ -1203,10 +1203,10 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-ts-devscript@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/ts-devscript/-/ts-devscript-1.0.4.tgz#ec07df3f92364e2b95f58176f7e887c41d0bf515"
-  integrity sha512-EnCv36num+HyIgVYbfkywmQUptVU7sM56akWXqm86pE65wPm8s9ej5Tf/JtltFGYhl7RrdyOYtal2AEpJ0efEA==
+ts-devscript@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/ts-devscript/-/ts-devscript-1.0.8.tgz#284071b80a5b5f13e86c8e522ecf438bb198bd6e"
+  integrity sha512-K/jWZnCBJuUPtfFPfp//Rwxk1juDZWTGXnM6DDBZ9iRiX2uJvZc/jjoRbUaMbcs64H01zVvfm2DBlMcj2Xz17g==
   dependencies:
     chalk "^4.0.0"
     chokidar "^3.4.0"
