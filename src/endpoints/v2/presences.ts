@@ -16,13 +16,9 @@ const handler: RequestHandler = async (req, res) => {
 		//* send all presences
 		//* return
 		res.send(
-			presences.map(p => {
-				return {
-					name: p.name,
-					url: p.url,
-					metadata: p.metadata
-				};
-			})
+			[...new Set(presences.map(p => {
+				return { name: p.name, url: p.url, metadata: p.metadata };
+			}))]
 		);
 		return;
 	}
