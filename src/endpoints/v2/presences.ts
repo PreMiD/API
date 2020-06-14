@@ -26,13 +26,9 @@ const handler: RequestHandler = async (req, res) => {
 	//* If presence "name" === versions
 	if (req.params["presence"] === "versions") {
 		res.send(
-			presences.map(p => {
-				return {
-					name: p.name,
-					url: p.url,
-					version: p.metadata.version
-				};
-			})
+			[...new Set(presences.map(p => {
+				return { name: p.name, url: p.url, version: p.metadata.version };
+			}))]
 		);
 		return;
 	}
