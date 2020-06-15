@@ -1,5 +1,6 @@
 {
-	"default": [{
+	"default": [
+		{
 			"path": "/",
 			"handler": "default"
 		},
@@ -20,7 +21,8 @@
 			"handler": "ffUpdate"
 		}
 	],
-	"v2": [{
+	"v2": [
+		{
 			"path": "/v2/usage",
 			"handler": "usage"
 		},
