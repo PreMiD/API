@@ -1,6 +1,5 @@
 {
-	"default": [
-		{
+	"default": [{
 			"path": "/",
 			"handler": "default"
 		},
@@ -21,8 +20,7 @@
 			"handler": "ffUpdate"
 		}
 	],
-	"v2": [
-		{
+	"v2": [{
 			"path": "/v2/usage",
 			"handler": "usage"
 		},
@@ -68,14 +66,15 @@
 			"path": [
 				"/v2/langFile/list",
 				"/v2/langFile/:project/:lang",
-				"/v2/langFile/:project/list"			],
+				"/v2/langFile/:project/list"
+			],
 			"handler": "langFile"
 		},
 		{
 			"path": [
 				"/v2/credits",
 				"/v2/credits/:userId"
-        ],
+			],
 			"handler": "credits"
 		},
 		{
@@ -89,7 +88,7 @@
 			"path": [
 				"/v2/alphaAccess",
 				"/v2/alphaAccess/:userId"
-      ],
+			],
 			"handler": "alphaAccess"
 		},
 		{
@@ -165,13 +164,6 @@
 				"/v2/bugUserInfo/:token"
 			],
 			"handler": "bugUserInfo"
-		},
-		{
-			"path": [
-				"/v2/bugInfo",
-				"/v2/bugInfo/:token"
-			],
-			"handler": "bugInfo"
 		}
 	]
 }
