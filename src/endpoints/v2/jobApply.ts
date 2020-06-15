@@ -1,6 +1,6 @@
-import { RequestHandler } from "express";
-import { pmdDB } from "../../db/client";
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
+import { pmdDB } from "../../db/client";
+import { RequestHandler } from "express";
 import { WebhookClient } from "discord.js";
 
 const coll = pmdDB.collection("applications");
@@ -12,12 +12,12 @@ const webhook = new WebhookClient(
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
 	if (!req.body.token) {
-		res.send({ error: 1, message: "No token providen." });
+		res.status(400).send({ error: 1, message: "No token providen." });
 		return;
 	}
 
 	if (!req.body.questions) {
-		res.send({ error: 2, message: "No questions providen." });
+		res.status(400).send({ error: 2, message: "No questions providen." });
 		return;
 	}
 
@@ -25,7 +25,9 @@ const handler: RequestHandler = async (req, res) => {
 		if (
 			await coll.findOne({ type: "job", userId: dUser.id, reviewed: false })
 		) {
-			res.send({ error: 3, message: "You already applied before." });
+			res
+				.status(400)
+				.send({ error: 3, message: "You already applied before." });
 			return;
 		}
 

@@ -1,6 +1,6 @@
-import { RequestHandler } from "express";
-import { pmdDB } from "../../db/client";
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
+import { pmdDB } from "../../db/client";
+import { RequestHandler } from "express";
 
 const tickets = pmdDB.collection("tickets");
 const credits = pmdDB.collection("credits");
@@ -10,7 +10,7 @@ const handler: RequestHandler = async (req, res) => {
 	if (!req.params["token"]) {
 		//* send error
 		//* return
-		res.send({ error: 1, message: "No token providen." });
+		res.status(401).send({ error: 1, message: "No token providen." });
 		return;
 	}
 
@@ -22,7 +22,9 @@ const handler: RequestHandler = async (req, res) => {
 					roles: { $in: ["Staff Head"] }
 				})
 			) {
-				res.send(await tickets.find({}, { projection: { _id: false } }).toArray());
+				res.send(
+					await tickets.find({}, { projection: { _id: false } }).toArray()
+				);
 				return;
 			}
 		})

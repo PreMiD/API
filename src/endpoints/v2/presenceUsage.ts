@@ -3,7 +3,9 @@ import { RequestHandler } from "express";
 
 let science = prepareUsage(cache.get("science"));
 
-cache.onUpdate("science", data => (science = prepareUsage(data)));
+cache.on("update", (_, data) => (science = prepareUsage(data)), {
+	only: "science"
+});
 
 //* Request Handler
 const handler: RequestHandler = async (_req, res) => res.send(science);

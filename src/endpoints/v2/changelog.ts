@@ -1,17 +1,13 @@
 import { cache } from "../../index";
 import { RequestHandler } from "express";
 
-let changelog = cache.get("changelog");
-
-cache.onUpdate("changelog", data => (changelog = data));
-
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
 	//* project || version not set
 	if (!req.params["project"] || !req.params["version"]) {
 		//* send error
 		//* return
-		res.send({
+		res.status(400).send({
 			error: 1,
 			message: `No ${!req.params["project"] ? "project" : "version"} providen.`
 		});
@@ -21,11 +17,13 @@ const handler: RequestHandler = async (req, res) => {
 	//* Find changelog
 	//* Send changelog
 	res.send(
-		changelog.filter(
-			c =>
-				c.project === req.params["project"] &&
-				c.version === req.params["version"]
-		)
+		cache
+			.get("changelog")
+			.filter(
+				c =>
+					c.project === req.params["project"] &&
+					c.version === req.params["version"]
+			)
 	);
 };
 

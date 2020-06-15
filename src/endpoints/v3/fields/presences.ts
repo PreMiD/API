@@ -7,8 +7,12 @@ import { GraphQLList } from "graphql/type/definition";
 let science = cache.get("science"),
 	presencesCache = preparePresences(cache.get("presences"));
 
-cache.onUpdate("presences", data => (presencesCache = preparePresences(data)));
-cache.onUpdate("science", data => (science = data));
+cache.on("update", (_, data) => (presencesCache = preparePresences(data)), {
+	only: "presences"
+});
+cache.on("update", (_, data) => (science = data), {
+	only: "science"
+});
 
 function preparePresences(cache) {
 	const usage = prepareUsage(science);

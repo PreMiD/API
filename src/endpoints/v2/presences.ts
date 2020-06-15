@@ -3,7 +3,9 @@ import { RequestHandler } from "express";
 
 let prs = preparePresences(cache.get("presences"));
 
-cache.onUpdate("presences", data => (prs = preparePresences(data)));
+cache.on("update", (_, data) => (prs = preparePresences(data)), {
+	only: "presences"
+});
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
@@ -48,7 +50,7 @@ const handler: RequestHandler = async (req, res) => {
 		if (!presence) {
 			//* Send error
 			//* return
-			res.send({ error: 4, message: "No such presence." });
+			res.status(404).send({ error: 4, message: "No such presence." });
 			return;
 		}
 
@@ -85,7 +87,7 @@ const handler: RequestHandler = async (req, res) => {
 		default:
 			//* send error
 			//* return
-			res.send({ error: 5, message: "No such file." });
+			res.status(404).send({ error: 5, message: "No such file." });
 			return;
 	}
 

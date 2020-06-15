@@ -3,17 +3,21 @@ on:
   push:
     branches: master
     paths:
+      - "**/*.yml"
       - "src/**/*"
       - "**.ts"
       - "**.json"
 jobs:
   DePloY:
+    strategy:
+      matrix:
+        host: [1.premid.app, 2.premid.app, 3.premid.app]
     runs-on: "ubuntu-latest"
     steps:
       - name: Deploying...
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSHHOST }}
+          host: ${{ matrix.host }}
           username: ${{ secrets.SSHUSERNAME }}
           password: ${{ secrets.SSHPASSWORD }}
           script: |

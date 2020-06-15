@@ -1,10 +1,23 @@
-import { RequestHandler } from "express";
+import axios from "axios";
 import { pmdDB } from "../../db/client";
-import Axios from "axios";
+import { RequestHandler } from "express";
 
 //* Define credits collection
 const betaUsers = pmdDB.collection("betaUsers");
 const discordUsers = pmdDB.collection("discordUsers");
+
+interface DiscordUser {
+	id: string;
+	username: string;
+	avatar: string;
+	discriminator: string;
+	email: string;
+	verified: boolean;
+	locale: string;
+	mfa_enabled: boolean;
+	flags: number;
+	premium_type: number;
+}
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {
@@ -12,27 +25,19 @@ const handler: RequestHandler = async (req, res) => {
 	if (!req.params["token"]) {
 		//* send error
 		//* return
-		res.send({ error: 1, message: "No token providen." });
+		res.status(401).send({ error: 1, message: "No token providen." });
 		return;
 	}
 
-	let discordUser: {
-		id: string;
-		username: string;
-		avatar: string;
-		discriminator: string;
-		email: string;
-		verified: boolean;
-		locale: string;
-		mfa_enabled: boolean;
-		flags: number;
-		premium_type: number;
-	} = (await Axios("https://discordapp.com/api/users/@me", {
-		headers: { Authorization: req.params["token"] }
-	}).catch(() => {})) as any;
+	let discordUser: DiscordUser = (await axios(
+		"https://discordapp.com/api/users/@me",
+		{
+			headers: { Authorization: req.params["token"] }
+		}
+	).catch(() => {})) as any;
 
 	if (!discordUser) {
-		res.send({ error: 2, message: "Invalid token providen." });
+		res.status(403).send({ error: 2, message: "Invalid token providen." });
 		return;
 	}
 
@@ -58,14 +63,14 @@ const handler: RequestHandler = async (req, res) => {
 			await betaUsers
 				.insertOne({ userId: discordUser.id })
 				.then(() => res.sendStatus(200));
-		} else {
-			res.send({ error: 4, message: "User not in Discord Server." });
-			return;
-		}
-	} else {
-		res.send({ error: 5, message: "No more beta access slots available." });
-		return;
-	}
+		} else
+			res
+				.status(400)
+				.send({ error: 4, message: "User not in Discord Server." });
+	} else
+		res
+			.status(400)
+			.send({ error: 5, message: "No more beta access slots available." });
 };
 
 //* Export handler

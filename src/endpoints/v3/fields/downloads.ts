@@ -6,13 +6,9 @@ import { GraphQLString } from "graphql";
 
 let downloadsCache = prepareDownloads(cache.get("downloads"));
 
-cache.onUpdate("downloads", data => (downloadsCache = prepareDownloads(data)));
-
-let alphaUsers = cache.get("alphaUsers"),
-	betaUsers = cache.get("betaUsers");
-
-cache.onUpdate("alphaUsers", data => (alphaUsers = data));
-cache.onUpdate("betaUsers", data => (betaUsers = data));
+cache.on("update", (_, data) => (downloadsCache = prepareDownloads(data)), {
+	only: "downloads"
+});
 
 export const downloads = {
 	type: GraphQLList(downloadsType),
@@ -23,9 +19,11 @@ export const downloads = {
 		if (context.query?.token) {
 			try {
 				const dUser = await getDiscordUser(context.query.token),
-					accessType = alphaUsers.find(aU => aU.userId === dUser.id)
+					accessType = cache
+						.get("alphaUsers")
+						.find(aU => aU.userId === dUser.id)
 						? "alpha"
-						: betaUsers.find(aU => aU.userId === dUser.id)
+						: cache.get("betaUsers").find(aU => aU.userId === dUser.id)
 						? "beta"
 						: false;
 

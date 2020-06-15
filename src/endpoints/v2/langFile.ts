@@ -2,7 +2,9 @@ import { cache } from "../../index";
 import { RequestHandler } from "express";
 
 let langFiles = prepareLangFiles(cache.get("langFiles"));
-cache.onUpdate("langFiles", data => (langFiles = prepareLangFiles(data)));
+cache.on("update", (_, data) => (langFiles = prepareLangFiles(data)), {
+	only: "langFiles"
+});
 
 //* Request Handler
 const handler: RequestHandler = async (req, res) => {

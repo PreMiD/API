@@ -2,10 +2,6 @@ import { cache } from "../../../index";
 import { langFileType } from "../types/langFiles/langFileType";
 import { GraphQLList, GraphQLString } from "graphql";
 
-let langFilesCache = cache.get("langFiles");
-
-cache.onUpdate("langFiles", data => (langFilesCache = data));
-
 export const langFiles = {
 	type: GraphQLList(langFileType),
 	args: {
@@ -13,7 +9,7 @@ export const langFiles = {
 		project: { type: GraphQLString, defaultValue: null }
 	},
 	resolve(_, args: { lang?: string; project?: string }) {
-		return langFilesCache.filter(lF => {
+		return cache.get("langFiles").filter(lF => {
 			let checksToPass = 2,
 				checksThatPassed = 0;
 

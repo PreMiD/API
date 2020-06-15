@@ -1,6 +1,6 @@
-import { RequestHandler } from "express";
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
 import { pmdDB } from "../../db/client";
+import { RequestHandler } from "express";
 import { WebhookClient } from "discord.js";
 
 const coll = pmdDB.collection("applications");
@@ -19,7 +19,7 @@ const handler: RequestHandler = async (req, res) => {
 		!req.body.imageLink ||
 		!req.body.token
 	) {
-		res.send({ error: 1, message: "Missing fields." });
+		res.status(400).send({ error: 1, message: "Missing fields." });
 		return;
 	}
 
@@ -32,7 +32,9 @@ const handler: RequestHandler = async (req, res) => {
 					reviewed: false
 				})
 			) {
-				res.send({ error: 3, message: "You already applied before." });
+				res
+					.status(400)
+					.send({ error: 3, message: "You already applied before." });
 				return;
 			}
 
