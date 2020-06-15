@@ -148,7 +148,7 @@
 			"handler": "bugPost"
 		},
 		{
-			"path": ["/v2/bugUserInfo", "/v2/bugUserInfo/:token"],
+			"path": "/v2/bugUserInfo/:token",
 			"handler": "bugUserInfo"
 		}
 	]
