@@ -9,11 +9,7 @@
 			"handler": "ping"
 		},
 		{
-			"path": [
-				"/app/update",
-				"/app/update/:bit",
-				"/app/update/*"
-			],
+			"path": ["/app/update", "/app/update/:bit", "/app/update/*"],
 			"handler": "appUpdate"
 		},
 		{
@@ -57,6 +53,10 @@
 			"handler": "presenceInfo"
 		},
 		{
+			"path": "/v2/presenceLikes/:presence/:method/:token",
+			"handler": "presenceLikes"
+		},
+		{
 			"path": "/v2/versions",
 			"handler": "versions"
 		},
@@ -64,28 +64,20 @@
 			"path": [
 				"/v2/langFile/list",
 				"/v2/langFile/:project/:lang",
-				"/v2/langFile/:project/list"			],
+				"/v2/langFile/:project/list"
+			],
 			"handler": "langFile"
 		},
 		{
-			"path": [
-				"/v2/credits",
-				"/v2/credits/:userId"
-        ],
+			"path": ["/v2/credits", "/v2/credits/:userId"],
 			"handler": "credits"
 		},
 		{
-			"path": [
-				"/v2/betaAccess",
-				"/v2/betaAccess/:userId"
-			],
+			"path": ["/v2/betaAccess", "/v2/betaAccess/:userId"],
 			"handler": "betaAccess"
 		},
 		{
-			"path": [
-				"/v2/alphaAccess",
-				"/v2/alphaAccess/:userId"
-      ],
+			"path": ["/v2/alphaAccess", "/v2/alphaAccess/:userId"],
 			"handler": "alphaAccess"
 		},
 		{
@@ -156,18 +148,8 @@
 			"handler": "bugPost"
 		},
 		{
-			"path": [
-				"/v2/bugUserInfo",
-				"/v2/bugUserInfo/:token"
-			],
+			"path": "/v2/bugUserInfo/:token",
 			"handler": "bugUserInfo"
-		},
-		{
-			"path": [
-				"/v2/bugInfo",
-				"/v2/bugInfo/:token"
-			],
-			"handler": "bugInfo"
 		}
 	]
 }
