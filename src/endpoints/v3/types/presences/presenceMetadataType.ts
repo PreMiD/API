@@ -1,5 +1,9 @@
 import { presenceMetadataUser } from "./presenceMetadataUserType";
-import { GraphQLList, GraphQLObjectType, GraphQLScalarType } from "graphql/type/definition";
+import {
+	GraphQLList,
+	GraphQLObjectType,
+	GraphQLScalarType
+} from "graphql/type/definition";
 import { GraphQLString } from "graphql";
 
 export const presenceMetadata = new GraphQLObjectType({
@@ -7,6 +11,7 @@ export const presenceMetadata = new GraphQLObjectType({
 	fields: () => ({
 		author: { type: presenceMetadataUser },
 		contributors: { type: GraphQLList(presenceMetadataUser) },
+		altnames: { type: GraphQLList(GraphQLString) },
 		service: { type: GraphQLString },
 		description: {
 			type: new GraphQLScalarType({
