@@ -13,6 +13,7 @@ export async function initCache() {
 			{ name: "credits", expires: 5 * 1000 },
 			"science",
 			"versions",
+			"merch",
 			"ffUpdates",
 			"changelog",
 			"discordUsers",
