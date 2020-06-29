@@ -22,7 +22,7 @@
 		"fast-json-stable-stringify": "^2.1.0",
 		"fast-node-cache": "^1.1.2",
 		"fs-extra": "9.0.1",
-		"graphql": "15.1.0",
+		"graphql": "15.2.0",
 		"helmet": "3.23.3",
 		"mongodb": "3.5.9"
 	},
