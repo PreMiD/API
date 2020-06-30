@@ -14,11 +14,13 @@ if (cluster.isMaster) master();
 else {
 	let recv = false;
 	cluster.worker.on("message", msg => {
-		// @ts-ignore
-		if (recv) cache.internalCache = msg;
+		//@ts-ignore
+		for (let i = 0; Object.keys(msg).length > i; i++) {
+			//@ts-ignore
+			cache.set(Object.keys(msg)[i], Object.values(msg)[i].data);
+		}
+
 		if (!recv) {
-			// @ts-ignore
-			cache.internalCache = msg;
 			recv = true;
 			process.send("");
 			worker();

@@ -1,6 +1,6 @@
 {
 	"name": "pmd-api",
-	"version": "3.6.2",
+	"version": "3.6.3",
 	"main": "index.js",
 	"repository": "https://github.com/PreMiD/API",
 	"author": "Timeraa",
@@ -23,7 +23,7 @@
 		"fast-node-cache": "^1.1.2",
 		"fs-extra": "9.0.1",
 		"graphql": "15.1.0",
-		"helmet": "3.22.1",
+		"helmet": "3.23.3",
 		"mongodb": "3.5.9"
 	},
 	"devDependencies": {
@@ -32,8 +32,8 @@
 		"@types/express": "^4.17.6",
 		"@types/fs-extra": "^9.0.1",
 		"@types/helmet": "^0.0.47",
-		"@types/mongodb": "^3.5.20",
-		"@types/node": "^14.0.13",
+		"@types/mongodb": "^3.5.25",
+		"@types/node": "^14.0.14",
 		"rimraf": "^3.0.2",
 		"source-map-support": "^0.5.19",
 		"ts-devscript": "^1.0.8",
