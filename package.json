@@ -37,7 +37,7 @@
 		"rimraf": "^3.0.2",
 		"source-map-support": "^0.5.19",
 		"ts-devscript": "^1.0.8",
-		"typescript": "^3.9.5",
+		"typescript": "^3.9.6",
 		"yarn": "^1.22.4"
 	}
 }
