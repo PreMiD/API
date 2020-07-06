@@ -64,13 +64,13 @@
   dependencies:
     "@types/express" "*"
 
-"@types/connect-datadog@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@types/connect-datadog/-/connect-datadog-0.0.4.tgz#7cbc7b1b1c67943ba1914ffb946ceb4f254f9ec0"
-  integrity sha512-tBPMBeWgkLJQi/q5t2PilBgejaUZjyQcm2ISfEEPNb1trPjbDn0CYOHGRSCptaviGfYoImhWU/7/Rmeu131mLw==
+"@types/connect-datadog@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@types/connect-datadog/-/connect-datadog-0.0.5.tgz#38c26a8571c3899c83ef35f36667de463c5ca711"
+  integrity sha512-G1IKyoG2Sht4iQC3v04wNPLHSPHYuPw04KVYwMmkN6wVaClrt1KubnVR5GNmSe6HLwPqOvFIu4xsc/cFrlcdXw==
   dependencies:
     "@types/express" "*"
-    "@types/node-dogstatsd" "*"
+    hot-shots "^6.3.0"
 
 "@types/connect@*":
   version "3.4.33"
@@ -123,13 +123,6 @@
   integrity sha512-2H/Owt+pHCl9YmBOYnXc3VdnxejJEjVdH+QCWL5ZAfPehEn3evygKBX3/vKRv7aTwfNbUd0E5vjJdQklH/9a6w==
   dependencies:
     "@types/bson" "*"
-    "@types/node" "*"
-
-"@types/node-dogstatsd@*":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@types/node-dogstatsd/-/node-dogstatsd-0.0.4.tgz#abe77c7095f3c13aa404425af6d60e340a0cf76a"
-  integrity sha512-NVWRIKk/TPmYRUEMrr5Zi4IqEHyH6pU81JY4KI274BGaQ1TAOp02sGqYeUaWK0/t5cfhJpNtCCpFqD8RA1BuQg==
-  dependencies:
     "@types/node" "*"
 
 "@types/node@*", "@types/node@^14.0.14":
