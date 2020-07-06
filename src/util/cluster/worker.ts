@@ -3,7 +3,7 @@ import cluster from "cluster";
 import compression from "compression";
 import connect_datadog from "connect-datadog";
 import express from "express";
-import graphqlHTTP from "express-graphql";
+import { graphqlHTTP } from "express-graphql";
 import helmet from "helmet";
 import loadEndpoints from "../functions/loadEndpoints";
 import { client, connect } from "../../db/client";
