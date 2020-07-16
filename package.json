@@ -12,7 +12,7 @@
 	},
 	"dependencies": {
 		"axios": "0.19.2",
-		"chokidar": "3.4.0",
+		"chokidar": "3.4.1",
 		"compression": "^1.7.4",
 		"connect-datadog": "^0.0.9",
 		"discord.js": "^12.2.0",
