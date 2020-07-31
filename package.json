@@ -24,7 +24,7 @@
 		"fs-extra": "9.0.1",
 		"graphql": "15.3.0",
 		"helmet": "3.23.3",
-		"mongodb": "3.5.9"
+		"mongodb": "3.6.0"
 	},
 	"devDependencies": {
 		"@types/compression": "^1.7.0",
