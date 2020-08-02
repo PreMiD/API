@@ -23,7 +23,7 @@
 		"fast-node-cache": "^1.1.2",
 		"fs-extra": "9.0.1",
 		"graphql": "15.3.0",
-		"helmet": "3.23.3",
+		"helmet": "4.0.0",
 		"mongodb": "3.5.9"
 	},
 	"devDependencies": {
