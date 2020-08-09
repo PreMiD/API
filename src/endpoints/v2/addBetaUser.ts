@@ -1,6 +1,7 @@
 import axios from "axios";
 import { pmdDB } from "../../db/client";
-import { RequestHandler } from "express";
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 
 //* Define credits collection
 const betaUsers = pmdDB.collection("betaUsers");
@@ -19,8 +20,13 @@ interface DiscordUser {
 	premium_type: number;
 }
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
 	//* userId not providen
 	if (!req.params["token"]) {
 		//* send error
@@ -62,7 +68,7 @@ const handler: RequestHandler = async (req, res) => {
 		) {
 			await betaUsers
 				.insertOne({ userId: discordUser.id })
-				.then(() => res.sendStatus(200));
+				.then(() => res.send(200));
 		} else
 			res
 				.status(400)

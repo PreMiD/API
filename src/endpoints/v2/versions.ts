@@ -1,8 +1,15 @@
 import { cache } from "../../index";
-import { RequestHandler } from "express";
 
-//* Request Handler
-const handler: RequestHandler = async (_, res) => {
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (_, res) => {
 	delete cache.get("versions")[0].key;
 
 	//* Return versions

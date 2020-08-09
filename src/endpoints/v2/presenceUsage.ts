@@ -1,5 +1,6 @@
 import { cache } from "../../index";
-import { RequestHandler } from "express";
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 
 let science = prepareUsage(cache.get("science"));
 
@@ -7,8 +8,13 @@ cache.on("update", (_, data) => (science = prepareUsage(data)), {
 	only: "science"
 });
 
-//* Request Handler
-const handler: RequestHandler = async (_req, res) => res.send(science);
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (_req, res) => res.send(science);
 
 export function prepareUsage(science) {
 	let ranking = {};

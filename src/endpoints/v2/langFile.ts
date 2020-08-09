@@ -1,14 +1,20 @@
 import { cache } from "../../index";
-import { RequestHandler } from "express";
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 
 let langFiles = prepareLangFiles(cache.get("langFiles"));
 cache.on("update", (_, data) => (langFiles = prepareLangFiles(data)), {
 	only: "langFiles"
 });
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
-	if (req.path.endsWith("/list") && !req.params["project"]) {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
+	if (req.url.endsWith("/list") && !req.params["project"]) {
 		res.send(
 			langFiles
 				.filter(lF => lF.project === "extension")
@@ -54,12 +60,12 @@ const handler: RequestHandler = async (req, res) => {
 		const masterLangKeys = Object.keys(masterLangFile.translations);
 
 		if (!masterLangKeys.find(key => key.startsWith(`${projectParamLwr}_`))) {
-			res.sendStatus(404);
+			res.send(404);
 			return;
 		}
 
 		// list 100% translated locales for given presence
-		if (req.path.endsWith("/list")) {
+		if (req.url.endsWith("/list")) {
 			let referenceKeys = masterLangKeys.filter(
 				keyName =>
 					keyName.startsWith(`${projectParamLwr}_`) ||
@@ -89,7 +95,7 @@ const handler: RequestHandler = async (req, res) => {
 			);
 
 			if (!allStrings) {
-				return res.sendStatus(404);
+				return res.send(404);
 			}
 
 			allStrings = formatLangFile(allStrings);
@@ -105,7 +111,7 @@ const handler: RequestHandler = async (req, res) => {
 			return res.send(strings);
 		}
 
-		res.sendStatus(404);
+		res.send(404);
 		return;
 	}
 

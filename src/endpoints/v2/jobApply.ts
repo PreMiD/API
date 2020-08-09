@@ -1,7 +1,8 @@
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
 import { pmdDB } from "../../db/client";
-import { RequestHandler } from "express";
 import { WebhookClient } from "discord.js";
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 
 const coll = pmdDB.collection("applications");
 const webhook = new WebhookClient(
@@ -9,19 +10,26 @@ const webhook = new WebhookClient(
 	process.env.DISCORD_WEBHOOK_TOKEN
 );
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
-	if (!req.body.token) {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
+	const body = req.body as any;
+
+	if (!body.token) {
 		res.status(400).send({ error: 1, message: "No token providen." });
 		return;
 	}
 
-	if (!req.body.questions) {
+	if (!body.questions) {
 		res.status(400).send({ error: 2, message: "No questions providen." });
 		return;
 	}
 
-	getDiscordUser(req.body.token).then(async dUser => {
+	getDiscordUser(body.token).then(async dUser => {
 		if (
 			await coll.findOne({ type: "job", userId: dUser.id, reviewed: false })
 		) {
@@ -31,21 +39,21 @@ const handler: RequestHandler = async (req, res) => {
 			return;
 		}
 
-		res.sendStatus(200);
+		res.send(200);
 
 		coll.insertOne({
 			type: "job",
 			userId: dUser.id,
 			reviewed: false,
-			position: { name: req.body.position, questions: req.body.questions }
+			position: { name: body.position, questions: body.questions }
 		});
 
 		webhook.send({
 			embeds: [
 				{
-					title: `Job Application (${req.body.position})`,
+					title: `Job Application (${body.position})`,
 					description: `By <@${dUser.id}>`,
-					fields: req.body.questions.map(q => {
+					fields: body.questions.map(q => {
 						return {
 							name: q.label,
 							value: q.response ? q.response : "No response."

@@ -1,11 +1,17 @@
-import { RequestHandler } from "express";
 import { pmdDB } from "../../db/client";
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 
 //* Define credits collection
 const betaUsers = pmdDB.collection("betaUsers");
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
 	res.send({ betaUsers: await betaUsers.countDocuments() });
 };
 

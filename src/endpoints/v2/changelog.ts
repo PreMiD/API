@@ -1,8 +1,14 @@
 import { cache } from "../../index";
-import { RequestHandler } from "express";
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
 	//* project || version not set
 	if (!req.params["project"] || !req.params["version"]) {
 		//* send error

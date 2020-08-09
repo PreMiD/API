@@ -1,6 +1,7 @@
 import { cache } from "../../index";
 import { readFileSync } from "fs";
-import { RequestHandler } from "express";
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 
 let versions = prepare(cache.get("versions"));
 
@@ -8,8 +9,14 @@ cache.on("update", (_, data) => (versions = prepare(data)), {
 	only: "versions"
 });
 
-const handler: RequestHandler = async (_, res) => {
-	res.setHeader("Content-Type", "text/xml");
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (_, res) => {
+	res.header("Content-Type", "text/xml");
 	res.send(versions);
 };
 

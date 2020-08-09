@@ -1,5 +1,6 @@
 import { cache } from "../../index";
-import { RequestHandler } from "express";
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 
 let prs = preparePresences(cache.get("presences"));
 
@@ -7,8 +8,13 @@ cache.on("update", (_, data) => (prs = preparePresences(data)), {
 	only: "presences"
 });
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
 	const presences = prs;
 
 	//* If presence not set
@@ -96,7 +102,7 @@ const handler: RequestHandler = async (req, res) => {
 	if (req.params["file"].endsWith(".js")) {
 		//* set header JS file
 		//* unescape file
-		res.setHeader("content-type", "text/javascript");
+		res.header("content-type", "text/javascript");
 		presence = unescape(<string>presence);
 	}
 

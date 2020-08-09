@@ -1,5 +1,13 @@
-import { RequestHandler } from "express";
+import { RouteShorthandMethod, RouteHandlerMethod } from "fastify";
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface } from "fastify/types/route";
 
-const handler: RequestHandler = async (_req, res) => res.sendStatus(200);
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (_req, res) => res.send(200);
 
 export { handler };

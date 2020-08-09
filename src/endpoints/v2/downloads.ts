@@ -1,13 +1,19 @@
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
 import { pmdDB } from "../../db/client";
-import { RequestHandler } from "express";
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 
 const alphaUsers = pmdDB.collection("alphaUsers");
 const betaUsers = pmdDB.collection("betaUsers");
 const downloads = pmdDB.collection("downloads");
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
 	if (!req.params["token"] || !req.params["item"]) {
 		//* send error
 		//* return
@@ -26,8 +32,8 @@ const handler: RequestHandler = async (req, res) => {
 			);
 
 			if (d) {
-				if (alphaUser) return res.json(d);
-				else if (betaUser && req.params["item"] == "beta") return res.json(d);
+				if (alphaUser) return res.send(d);
+				else if (betaUser && req.params["item"] == "beta") return res.send(d);
 				else
 					return res.status(401).send({
 						error: 3,
@@ -36,7 +42,7 @@ const handler: RequestHandler = async (req, res) => {
 			}
 		})
 		.catch(err => {
-			res.sendStatus(401);
+			res.send(401);
 		});
 };
 

@@ -1,11 +1,17 @@
 import { pmdDB } from "../../db/client";
-import { RequestHandler } from "express";
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 
 //* Define credits collection
 const alphaUsers = pmdDB.collection("alphaUsers");
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
 	//* userId not providen
 	if (!req.params["userId"]) {
 		//* send error
@@ -23,7 +29,7 @@ const handler: RequestHandler = async (req, res) => {
 		);
 		res.send({ access: user ? true : false });
 	} catch (err) {
-		res.sendStatus(500);
+		res.send(500);
 	}
 };
 

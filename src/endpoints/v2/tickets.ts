@@ -1,12 +1,18 @@
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
 import { pmdDB } from "../../db/client";
-import { RequestHandler } from "express";
+import { Server, IncomingMessage, ServerResponse } from "http";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 
 const tickets = pmdDB.collection("tickets");
 const credits = pmdDB.collection("credits");
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
 	if (!req.params["token"]) {
 		//* send error
 		//* return
@@ -29,7 +35,7 @@ const handler: RequestHandler = async (req, res) => {
 			}
 		})
 		.catch(err => {
-			res.sendStatus(401);
+			res.send(401);
 		});
 };
 
