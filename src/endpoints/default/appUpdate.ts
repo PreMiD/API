@@ -21,7 +21,7 @@ const handler: RouteHandlerMethod<
 };
 
 function prepare(versions) {
-	let xml = readFileSync("endpoints/default/data/appUpdate.xml", "utf-8");
+	let xml = readFileSync("./endpoints/default/data/appUpdate.xml", "utf-8");
 	xml = xml
 		.replace("VERSIONID", versions[0].app.replace(/[.]/g, "").padStart(4, "0"))
 		.replace("VERSION", versions[0].app);

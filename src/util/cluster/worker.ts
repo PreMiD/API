@@ -49,7 +49,7 @@ export async function worker() {
 	);
 
 	loadEndpoints(server, require("../../endpoints.json"));
-	server.listen({ port: 3001, host: "0.0.0.0" });
+	server.listen({ port: 3001 });
 
 	process.on("SIGINT", async function () {
 		await Promise.all([client.close(), server.close()]);
