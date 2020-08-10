@@ -18,10 +18,10 @@ const handler: RouteHandlerMethod<
 	const presences = prs;
 
 	//* If presence not set
-	if (!req.params["presence"]) {
+	if (!req.params["presence"])
 		//* send all presences
 		//* return
-		res.send(
+		return await res.send(
 			presences.map(p => {
 				return {
 					name: p.name,
@@ -30,12 +30,10 @@ const handler: RouteHandlerMethod<
 				};
 			})
 		);
-		return;
-	}
 
 	//* If presence "name" === versions
-	if (req.params["presence"] === "versions") {
-		res.send(
+	if (req.params["presence"] === "versions")
+		return await res.send(
 			presences.map(p => {
 				return {
 					name: p.name,
@@ -44,8 +42,6 @@ const handler: RouteHandlerMethod<
 				};
 			})
 		);
-		return;
-	}
 
 	//* If file not set
 	if (!req.params["file"]) {
@@ -53,19 +49,18 @@ const handler: RouteHandlerMethod<
 		let presence = presences.find(p => p.name === req.params["presence"]);
 
 		//* If not found
-		if (!presence) {
+		if (!presence)
 			//* Send error
 			//* return
-			res.status(404).send({ error: 4, message: "No such presence." });
-			return;
-		}
+			return await res
+				.status(404)
+				.send({ error: 4, message: "No such presence." });
 
-		res.send({
+		return await res.send({
 			name: presence.name,
 			url: presence.url,
 			metadata: presence.metadata
 		});
-		return;
 	}
 
 	let presence = presences.find(p => p.name === req.params["presence"]);
@@ -93,8 +88,7 @@ const handler: RouteHandlerMethod<
 		default:
 			//* send error
 			//* return
-			res.status(404).send({ error: 5, message: "No such file." });
-			return;
+			return await res.status(404).send({ error: 5, message: "No such file." });
 	}
 
 	//* If file ends with .js
@@ -102,11 +96,11 @@ const handler: RouteHandlerMethod<
 	if (req.params["file"].endsWith(".js")) {
 		//* set header JS file
 		//* unescape file
-		res.header("content-type", "text/javascript");
+		res.type("text/javascript");
 		presence = unescape(<string>presence);
 	}
 
-	res.send(presence);
+	return await res.send(presence);
 };
 
 function preparePresences(presences) {
