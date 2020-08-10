@@ -286,9 +286,9 @@ braces@^3.0.1, braces@~3.0.2:
     fill-range "^7.0.1"
 
 bson@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/bson/-/bson-1.1.4.tgz#f76870d799f15b854dffb7ee32f0a874797f7e89"
-  integrity sha512-S/yKGU1syOMzO86+dGpg2qGoDL0zvzcb262G+gqEy6TgP6rt6z6qxSFX/8X6vLC91P7G7C3nLs0+bvDzmvBA3Q==
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-1.1.5.tgz#2aaae98fcdf6750c0848b0cba1ddec3c73060a34"
+  integrity sha512-kDuEzldR21lHciPQAIulLs1LZlCXdLziXI6Mb/TDkwXhb//UORJNPXgcRs2CuO4H0DcMkpfT3/ySsP3unoZjBg==
 
 buffer-from@^1.0.0:
   version "1.1.1"
@@ -611,10 +611,10 @@ fast-json-stringify@^2.2.1:
     deepmerge "^4.2.2"
     string-similarity "^4.0.1"
 
-fast-node-cache@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/fast-node-cache/-/fast-node-cache-1.1.2.tgz#0d5c836dff11c3d8689c0bf2e44037380a29004b"
-  integrity sha512-iLahICI1PvyOV05m/Rb8O+gC4szyjjo5NLUXAisZfPApkSidbQQ7DoxIR793mp6xq6wgeSkOqJO+tN4AIpV0Mg==
+fast-node-cache@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/fast-node-cache/-/fast-node-cache-1.1.3.tgz#a7142573e2a14e15d0123a15b9b14e845779fb5b"
+  integrity sha512-tmhw7Fo8k6kyryvgcSdgw5gAHUitZERAtLnBppjic6UgvijBDWYPDjCVg4vb+u7G+FX6f3uE6agovEzbnrF3JA==
 
 fast-redact@^2.0.0:
   version "2.0.0"
@@ -681,9 +681,9 @@ fastify-helmet@^5.0.0:
     helmet "^4.0.0"
 
 fastify-plugin@^2.0.0, fastify-plugin@^2.0.1, fastify-plugin@^2.0.3, fastify-plugin@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-2.2.0.tgz#7b4f526dc08e13635f3e7cb0c79a8a596a90986c"
-  integrity sha512-R2XUkpsuXvz7mctqyY7Y9+CGeYd+ITNUXuGdpOVsIuqHkzARMHm4ZwFGl8xrGJgRAMwMmlWQbX8nduSlexKkjA==
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-2.3.0.tgz#ef09432fd099e7cbd45f9612efc22da1da213fea"
+  integrity sha512-FOfgK3ORSXMl9AbXmkADH2gZ4qiegcYuJfDxKNlL0jQKLndbXYoBjifinYkSi2mTewDwu/LMlAGe4PVyhLpSXA==
   dependencies:
     semver "^7.3.2"
 
@@ -1388,9 +1388,9 @@ punycode@^2.1.0:
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
 qlobber@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/qlobber/-/qlobber-5.0.0.tgz#7b5f503eb02be1c88bfaf5b30923bfce801ec325"
-  integrity sha512-JDmrgy9+RLFqFEGzVOCf85i3OOOdOtV6iRgWuxxwoCnIxowykISSNJUtrCHoe2G+NYTtfI01GUs1c3xL3dhmCg==
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/qlobber/-/qlobber-5.0.1.tgz#779428fda5157a5646f8f788f060e6c0d97bd5a1"
+  integrity sha512-9cZ1BtifnM4wbHEEcj3QOU91YfXUmqTjtPvq1v4mQKn+5Ycg9wlmMA1qeJ88OIF+NVCIMk9/xK+QCol2eYDY3g==
 
 queue-microtask@^1.1.2:
   version "1.1.4"
