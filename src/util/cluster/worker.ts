@@ -29,8 +29,9 @@ export async function worker() {
 		server.use(connectDatadog);
 	}
 
-	server.register(fastifyCompress);
-	server.register(helmet);
+	//TODO Causes request overflow!?
+	/* 	server.register(fastifyCompress);
+	 */ server.register(helmet);
 
 	server.all("*", async (req, res) => {
 		res.header("Access-Control-Allow-Origin", "*");
