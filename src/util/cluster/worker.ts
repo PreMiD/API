@@ -33,15 +33,17 @@ export async function worker() {
 	/* 	server.register(fastifyCompress);
 	 */ server.register(helmet);
 
-	server.all("*", async (req, res) => {
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header(
+	server.addHook("preHandler", async (req, reply) => {
+		reply.header("Access-Control-Allow-Origin", "*");
+		reply.header(
 			"Access-Control-Allow-Headers",
 			"Origin, X-Requested-With, Content-Type, Accept"
 		);
 		//* Don't hold connections open, we're an API duh
-		res.header("Connection", "close");
+		reply.header("Connection", "close");
+		return;
 	});
+
 	server.register(gql, {
 		schema: (await import("../../endpoints/v3/schema/schema")).default
 	});
