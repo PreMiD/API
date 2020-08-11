@@ -1,5 +1,5 @@
-import { GraphQLObjectType, GraphQLScalarType } from "graphql/type/definition";
 import { GraphQLString } from "graphql";
+import { GraphQLObjectType, GraphQLScalarType } from "graphql/type/definition";
 
 export const langFileType = new GraphQLObjectType({
 	name: "LangFile",

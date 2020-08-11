@@ -1,7 +1,8 @@
-import { getDiscordUser } from "../../util/functions/getDiscordUser";
-import { pmdDB } from "../../db/client";
-import { Server, IncomingMessage, ServerResponse } from "http";
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
+
+import { pmdDB } from "../../db/client";
+import { getDiscordUser } from "../../util/functions/getDiscordUser";
 
 const tickets = pmdDB.collection("tickets");
 const credits = pmdDB.collection("credits");

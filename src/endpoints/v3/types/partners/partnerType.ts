@@ -1,5 +1,5 @@
-import { GraphQLObjectType } from "graphql/type/definition";
 import { GraphQLString } from "graphql";
+import { GraphQLObjectType } from "graphql/type/definition";
 
 export const partnerType = new GraphQLObjectType({
 	name: "Partner",

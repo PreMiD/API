@@ -1,6 +1,7 @@
+import { GraphQLList, GraphQLString } from "graphql";
+
 import { cache } from "../../../index";
 import { discordUserType } from "../types/discordUsers/discordUserType";
-import { GraphQLList, GraphQLString } from "graphql";
 
 export const discordUsers = {
 	type: GraphQLList(discordUserType),

@@ -1,7 +1,8 @@
-import { ticketType } from "../types/tickets/ticketType";
 import { GraphQLList, GraphQLString } from "graphql";
+
 import { pmdDB } from "../../../db/client";
 import { getDiscordUser } from "../../../util/functions/getDiscordUser";
+import { ticketType } from "../types/tickets/ticketType";
 
 export const tickets = {
 	type: GraphQLList(ticketType),

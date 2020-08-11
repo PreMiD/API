@@ -1,6 +1,7 @@
-import { pmdDB } from "../../db/client";
-import { Server, IncomingMessage, ServerResponse } from "http";
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
+
+import { pmdDB } from "../../db/client";
 
 //* Define credits collection
 const alphaUsers = pmdDB.collection("alphaUsers");

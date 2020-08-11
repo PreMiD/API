@@ -1,7 +1,8 @@
-import { cache } from "../../index";
-import { readFileSync } from "fs";
-import { Server, IncomingMessage, ServerResponse } from "http";
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { readFileSync } from "fs";
+import { IncomingMessage, Server, ServerResponse } from "http";
+
+import { cache } from "../../index";
 
 let versions = prepare(cache.get("versions"));
 

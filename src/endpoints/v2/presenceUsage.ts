@@ -1,6 +1,7 @@
-import { cache } from "../../index";
-import { Server, IncomingMessage, ServerResponse } from "http";
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
+
+import { cache } from "../../index";
 
 let science = prepareUsage(cache.get("science"));
 

@@ -1,7 +1,8 @@
-import { reviewType } from "./reviewType";
+import { GraphQLBoolean, GraphQLString } from "graphql";
+import { GraphQLList, GraphQLObjectType } from "graphql/type/definition";
+
 import { positionType } from "./positionType";
-import { GraphQLObjectType, GraphQLList } from "graphql/type/definition";
-import { GraphQLString, GraphQLBoolean } from "graphql";
+import { reviewType } from "./reviewType";
 
 export const applicationType = new GraphQLObjectType({
 	name: "Application",

@@ -1,5 +1,5 @@
-import { GraphQLList, GraphQLObjectType } from "graphql/type/definition";
 import { GraphQLString } from "graphql";
+import { GraphQLList, GraphQLObjectType } from "graphql/type/definition";
 
 export const changelogType = new GraphQLObjectType({
 	name: "Changelog",

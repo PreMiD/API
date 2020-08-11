@@ -1,3 +1,5 @@
+import { GraphQLObjectType, GraphQLSchema } from "graphql";
+
 import { addReview } from "../fields/addReview";
 import { applications } from "../fields/applications";
 import { benefits } from "../fields/benefits";
@@ -13,7 +15,6 @@ import { science } from "../fields/science";
 import { sponsors } from "../fields/sponsors";
 import { tickets } from "../fields/tickets";
 import { versions } from "../fields/versions";
-import { GraphQLObjectType, GraphQLSchema } from "graphql";
 
 //* Root Query
 const rootQuery = new GraphQLObjectType({

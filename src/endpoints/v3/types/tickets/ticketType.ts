@@ -1,6 +1,7 @@
+import { GraphQLFloat, GraphQLInt, GraphQLString } from "graphql";
+import { GraphQLList, GraphQLObjectType } from "graphql/type/definition";
+
 import { messageType } from "./messageType";
-import { GraphQLObjectType, GraphQLList } from "graphql/type/definition";
-import { GraphQLString, GraphQLFloat, GraphQLInt } from "graphql";
 
 export const ticketType = new GraphQLObjectType({
 	name: "Ticket",

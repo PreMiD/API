@@ -1,6 +1,7 @@
+import { GraphQLList, GraphQLString } from "graphql";
+
 import { cache } from "../../../index";
 import { changelogType } from "../types/changelog/changelogType";
-import { GraphQLList, GraphQLString } from "graphql";
 
 export const changelog = {
 	type: GraphQLList(changelogType),

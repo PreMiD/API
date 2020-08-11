@@ -1,6 +1,7 @@
+import { GraphQLList } from "graphql";
+
 import { cache } from "../../../index";
 import { jobsType } from "../types/jobs/jobsType";
-import { GraphQLList } from "graphql";
 
 export const jobs = {
 	type: GraphQLList(jobsType),

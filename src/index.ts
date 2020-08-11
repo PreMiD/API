@@ -1,8 +1,10 @@
-import CacheManager from "fast-node-cache";
+import "source-map-support/register";
+
 import cluster from "cluster";
+import CacheManager from "fast-node-cache";
+
 import { master } from "./util/cluster/master";
 import { worker } from "./util/cluster/worker";
-import "source-map-support/register";
 
 export const cache = new CacheManager({
 	cacheDirectory: "../caches",

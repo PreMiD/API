@@ -1,9 +1,6 @@
-import { initialize as CrowdinInitialize } from "../util/crowdinManager";
-import { config } from "dotenv";
 import { Db, MongoClient as mClient } from "mongodb";
-import { join } from "path";
 
-config({ path: join(process.cwd(), "../.env") });
+import { initialize as CrowdinInitialize } from "../util/crowdinManager";
 
 export let pmdDB: Db = null;
 

@@ -1,7 +1,8 @@
-import { applicationType } from "../types/applications/applicationType";
 import { GraphQLList, GraphQLString } from "graphql";
+
 import { pmdDB } from "../../../db/client";
 import { getDiscordUser } from "../../../util/functions/getDiscordUser";
+import { applicationType } from "../types/applications/applicationType";
 
 export const applications = {
 	type: GraphQLList(applicationType),

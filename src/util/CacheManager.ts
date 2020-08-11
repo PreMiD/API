@@ -1,6 +1,7 @@
 import cluster from "cluster";
-import { cache } from "../index";
+
 import { pmdDB } from "../db/client";
+import { cache } from "../index";
 
 let initialCacheI = null;
 export async function initCache() {

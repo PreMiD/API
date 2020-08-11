@@ -1,6 +1,6 @@
 import { RouteHandlerMethod } from "fastify";
-import { Server, IncomingMessage, ServerResponse } from "http";
 import { RouteGenericInterface } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
 
 const handler: RouteHandlerMethod<
 	Server,

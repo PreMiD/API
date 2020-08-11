@@ -1,6 +1,7 @@
-import { questionType } from "./questionType";
-import { GraphQLObjectType, GraphQLList } from "graphql/type/definition";
 import { GraphQLString } from "graphql";
+import { GraphQLList, GraphQLObjectType } from "graphql/type/definition";
+
+import { questionType } from "./questionType";
 
 export const positionType = new GraphQLObjectType({
 	name: "Position",
