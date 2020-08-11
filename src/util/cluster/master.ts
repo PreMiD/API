@@ -1,6 +1,5 @@
 import "source-map-support/register";
 
-import { fork } from "child_process";
 import cluster from "cluster";
 import { config } from "dotenv";
 import { cpus } from "os";
@@ -14,42 +13,20 @@ config();
 export let workers: Array<cluster.Worker> = [];
 
 export async function master() {
-	if (cluster.isMaster) {
-		connect()
-			.then(async () => {
-				spawnWorkers();
-				let total = cpus().length;
-				await initCache();
+	connect()
+		.then(async () => {
+			spawnWorkers();
+			await initCache();
 
-				await new Promise(resolve => {
-					let recv = 0;
-					for (const worker of Object.values(cluster.workers)) {
-						worker.once("message", () => {
-							recv++;
-							if (recv === total) resolve();
-							debug(
-								"info",
-								"master.ts",
-								`Worker ${recv} has received initial cache!`
-							);
-						});
-					}
-				});
-				debug("info", "index.ts", "Listening on port 3001");
+			debug("info", "index.ts", "Listening on port 3001");
 
-				if (process.env.NODE_ENV === "production") {
-					//* Update response Time (StatusPage)
-					setTimeout(() => fork("util/updateResponseTime"), 15 * 1000);
-					setInterval(() => fork("util/updateResponseTime"), 5 * 60 * 1000);
-				}
-				setInterval(() => deleteOldUsers, 60 * 60 * 1000);
-				deleteOldUsers();
-			})
-			.catch(err => {
-				debug("error", "index.ts", err);
-				process.exit();
-			});
-	}
+			deleteOldUsers();
+			setInterval(() => deleteOldUsers, 60 * 60 * 1000);
+		})
+		.catch(err => {
+			debug("error", "index.ts", err);
+			process.exit();
+		});
 }
 
 function spawnWorkers() {

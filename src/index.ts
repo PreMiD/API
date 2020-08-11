@@ -13,19 +13,4 @@ export const cache = new CacheManager({
 });
 
 if (cluster.isMaster) master();
-else {
-	let recv = false;
-	cluster.worker.on("message", msg => {
-		//@ts-ignore
-		for (let i = 0; Object.keys(msg).length > i; i++) {
-			//@ts-ignore
-			cache.set(Object.keys(msg)[i], Object.values(msg)[i].data);
-		}
-
-		if (!recv) {
-			recv = true;
-			process.send("");
-			worker();
-		}
-	});
-}
+else worker();
