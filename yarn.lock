@@ -485,10 +485,10 @@ fastify-error@^0.2.0:
   resolved "https://registry.yarnpkg.com/fastify-error/-/fastify-error-0.2.0.tgz#9a1c28d4f42b6259e7a549671c8e5e2d85660634"
   integrity sha512-zabxsBatj59ROG0fhP36zNdc5Q1/eYeH9oSF9uvfrurZf8/JKfrJbMcIGrLpLWcf89rS6L91RHWm20A/X85hcA==
 
-fastify-gql@5.3.2:
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/fastify-gql/-/fastify-gql-5.3.2.tgz#4085e41f355c7d0be4a39e984e04df1f269af992"
-  integrity sha512-x9VlqMn4sKk+QvWjo/qlNKZXyPKxtmRdFygBrp28tw7jiObmeO4cpUJncq3q1TBEoqNNEJ535TdeEGcslQRMsA==
+fastify-gql@5.3.3:
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/fastify-gql/-/fastify-gql-5.3.3.tgz#b5e9b608fa68be4b282fc2d963671f09d9fe0d4a"
+  integrity sha512-pksW3n1yhE7VX5lFuHTiZPw+hB9dpYEycjOVoyz8CsvchcyeOer9smCl1LEGZ3VYzl4HAXohvjtqKWl7nKqpgw==
   dependencies:
     end-of-stream "^1.4.4"
     events.on "^1.0.1"
