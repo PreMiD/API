@@ -15,7 +15,7 @@ export let workers: Array<cluster.Worker> = [];
 export async function master() {
 	connect()
 		.then(async () => {
-			spawnWorkers();
+			if (!process.argv.includes("--no-cluster")) spawnWorkers();
 			await initCache();
 
 			debug("info", "index.ts", "Listening on port 3001");

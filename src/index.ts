@@ -12,5 +12,8 @@ export const cache = new CacheManager({
 	discardTamperedCache: true
 });
 
-if (cluster.isMaster) master();
+console.log(process.argv, process.argv0);
+
+if (process.argv.includes("--no-cluster")) master().then(worker);
+else if (cluster.isMaster) master();
 else worker();
