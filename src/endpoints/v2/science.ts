@@ -5,6 +5,33 @@ import { pmdDB } from "../../db/client";
 
 //* Define credits collection
 const science = pmdDB.collection("science");
+let scienceUpdateQueue: Array<{
+		identifier?: string;
+		presences?: string[];
+		platform?: { os?: string; arch?: string };
+	}> = [],
+	updateInterval = 60 * 1000;
+
+setInterval(() => {
+	const scienceToUpdate = scienceUpdateQueue;
+	scienceUpdateQueue = [];
+
+	if (scienceToUpdate.length === 0) return;
+
+	console.log(scienceToUpdate.length, scienceUpdateQueue.length);
+
+	science.bulkWrite(
+		scienceToUpdate.map(s => {
+			return {
+				updateOne: {
+					filter: { identifier: s.identifier },
+					update: { $set: s },
+					upsert: true
+				}
+			};
+		})
+	);
+}, updateInterval);
 
 const handler: RouteHandlerMethod<
 	Server,
@@ -38,16 +65,9 @@ const handler: RouteHandlerMethod<
 
 		if (body.platform) data.platform = body.platform;
 
-		science
-			.findOneAndUpdate(
-				{ identifier: body.identifier },
-				{
-					$set: data
-				},
-				{ upsert: true }
-			)
-			.then(() => res.send(200))
-			.catch(() => res.send(500));
+		scienceUpdateQueue.push(body);
+
+		res.send(200);
 	} else {
 		let identifier;
 
