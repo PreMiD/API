@@ -465,10 +465,10 @@ fast-json-stringify@^2.2.1:
     deepmerge "^4.2.2"
     string-similarity "^4.0.1"
 
-fast-node-cache@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/fast-node-cache/-/fast-node-cache-1.2.0.tgz#0eab6e65955652527d3e6eafcd8157a78b7a749b"
-  integrity sha512-Bot1EmWtxN5Fnry61xhRloUw1zajVGRAV9g8T84te1xf/8Hw2tE9P1TRDcapqps2swpsor19+32CygMl4nc44w==
+fast-node-cache@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/fast-node-cache/-/fast-node-cache-1.2.1.tgz#ddd5e1002da2f112d5495a6be69b420e7f702ffd"
+  integrity sha512-Y2zgBNbnkOLPTlytrBVCjwq/RJBF9quS02tNyTBX18JXq7RZiKd0OLwLnqauMShzKVeTfS8MhHijKQx2/un6DQ==
   dependencies:
     chokidar "^3.4.2"
 
