@@ -213,7 +213,7 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-chokidar@^3.4.0:
+chokidar@^3.4.0, chokidar@^3.4.2:
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.4.2.tgz#38dc8e658dec3809741eb3ef7bb0a47fe424232d"
   integrity sha512-IZHaDeBeI+sZJRX7lGcXsdzgvZqKv6sECqsbErJA4mHWfpRrD8B97kSFN4cQz6nGBGiuFia1MKR4d6c1o8Cv7A==
@@ -465,10 +465,12 @@ fast-json-stringify@^2.2.1:
     deepmerge "^4.2.2"
     string-similarity "^4.0.1"
 
-fast-node-cache@1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/fast-node-cache/-/fast-node-cache-1.1.3.tgz#a7142573e2a14e15d0123a15b9b14e845779fb5b"
-  integrity sha512-tmhw7Fo8k6kyryvgcSdgw5gAHUitZERAtLnBppjic6UgvijBDWYPDjCVg4vb+u7G+FX6f3uE6agovEzbnrF3JA==
+fast-node-cache@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/fast-node-cache/-/fast-node-cache-1.2.0.tgz#0eab6e65955652527d3e6eafcd8157a78b7a749b"
+  integrity sha512-Bot1EmWtxN5Fnry61xhRloUw1zajVGRAV9g8T84te1xf/8Hw2tE9P1TRDcapqps2swpsor19+32CygMl4nc44w==
+  dependencies:
+    chokidar "^3.4.2"
 
 fast-redact@^2.0.0:
   version "2.0.0"
