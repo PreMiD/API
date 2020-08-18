@@ -34,7 +34,7 @@ const handler: RouteHandlerMethod<
 			types[product_info.category].push(product_info);
 		});
 
-	res.send({ Products: types, Categories: categories });
+	return res.send({ Products: types, Categories: categories });
 };
 
 //* Export handler
