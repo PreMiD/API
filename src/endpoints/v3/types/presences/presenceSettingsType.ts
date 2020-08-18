@@ -1,7 +1,10 @@
-import { GraphQLString } from "graphql";
-import { GraphQLObjectType, GraphQLList } from "graphql/type/definition";
+import { GraphQLString, GraphQLInt, GraphQLBoolean } from "graphql";
+import {
+	GraphQLObjectType,
+	GraphQLList,
+	GraphQLScalarType
+} from "graphql/type/definition";
 
-//* Not sure if all of them are ok. Feel free to change them if something is wrong.
 export const presenceSettings = new GraphQLObjectType({
 	name: "PresenceSettings",
 	fields: () => ({
@@ -13,13 +16,35 @@ export const presenceSettings = new GraphQLObjectType({
 				name: "if",
 				fields: () => ({
 					propretyNames: { type: GraphQLString },
-					patternProprties: { type: GraphQLString }
+					patternProprties: {
+						type: new GraphQLScalarType({
+							name: "presencePatternProprtiesValue",
+							serialize: v => v
+						})
+					}
 				})
 			})
 		},
 		placeholder: { type: GraphQLString },
-		value: { type: GraphQLString },
-		values: { type: GraphQLList(GraphQLString) },
-		multiLanguage: { type: GraphQLString }
+		value: {
+			type: new GraphQLScalarType({
+				name: "presenceSettingValue",
+				serialize: v => v
+			})
+		},
+		values: {
+			type: GraphQLList(
+				new GraphQLScalarType({
+					name: "presenceSettingValues",
+					serialize: v => v
+				})
+			)
+		},
+		multiLanguage: {
+			type: new GraphQLScalarType({
+				name: "presenceMultiLanguage",
+				serialize: v => v
+			})
+		}
 	})
 });
