@@ -1,8 +1,9 @@
-import { cache } from "../../../index";
-import { downloadsType } from "../types/downloads/downloadsType";
-import { getDiscordUser } from "../../../util/functions/getDiscordUser";
-import { GraphQLList } from "graphql/type/definition";
 import { GraphQLString } from "graphql";
+import { GraphQLList } from "graphql/type/definition";
+
+import { cache } from "../../../index";
+import { getDiscordUser } from "../../../util/functions/getDiscordUser";
+import { downloadsType } from "../types/downloads/downloadsType";
 
 let downloadsCache = prepareDownloads(cache.get("downloads"));
 

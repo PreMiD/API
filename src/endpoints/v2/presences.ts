@@ -1,5 +1,7 @@
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
+
 import { cache } from "../../index";
-import { RequestHandler } from "express";
 
 let prs = preparePresences(cache.get("presences"));
 
@@ -7,15 +9,20 @@ cache.on("update", (_, data) => (prs = preparePresences(data)), {
 	only: "presences"
 });
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
 	const presences = prs;
 
 	//* If presence not set
-	if (!req.params["presence"]) {
+	if (!req.params["presence"])
 		//* send all presences
 		//* return
-		res.send(
+		return await res.send(
 			presences.map(p => {
 				return {
 					name: p.name,
@@ -24,12 +31,10 @@ const handler: RequestHandler = async (req, res) => {
 				};
 			})
 		);
-		return;
-	}
 
 	//* If presence "name" === versions
-	if (req.params["presence"] === "versions") {
-		res.send(
+	if (req.params["presence"] === "versions")
+		return await res.send(
 			presences.map(p => {
 				return {
 					name: p.name,
@@ -38,8 +43,6 @@ const handler: RequestHandler = async (req, res) => {
 				};
 			})
 		);
-		return;
-	}
 
 	//* If file not set
 	if (!req.params["file"]) {
@@ -47,19 +50,18 @@ const handler: RequestHandler = async (req, res) => {
 		let presence = presences.find(p => p.name === req.params["presence"]);
 
 		//* If not found
-		if (!presence) {
+		if (!presence)
 			//* Send error
 			//* return
-			res.status(404).send({ error: 4, message: "No such presence." });
-			return;
-		}
+			return await res
+				.status(404)
+				.send({ error: 4, message: "No such presence." });
 
-		res.send({
+		return await res.send({
 			name: presence.name,
 			url: presence.url,
 			metadata: presence.metadata
 		});
-		return;
 	}
 
 	let presence = presences.find(p => p.name === req.params["presence"]);
@@ -87,8 +89,7 @@ const handler: RequestHandler = async (req, res) => {
 		default:
 			//* send error
 			//* return
-			res.status(404).send({ error: 5, message: "No such file." });
-			return;
+			return await res.status(404).send({ error: 5, message: "No such file." });
 	}
 
 	//* If file ends with .js
@@ -96,11 +97,11 @@ const handler: RequestHandler = async (req, res) => {
 	if (req.params["file"].endsWith(".js")) {
 		//* set header JS file
 		//* unescape file
-		res.setHeader("content-type", "text/javascript");
+		res.type("text/javascript");
 		presence = unescape(<string>presence);
 	}
 
-	res.send(presence);
+	return await res.send(presence);
 };
 
 function preparePresences(presences) {

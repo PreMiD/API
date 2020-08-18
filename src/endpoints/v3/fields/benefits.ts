@@ -1,6 +1,7 @@
-import { benefitsType } from "../types/benefits/benefitsType";
-import { cache } from "../../../index";
 import { GraphQLList } from "graphql";
+
+import { cache } from "../../../index";
+import { benefitsType } from "../types/benefits/benefitsType";
 
 export const benefits = {
 	type: GraphQLList(benefitsType),

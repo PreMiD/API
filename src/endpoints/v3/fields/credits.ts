@@ -1,7 +1,8 @@
-import { cache } from "../../../index";
-import { creditsType } from "../types/credits/credits";
 import { GraphQLBoolean, GraphQLInt, GraphQLString } from "graphql";
 import { GraphQLList } from "graphql/type/definition";
+
+import { cache } from "../../../index";
+import { creditsType } from "../types/credits/credits";
 
 let creditsCache = prepareCredits(cache.get("credits"));
 

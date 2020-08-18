@@ -1,4 +1,4 @@
-import { GraphQLString, GraphQLFloat } from "graphql";
+import { GraphQLFloat, GraphQLString } from "graphql";
 import { GraphQLObjectType } from "graphql/type/definition";
 
 export const messageType = new GraphQLObjectType({

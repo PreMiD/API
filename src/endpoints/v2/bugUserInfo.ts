@@ -1,12 +1,19 @@
-import { RequestHandler } from "express";
-import { getDiscordUser } from "../../util/functions/getDiscordUser";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
+
 import { pmdDB } from "../../db/client";
+import { getDiscordUser } from "../../util/functions/getDiscordUser";
 
 //* Define bugUserInfo collection
 let bugs = Array();
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
 	//* userId not providen
 	if (!req.params["token"]) {
 		//* send error
@@ -32,11 +39,11 @@ const handler: RequestHandler = async (req, res) => {
 			} else if (bugs.length >= 1 && bugs.length <= 3) {
 				return res.send({ count: 3 - bugs.length, bugs: bugs });
 			} else {
-				return res.sendStatus(500);
+				return res.send(500);
 			}
 		})
 		.catch(err => {
-			return res.sendStatus(500);
+			return res.send(500);
 		});
 };
 

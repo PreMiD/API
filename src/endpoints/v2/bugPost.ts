@@ -1,19 +1,28 @@
-import { getDiscordUser } from "../../util/functions/getDiscordUser";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
+
 import { pmdDB } from "../../db/client";
-import { RequestHandler } from "express";
+import { getDiscordUser } from "../../util/functions/getDiscordUser";
 
 let bugs = pmdDB.collection("bugs");
 let bugInfo;
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
-	if (!req.body.brief) {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
+	const body = req.body as any;
+
+	if (!body.brief) {
 		return res
 			.status(449)
 			.send({ error: 1, message: "No Bug brief providen." });
 	}
 
-	if (!req.body.description) {
+	if (!body.description) {
 		return res
 			.status(449)
 			.send({ error: 2, message: "No Bug description providen." });
@@ -32,19 +41,19 @@ const handler: RequestHandler = async (req, res) => {
 				.toArray();
 			if (bugInfo.length < 3) {
 				await bugs.insertOne({
-					brief: req.body.brief,
-					system: req.body.system,
-					description: req.body.description,
-					status: req.body.status,
-					date: req.body.date,
+					brief: body.brief,
+					system: body.system,
+					description: body.description,
+					status: body.status,
+					date: body.date,
 					userName: dUser.username + "#" + dUser.discriminator,
 					userId: dUser.id
 				});
-				res.sendStatus(200);
+				res.send(200);
 			} else res.send(429);
 		})
 		.catch(err => {
-			res.sendStatus(500);
+			res.send(500);
 		});
 };
 

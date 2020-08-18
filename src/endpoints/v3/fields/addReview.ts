@@ -1,7 +1,8 @@
-import { reviewType } from "../types/addReview/reviewType";
-import { GraphQLString, GraphQLBoolean } from "graphql";
+import { GraphQLBoolean, GraphQLString } from "graphql";
+
 import { pmdDB } from "../../../db/client";
 import { getDiscordUser } from "../../../util/functions/getDiscordUser";
+import { reviewType } from "../types/addReview/reviewType";
 
 const applicationsColl = pmdDB.collection("applications");
 const creditsColl = pmdDB.collection("credits");

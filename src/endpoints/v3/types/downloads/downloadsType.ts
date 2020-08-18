@@ -1,6 +1,7 @@
-import { downloadLinkType } from "./downloadLinkType";
-import { GraphQLList, GraphQLObjectType } from "graphql/type/definition";
 import { GraphQLString } from "graphql";
+import { GraphQLList, GraphQLObjectType } from "graphql/type/definition";
+
+import { downloadLinkType } from "./downloadLinkType";
 
 export const downloadsType = new GraphQLObjectType({
 	name: "Downloads",

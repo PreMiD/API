@@ -1,8 +1,15 @@
-import { cache } from "../../index";
-import { RequestHandler } from "express";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
+import { cache } from "../../index";
+
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
 	//* user param not set
 	if (!req.params["userId"]) {
 		//* Send all users

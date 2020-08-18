@@ -1,6 +1,12 @@
-import { RequestHandler } from "express";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
 
-const handler: RequestHandler = async (_req, res) =>
-	res.redirect("//docs.premid.app");
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (_req, res) => res.redirect("//docs.premid.app");
 
 export { handler };

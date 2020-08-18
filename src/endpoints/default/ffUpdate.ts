@@ -1,7 +1,15 @@
-import { cache } from "../../index";
-import { RequestHandler } from "express";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
 
-const handler: RequestHandler = async (_req, res) => {
+import { cache } from "../../index";
+
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (_req, res) => {
 	res.send({
 		addons: {
 			"support@premid.app": {

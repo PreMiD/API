@@ -1,5 +1,5 @@
+import { GraphQLBoolean, GraphQLFloat, GraphQLString } from "graphql";
 import { GraphQLObjectType } from "graphql/type/definition";
-import { GraphQLString, GraphQLBoolean, GraphQLFloat } from "graphql";
 
 export const reviewType = new GraphQLObjectType({
 	name: "Review",

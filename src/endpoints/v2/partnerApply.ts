@@ -1,7 +1,9 @@
-import { getDiscordUser } from "../../util/functions/getDiscordUser";
-import { pmdDB } from "../../db/client";
-import { RequestHandler } from "express";
 import { WebhookClient } from "discord.js";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
+
+import { pmdDB } from "../../db/client";
+import { getDiscordUser } from "../../util/functions/getDiscordUser";
 
 const coll = pmdDB.collection("applications");
 const webhook = new WebhookClient(
@@ -9,21 +11,28 @@ const webhook = new WebhookClient(
 	process.env.DISCORD_WEBHOOK_TOKEN
 );
 
-//* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
+	const body = req.body as any;
+
 	if (
-		!req.body.type ||
-		!req.body.name ||
-		!req.body.link ||
-		!req.body.description ||
-		!req.body.imageLink ||
-		!req.body.token
+		!body.type ||
+		!body.name ||
+		!body.link ||
+		!body.description ||
+		!body.imageLink ||
+		!body.token
 	) {
 		res.status(400).send({ error: 1, message: "Missing fields." });
 		return;
 	}
 
-	getDiscordUser(req.body.token)
+	getDiscordUser(body.token)
 		.then(async dUser => {
 			if (
 				await coll.findOne({
@@ -38,43 +47,43 @@ const handler: RequestHandler = async (req, res) => {
 				return;
 			}
 
-			res.sendStatus(200);
+			res.send(200);
 
 			coll.insertOne({
 				type: "partner",
 				userId: dUser.id,
 				reviewed: false,
-				pType: req.body.type,
-				name: req.body.name,
-				link: req.body.link,
-				description: req.body.description,
-				imageLink: req.body.imageLink
+				pType: body.type,
+				name: body.name,
+				link: body.link,
+				description: body.description,
+				imageLink: body.imageLink
 			});
 
 			webhook.send("", {
 				embeds: [
 					{
-						title: `Partner Application (${req.body.type})`,
+						title: `Partner Application (${body.type})`,
 						description: `By <@${dUser.id}>`,
 						fields: [
 							{
 								name: "Type",
-								value: req.body.type,
+								value: body.type,
 								inline: false
 							},
 							{
 								name: "Name",
-								value: req.body.name,
+								value: body.name,
 								inline: false
 							},
 							{
 								name: "URL",
-								value: req.body.link,
+								value: body.link,
 								inline: false
 							},
 							{
 								name: "Description",
-								value: req.body.description,
+								value: body.description,
 								inline: false
 							}
 						],
@@ -82,7 +91,7 @@ const handler: RequestHandler = async (req, res) => {
 							url: `https://cdn.discordapp.com/avatars/${dUser.id}/${dUser.avatar}.png`
 						},
 						image: {
-							url: req.body.imageLink
+							url: body.imageLink
 						}
 					}
 				]

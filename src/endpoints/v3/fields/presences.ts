@@ -1,8 +1,9 @@
+import { GraphQLInt, GraphQLString } from "graphql";
+import { GraphQLList } from "graphql/type/definition";
+
 import { cache } from "../../../index";
 import { prepareUsage } from "../../v2/presenceUsage";
 import { presenceType } from "../types/presences/presencesType";
-import { GraphQLInt, GraphQLString } from "graphql";
-import { GraphQLList } from "graphql/type/definition";
 
 let science = cache.get("science"),
 	presencesCache = preparePresences(cache.get("presences"));

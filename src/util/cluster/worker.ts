@@ -1,57 +1,59 @@
-import bodyParser from "body-parser";
-import cluster from "cluster";
-import compression from "compression";
-import connect_datadog from "connect-datadog";
-import express from "express";
-import graphqlHTTP from "express-graphql";
-import helmet from "helmet";
-import loadEndpoints from "../functions/loadEndpoints";
-import { client, connect } from "../../db/client";
-import { hostname } from "os";
 import "source-map-support/register";
 
+import fastify from "fastify";
+import gql from "fastify-gql";
+import helmet from "fastify-helmet";
+import middie from "middie";
+
+import { client, connect } from "../../db/client";
+import loadEndpoints from "../functions/loadEndpoints";
+
 export async function worker() {
-	await connect();
-	//* Create express server
-	//* Parse JSON
-	//* Set API Headers
-	let server = express();
-	if (process.env.NODE_ENV === "production") {
-		const connectDatadog = connect_datadog({
-			response_code: true,
-			tags: [`API:${cluster.worker.id}`]
-		});
-		server.use(connectDatadog);
-	}
-
-	server.use(compression());
-	server.use(helmet());
-	server.use(
-		"/v3",
-		graphqlHTTP({
-			schema: (await import("../../endpoints/v3/schema/schema")).default,
-			graphiql: true
-		})
-	);
-	server.use(bodyParser.json());
-	server.use((_, res, next) => {
-		res.header("X-PreMiD-Host", hostname());
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header(
-			"Access-Control-Allow-Headers",
-			"Origin, X-Requested-With, Content-Type, Accept"
-		);
-		//* Don't hold connections open, we're an API duh
-		res.setHeader("Connection", "close");
-
-		next();
+	const server = fastify({
+		logger: process.env.NODE_ENV !== "production",
+		ignoreTrailingSlash: true
 	});
 
-	loadEndpoints(server, require("../../endpoints.json"));
-	const expressServer = server.listen(3001);
+	await Promise.all([
+		connect(),
+		server.register(middie),
+		server.register(helmet)
+	]);
 
+	await server.register(gql, {
+		schema: (await import("../../endpoints/v3/schema/schema")).default
+	});
+
+	server.addHook("onRequest", async (req, reply) => {
+		//@ts-ignore
+		req.responseTimeCalc = process.hrtime();
+		reply.headers({
+			"X-Response-Time": process.hrtime(),
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers":
+				"Origin, X-Requested-With, Content-Type, Accept",
+			Connection: "close"
+		});
+		return;
+	});
+
+	server.addHook("onSend", async (req, reply) => {
+		//@ts-ignore
+		const diff = process.hrtime(req.responseTimeCalc);
+		reply.header("X-Response-Time", diff[0] * 1e3 + diff[1] / 1e6);
+		return;
+	});
+
+	server.post("/v3", async (req, reply) =>
+		reply.graphql((req.body as any).query)
+	);
+
+	loadEndpoints(server, require("../../endpoints.json"));
+	server.listen({ port: 3001 });
+
+	//? Still neeeded?
 	process.on("SIGINT", async function () {
-		await Promise.all([client.close(), expressServer.close()]);
+		await Promise.all([client.close(), server.close()]);
 		process.exit(0);
 	});
 }

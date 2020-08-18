@@ -1,6 +1,7 @@
 import cluster from "cluster";
-import { cache } from "../index";
+
 import { pmdDB } from "../db/client";
+import { cache } from "../index";
 
 let initialCacheI = null;
 export async function initCache() {
@@ -27,11 +28,6 @@ export async function initCache() {
 		])
 	);
 
-	//* deno > Welcome to node and its flaws
-	for (const worker of Object.values(cluster.workers)) {
-		// @ts-ignore
-		if (worker.isConnected()) worker.send(cache.internalCache);
-	}
 	if (!initialCacheI) initialCacheI = setInterval(initCache, 10 * 1000);
 }
 

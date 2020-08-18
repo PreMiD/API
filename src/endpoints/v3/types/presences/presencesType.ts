@@ -1,6 +1,7 @@
-import { presenceMetadata } from "./presenceMetadataType";
 import { GraphQLInt, GraphQLString } from "graphql";
 import { GraphQLObjectType } from "graphql/type/definition";
+
+import { presenceMetadata } from "./presenceMetadataType";
 
 export const presenceType = new GraphQLObjectType({
 	name: "Presences",

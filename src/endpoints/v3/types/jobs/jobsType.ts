@@ -1,6 +1,7 @@
+import { GraphQLBoolean, GraphQLString } from "graphql";
+import { GraphQLList, GraphQLObjectType } from "graphql/type/definition";
+
 import { questionsType } from "./questionsType";
-import { GraphQLObjectType, GraphQLList } from "graphql/type/definition";
-import { GraphQLString, GraphQLBoolean } from "graphql";
 
 export const jobsType = new GraphQLObjectType({
 	name: "Jobs",

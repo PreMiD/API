@@ -1,6 +1,7 @@
+import { GraphQLList, GraphQLString } from "graphql";
+
 import { cache } from "../../../index";
 import { langFileType } from "../types/langFiles/langFileType";
-import { GraphQLList, GraphQLString } from "graphql";
 
 export const langFiles = {
 	type: GraphQLList(langFileType),
