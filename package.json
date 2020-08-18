@@ -4,26 +4,27 @@
 	"main": "index.js",
 	"repository": "https://github.com/PreMiD/API",
 	"author": "Timeraa",
+	"license": "MPL-2.0",
+	"scripts": {
+		"start": "cd dist && node index.js",
+		"init": "yarn && rimraf dist && tsc && devScript --copyOnly && cd dist && yarn --production",
+		"dev": "devScript"
+	},
 	"dependencies": {
 		"axios": "0.19.2",
 		"discord.js": "12.2.0",
 		"dotenv": "8.2.0",
-		"express": "4.17.1",
-		"express-graphql": "0.9.0",
-		"fast-json-stable-stringify": "^2.1.0",
-		"fast-node-cache": "^1.1.2",
+		"fast-node-cache": "1.2.1",
 		"fastify": "3.2.1",
 		"fastify-gql": "5.3.4",
 		"fastify-helmet": "5.0.0",
 		"fs-extra": "9.0.1",
-		"helmet": "3.23.3",
 		"graphql": "15.3.0",
 		"middie": "5.1.0",
 		"mongodb": "3.6.0"
 	},
 	"devDependencies": {
 		"@types/fs-extra": "^9.0.1",
-		"@types/helmet": "^0.0.47",
 		"@types/mongodb": "^3.5.26",
 		"@types/node": "^14.0.27",
 		"rimraf": "^3.0.2",
