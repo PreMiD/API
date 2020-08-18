@@ -1,15 +1,22 @@
-import { getDiscordUser } from "../../util/functions/getDiscordUser";
-import { pmdDB } from "../../db/client";
-import { RequestHandler } from "express";
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
+import { getDiscordUser } from "../../../util/functions/getDiscordUser";
+import { pmdDB } from "../../../db/client";
 
 //* Define credits collection
 const promotions = pmdDB.collection("merchPromotions");
 
 //* Request Handler
-const handler: RequestHandler = async (req, res) => {
-	if (!req.params["code"]) return res.sendStatus(404);
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
+	if (!req.params["code"]) return res.send(404);
 
-	let userId: number;
+	let userId: string;
 	if (req.params["token"]) {
 		getDiscordUser(req.params["token"]).then(async dUser => {
 			userId = dUser.id;

@@ -1,5 +1,6 @@
+import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
 import { cache } from "../../index";
-import { RequestHandler } from "express";
 
 let products = cache.get("merch");
 
@@ -11,7 +12,13 @@ let categories = [];
 let types = {};
 
 //* Request Handler
-const handler: RequestHandler = async (req, res) => {
+const handler: RouteHandlerMethod<
+	Server,
+	IncomingMessage,
+	ServerResponse,
+	RouteGenericInterface,
+	unknown
+> = async (req, res) => {
 	products
 		.filter(document => document.title === "categories")[0]
 		["list"].forEach((category, index) => {
