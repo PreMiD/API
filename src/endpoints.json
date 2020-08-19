@@ -150,6 +150,14 @@
 		{
 			"path": "/v2/bugUserInfo/:token",
 			"handler": "bugUserInfo"
+		},
+		{
+			"path": "/v2/products",
+			"handler": "products"
+		},
+		{
+			"path": "/v2/currencyRates",
+			"handler": "currencyRates"
 		}
 	]
 }
