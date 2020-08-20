@@ -1,4 +1,8 @@
-import "dotenv/config";
+if (process.env.NODE_ENV !== "production") {
+	const dotenv = require("dotenv").config;
+
+	dotenv({ path: "../.env" });
+}
 
 import axios from "axios";
 

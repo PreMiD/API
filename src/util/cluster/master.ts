@@ -1,22 +1,26 @@
 import "source-map-support/register";
 
 import cluster from "cluster";
-import { config } from "dotenv";
 import { cpus } from "os";
 
 import { client, connect, pmdDB } from "../../db/client";
 import { initCache } from "../CacheManager";
 import debug from "../debug";
 
-config();
+if (process.env.NODE_ENV !== "production") {
+	const dotenv = require("dotenv").config;
+
+	dotenv({ path: "../.env" });
+}
 
 export let workers: Array<cluster.Worker> = [];
 
 export async function master() {
 	connect()
 		.then(async () => {
-			if (!process.argv.includes("--no-cluster")) spawnWorkers();
 			await initCache();
+
+			if (!process.argv.includes("--no-cluster")) spawnWorkers();
 
 			debug("info", "index.ts", "Listening on port 3001");
 

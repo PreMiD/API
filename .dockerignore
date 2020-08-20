@@ -1,0 +1,8 @@
+node_modules
+dist
+caches
+.github
+.git
+Dockerfile
+LICENSE
+.env
