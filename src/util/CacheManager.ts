@@ -10,7 +10,6 @@ export async function initCache() {
 	await Promise.all(
 		cacheBuilder([
 			"presences",
-			"presenceInfo",
 			"langFiles",
 			{ name: "credits", expires: 5 * 1000 },
 			"science",
