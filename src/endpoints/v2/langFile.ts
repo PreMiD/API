@@ -49,11 +49,7 @@ const handler: RouteHandlerMethod<
 	const projectParamLwr = req.params["project"].toLowerCase();
 
 	// get strings of given project name
-	if (
-		["extension", "website", "presence", "merchstore"].includes(
-			req.params["project"]
-		)
-	) {
+	if (["extension", "website", "presence", "merchstore"].includes(req.params["project"])) {
 		langFile = langFiles.find(
 			lF =>
 				lF.project === req.params["project"] && lF.lang === req.params["lang"]
