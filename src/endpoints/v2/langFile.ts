@@ -5,7 +5,7 @@ import { cache } from "../../index";
 
 let langFiles = prepareLangFiles(cache.get("langFiles"));
 cache.on("update", (_, data) => (langFiles = prepareLangFiles(data)), {
-	only: "langFiles"
+	only: "langFiles",
 });
 
 const handler: RouteHandlerMethod<
@@ -49,7 +49,11 @@ const handler: RouteHandlerMethod<
 	const projectParamLwr = req.params["project"].toLowerCase();
 
 	// get strings of given project name
-	if (["extension", "website", "presence"].includes(req.params["project"])) {
+	if (
+		["extension", "website", "presence", "merchstore"].includes(
+			req.params["project"]
+		)
+	) {
 		langFile = langFiles.find(
 			lF =>
 				lF.project === req.params["project"] && lF.lang === req.params["lang"]
@@ -132,7 +136,7 @@ function formatLangFile(langFile) {
 		...Object.keys(langFile.translations).map(translationKey => {
 			const newKey = translationKey.replace(/[_]/g, ".");
 			return {
-				[newKey]: langFile.translations[translationKey]
+				[newKey]: langFile.translations[translationKey],
 			};
 		})
 	);
