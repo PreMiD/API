@@ -11,7 +11,7 @@
 		"dev": "devScript"
 	},
 	"dependencies": {
-		"axios": "0.19.2",
+		"axios": "0.20.0",
 		"discord.js": "12.2.0",
 		"fast-node-cache": "1.2.1",
 		"fastify": "3.2.1",
