@@ -508,18 +508,18 @@ fastify-gql@5.3.4:
     tiny-lru "^7.0.2"
     ws "^7.2.1"
 
-fastify-helmet@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/fastify-helmet/-/fastify-helmet-5.0.0.tgz#a8019f009237ca23ccc0aeca72ffc33d8988b781"
-  integrity sha512-kE5qEflGkSu0RRE3WNdt9XMkU2X6zb85jYLW2TKIL7r0p+JJmqaW24xsD248Bn5hfPxDfKSBqCj6MoaLIqYzTw==
+fastify-helmet@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/fastify-helmet/-/fastify-helmet-5.0.1.tgz#1267e1797e4d4022f1be601c4b534849576be624"
+  integrity sha512-e9SVR5n4oRDqn0NCPMjK8AZvEVUsQTittlQ/Pj3IJ0CMNRciOe6NwXiglVpRICU625EStgOqgmWOoWD2nUJNKQ==
   dependencies:
-    fastify-plugin "^2.0.3"
+    fastify-plugin "^2.1.1"
     helmet "^4.0.0"
 
-fastify-plugin@^2.0.0, fastify-plugin@^2.0.1, fastify-plugin@^2.0.3:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-2.3.0.tgz#ef09432fd099e7cbd45f9612efc22da1da213fea"
-  integrity sha512-FOfgK3ORSXMl9AbXmkADH2gZ4qiegcYuJfDxKNlL0jQKLndbXYoBjifinYkSi2mTewDwu/LMlAGe4PVyhLpSXA==
+fastify-plugin@^2.0.0, fastify-plugin@^2.0.1, fastify-plugin@^2.1.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-2.3.1.tgz#3e2dd4d82830cbadea86d92f06dba15da073ffa3"
+  integrity sha512-Cj3a3ooZcAtlS8bSSqwijwpNfvgE2Ek+VwvCvnLK3zEsyqgEL+YmEHKL2lFgdrGJu4WPqbXBdaHBashxEBxrFA==
   dependencies:
     semver "^7.3.2"
 
