@@ -5,7 +5,7 @@ import { cache } from "../../index";
 
 let langFiles = prepareLangFiles(cache.get("langFiles"));
 cache.on("update", (_, data) => (langFiles = prepareLangFiles(data)), {
-	only: "langFiles",
+	only: "langFiles"
 });
 
 const handler: RouteHandlerMethod<
@@ -136,7 +136,7 @@ function formatLangFile(langFile) {
 		...Object.keys(langFile.translations).map(translationKey => {
 			const newKey = translationKey.replace(/[_]/g, ".");
 			return {
-				[newKey]: langFile.translations[translationKey],
+				[newKey]: langFile.translations[translationKey]
 			};
 		})
 	);
