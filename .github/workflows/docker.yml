@@ -14,5 +14,5 @@ jobs:
         username: Timeraa
         password: ${{ secrets.GH_TOKEN }}
         registry: docker.pkg.github.com
-        repository: premid/api
+        repository: premid/api/api
         tags: latest
