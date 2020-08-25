@@ -1,10 +1,11 @@
-FROM node:current-slim
+FROM node:current-alpine
 
 WORKDIR /PreMiD/API
 
 COPY . .
 
 RUN yarn run init
+RUN npm prune --production
 
 EXPOSE 3001
 
