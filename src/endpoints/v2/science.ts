@@ -65,7 +65,7 @@ const handler: RouteHandlerMethod<
 
 		if (body.platform) data.platform = body.platform;
 
-		scienceUpdateQueue.push(body);
+		scienceUpdateQueue.push(data);
 
 		res.send(200);
 	} else {

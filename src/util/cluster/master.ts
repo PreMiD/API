@@ -40,6 +40,7 @@ function spawnWorkers() {
 }
 
 function deleteOldUsers() {
+	return;
 	//* Delete older ones than 7 days
 	return pmdDB.collection("science").deleteMany({
 		updated: {
