@@ -20,15 +20,15 @@ const handler: RouteHandlerMethod<
 export function prepareUsage(science) {
 	let ranking = {};
 
-	[].concat
-		.apply(
-			[],
+	const ranks = [].concat.apply(
+		[],
 
-			science.map(s => s.presences)
-		)
-		.map(function (x: string) {
-			ranking[x] = (ranking[x] || 0) + 1;
-		});
+		science.map(s => s.presences).slice(0, 500)
+	);
+
+	for (let i = 0; i < ranks.length; i++) {
+		ranking[ranks[i]] = (ranking[ranks[i]] || 0) + 1;
+	}
 
 	return ranking;
 }
