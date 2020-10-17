@@ -23,7 +23,7 @@ export function prepareUsage(science) {
 	const ranks = [].concat.apply(
 		[],
 
-		science.map(s => s.presences).slice(0, 500)
+		science.map(s => s.presences)
 	);
 
 	for (let i = 0; i < ranks.length; i++) {
