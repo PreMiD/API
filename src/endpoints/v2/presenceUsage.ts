@@ -21,9 +21,7 @@ export function prepareUsage(science) {
 	let ranking = {},
 		ranks = [];
 
-	for (let i = 0; i < science.length; i++) {
-		ranks.push(science.presences[i]);
-	}
+	science.forEach(s => ranks.push(s.presences));
 
 	for (let i = 0; i < ranks.length; i++) {
 		ranking[ranks[i]] = (ranking[ranks[i]] || 0) + 1;
