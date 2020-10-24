@@ -18,13 +18,12 @@ const handler: RouteHandlerMethod<
 > = async (_req, res) => res.send(science);
 
 export function prepareUsage(science) {
-	let ranking = {};
+	let ranking = {},
+		ranks = [];
 
-	const ranks = [].concat.apply(
-		[],
-
-		science.map(s => s.presences)
-	);
+	for (let i = 0; i < science.length; i++) {
+		ranks.push(science.presences[i]);
+	}
 
 	for (let i = 0; i < ranks.length; i++) {
 		ranking[ranks[i]] = (ranking[ranks[i]] || 0) + 1;
