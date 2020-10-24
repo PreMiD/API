@@ -21,7 +21,7 @@ export function prepareUsage(science) {
 	let ranking = {},
 		ranks = [];
 
-	for (let i = 0; i < science.length; i++) {
+	for (let i = 0; i < science.presences.length; i++) {
 		ranks.push(science.presences[i]);
 	}
 
