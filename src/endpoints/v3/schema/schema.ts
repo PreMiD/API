@@ -1,6 +1,7 @@
 import { GraphQLObjectType, GraphQLSchema } from "graphql";
 
 import { addReview } from "../fields/addReview";
+import { alphaBetaAccess } from "../fields/alphaBetaAccess";
 import { applications } from "../fields/applications";
 import { benefits } from "../fields/benefits";
 import { changelog } from "../fields/changelog";
@@ -33,7 +34,8 @@ const rootQuery = new GraphQLObjectType({
 		science,
 		sponsors,
 		tickets,
-		versions
+		versions,
+		alphaBetaAccess
 	}
 });
 
