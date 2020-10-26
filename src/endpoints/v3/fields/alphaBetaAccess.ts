@@ -13,19 +13,26 @@ export const alphaBetaAccess = {
   },
   async resolve(_, args: { userId?: string }) {
 
-    const hasBeta = await betaUsers.findOne(
-      { userId: args.userId },
-      { projection: { _id: false, keysLeft: false } }
-    );
+      let hasAlpha = await alphaUsers.findOne(
+          { userId: args.userId },
+          { projection: { _id: false, keysLeft: false } }
+      ), hasBeta;
 
-    const hasAlpha = await alphaUsers.findOne(
-      { userId: args.userId },
-      { projection: { _id: false, keysLeft: false } }
-    );
+      hasAlpha = hasAlpha ? true : false;
+      if (!hasAlpha) {
+          hasBeta = await betaUsers.findOne(
+            { userId: args.userId },
+            { projection: { _id: false, keysLeft: false } }
+          );
+          hasBeta = hasBeta ? true : false;
+      } else {
+          hasBeta = true;
+      }
+
 
     return [{
-      betaAccess: hasBeta ? true : false,
-      alphaAccess: hasAlpha ? true : false
+      betaAccess: hasBeta,
+      alphaAccess: hasAlpha
     }]
   }
 }
