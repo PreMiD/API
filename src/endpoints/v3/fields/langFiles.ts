@@ -14,6 +14,8 @@ export const langFiles = {
 			let checksToPass = 2,
 				checksThatPassed = 0;
 
+			lF.translations = formatLangFile(lF);
+
 			if (args.lang) {
 				if (lF.lang === args.lang) checksThatPassed++;
 			} else checksThatPassed++;
@@ -26,3 +28,15 @@ export const langFiles = {
 		});
 	}
 };
+
+function formatLangFile(langFile) {
+	return Object.assign(
+		{},
+		...Object.keys(langFile.translations).map(translationKey => {
+			const newKey = translationKey.replace(/[_]/g, ".");
+			return {
+				[newKey]: langFile.translations[translationKey]
+			};
+		})
+	);
+}
