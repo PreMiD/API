@@ -1,6 +1,7 @@
 import { GraphQLObjectType, GraphQLSchema } from "graphql";
 
 import { addReview } from "../fields/addReview";
+import { addScience } from "../fields/addScience";
 import { alphaBetaAccess } from "../fields/alphaBetaAccess";
 import { applications } from "../fields/applications";
 import { benefits } from "../fields/benefits";
@@ -39,11 +40,12 @@ const rootQuery = new GraphQLObjectType({
 	}
 });
 
-//* Mutaition type
+//* Mutation type
 const mutationType = new GraphQLObjectType({
 	name: "Mutation",
 	fields: {
-		addReview
+		addReview,
+		addScience
 	}
 });
 
