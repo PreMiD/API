@@ -1,12 +1,12 @@
 import "source-map-support/register";
 
+import { client, connect } from "../../db/client";
+
 import fastify from "fastify";
 import gql from "fastify-gql";
 import helmet from "fastify-helmet";
-import middie from "middie";
-
-import { client, connect } from "../../db/client";
 import loadEndpoints from "../functions/loadEndpoints";
+import middie from "middie";
 
 export async function worker() {
 	const server = fastify({
@@ -47,6 +47,12 @@ export async function worker() {
 	server.post("/v3", async (req, reply) =>
 		reply.graphql((req.body as any).query)
 	);
+
+	server.options("/v3", (req, reply) => {
+		reply.status(200);
+		reply.send("Ok");
+		return;
+	});
 
 	loadEndpoints(server, require("../../endpoints.json"));
 	server.listen({ port: 3001 });
