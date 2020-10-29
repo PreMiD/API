@@ -25,7 +25,7 @@
 	},
 	"devDependencies": {
 		"@types/fs-extra": "^9.0.2",
-		"@types/mongodb": "^3.5.28",
+		"@types/mongodb": "^3.5.32",
 		"@types/node": "^14.11.10",
 		"dotenv": "^8.2.0",
 		"rimraf": "^3.0.2",
