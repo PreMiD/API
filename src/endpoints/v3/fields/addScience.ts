@@ -1,6 +1,6 @@
 import { GraphQLList, GraphQLString } from "graphql";
 
-import { addScienceType } from "../types/addScience/addScienceType";
+import { addScienceType } from "../types/science/addScienceType";
 import { pmdDB } from "../../../db/client";
 
 //* Define credits collection

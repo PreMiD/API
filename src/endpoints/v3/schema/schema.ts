@@ -7,6 +7,7 @@ import { applications } from "../fields/applications";
 import { benefits } from "../fields/benefits";
 import { changelog } from "../fields/changelog";
 import { credits } from "../fields/credits";
+import { deleteScience } from "../fields/deleteScience";
 import { discordUsers } from "../fields/discordUsers";
 import { downloads } from "../fields/downloads";
 import { jobs } from "../fields/jobs";
@@ -45,7 +46,8 @@ const mutationType = new GraphQLObjectType({
 	name: "Mutation",
 	fields: {
 		addReview,
-		addScience
+		addScience,
+		deleteScience
 	}
 });
 
