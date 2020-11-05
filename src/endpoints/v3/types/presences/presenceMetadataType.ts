@@ -1,12 +1,12 @@
-import { GraphQLString } from "graphql";
 import {
 	GraphQLList,
 	GraphQLObjectType,
 	GraphQLScalarType
 } from "graphql/type/definition";
-import { presenceSettings } from "./presenceSettingsType";
 
+import { GraphQLString } from "graphql";
 import { presenceMetadataUser } from "./presenceMetadataUserType";
+import { presenceSettings } from "./presenceSettingsType";
 
 export const presenceMetadata = new GraphQLObjectType({
 	name: "PresenceMetadata",
@@ -36,6 +36,7 @@ export const presenceMetadata = new GraphQLObjectType({
 		iframe: { type: GraphQLString },
 		regExp: { type: GraphQLString },
 		iframeRegExp: { type: GraphQLString },
+		readLogs: { type: GraphQLString },
 		button: { type: GraphQLString },
 		warning: { type: GraphQLString },
 		settings: { type: GraphQLList(presenceSettings) }
