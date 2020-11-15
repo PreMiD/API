@@ -1,12 +1,12 @@
 import "source-map-support/register";
 
-import { client, connect } from "../../db/client";
-
 import fastify from "fastify";
 import gql from "fastify-gql";
 import helmet from "fastify-helmet";
-import loadEndpoints from "../functions/loadEndpoints";
 import middie from "middie";
+
+import { client, connect } from "../../db/client";
+import loadEndpoints from "../functions/loadEndpoints";
 
 export async function worker() {
 	const server = fastify({
@@ -31,8 +31,7 @@ export async function worker() {
 			"X-Response-Time": process.hrtime(),
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers":
-				"Origin, X-Requested-With, Content-Type, Accept",
-			Connection: "close"
+				"Origin, X-Requested-With, Content-Type, Accept"
 		});
 		return;
 	});
