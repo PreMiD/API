@@ -14,8 +14,7 @@ const handler: RouteHandlerMethod<
 	if (!req.params["userId"]) {
 		//* Send all users
 		//* return
-		res.send(cache.get("credits"));
-		return;
+		return res.send(cache.get("credits"));
 	}
 
 	//* find user
