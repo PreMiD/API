@@ -18,8 +18,6 @@ setInterval(() => {
 
 	if (scienceToUpdate.length === 0) return;
 
-	console.log(scienceToUpdate.length, scienceUpdateQueue.length);
-
 	science.bulkWrite(
 		scienceToUpdate.map(s => {
 			return {
