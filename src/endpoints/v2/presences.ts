@@ -3,7 +3,8 @@ import { IncomingMessage, Server, ServerResponse } from "http";
 
 import { cache } from "../../index";
 
-let prs = preparePresences(cache.get("presences"));
+let prs = preparePresences(cache.get("presences")),
+	presenceInfos = [];
 
 cache.on("update", (_, data) => (prs = preparePresences(data)), {
 	only: "presences"
@@ -22,15 +23,7 @@ const handler: RouteHandlerMethod<
 	if (!req.params["presence"])
 		//* send all presences
 		//* return
-		return await res.send(
-			presences.map(p => {
-				return {
-					name: p.name,
-					url: p.url,
-					metadata: p.metadata
-				};
-			})
-		);
+		return await res.send(presenceInfos);
 
 	//* If presence "name" === versions
 	if (req.params["presence"] === "versions")
@@ -110,6 +103,14 @@ function preparePresences(presences) {
 			presence.metadata.logo = `https://proxy.duckduckgo.com/iu/?u=${presence.metadata.logo}`;
 		if (presence.metadata.thumbnail.includes("imgur.com"))
 			presence.metadata.thumbnail = `https://proxy.duckduckgo.com/iu/?u=${presence.metadata.thumbnail}`;
+
+		presenceInfos = presences.map(p => {
+			return {
+				name: p.name,
+				url: p.url,
+				metadata: p.metadata
+			};
+		});
 
 		return presence;
 	});

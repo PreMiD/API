@@ -24,8 +24,12 @@ const handler: RouteHandlerMethod<
 
 	getDiscordUser(req.params["token"])
 		.then(async dUser => {
-			let alphaUser = await alphaUsers.findOne({ userId: dUser.id });
-			let betaUser = await betaUsers.findOne({ userId: dUser.id });
+			const results = Promise.all([
+				await alphaUsers.findOne({ userId: dUser.id }),
+				await betaUsers.findOne({ userId: dUser.id })
+			]);
+			let alphaUser = results[0];
+			let betaUser = results[1];
 
 			let d = await downloads.findOne(
 				{ item: req.params["item"] },
