@@ -3,8 +3,8 @@ import { IncomingMessage, Server, ServerResponse } from "http";
 
 import { cache } from "../../index";
 
-let prs = preparePresences(cache.get("presences")),
-	presenceInfos = [];
+let presenceInfos = [],
+	prs = preparePresences(cache.get("presences"));
 
 cache.on("update", (_, data) => (prs = preparePresences(data)), {
 	only: "presences"
@@ -98,22 +98,26 @@ const handler: RouteHandlerMethod<
 };
 
 function preparePresences(presences) {
-	return presences.map(presence => {
+	const prs = presences.map(presence => {
 		if (presence.metadata.logo.includes("imgur.com"))
 			presence.metadata.logo = `https://proxy.duckduckgo.com/iu/?u=${presence.metadata.logo}`;
 		if (presence.metadata.thumbnail.includes("imgur.com"))
 			presence.metadata.thumbnail = `https://proxy.duckduckgo.com/iu/?u=${presence.metadata.thumbnail}`;
 
-		presenceInfos = presences.map(p => {
-			return {
-				name: p.name,
-				url: p.url,
-				metadata: p.metadata
-			};
-		});
-
 		return presence;
 	});
+
+	presenceInfos = [{ name: "LOL", url: "yes", metadata: {} }];
+
+	presenceInfos = prs.map(p => {
+		return {
+			name: p.name,
+			url: p.url,
+			metadata: p.metadata
+		};
+	});
+
+	return prs;
 }
 
 //* Export handler
