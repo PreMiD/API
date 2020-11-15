@@ -4,7 +4,7 @@ import { IncomingMessage, Server, ServerResponse } from "http";
 import { pmdDB } from "../../db/client";
 
 //* Define credits collection
-const betaUsers = pmdDB.collection("betaUsers");
+let betaUsers = pmdDB.collection("betaUsers").countDocuments();
 
 const handler: RouteHandlerMethod<
 	Server,
@@ -13,8 +13,13 @@ const handler: RouteHandlerMethod<
 	RouteGenericInterface,
 	unknown
 > = async (req, res) => {
-	res.send({ betaUsers: await betaUsers.countDocuments() });
+	res.send({ betaUsers: await betaUsers });
 };
+
+setInterval(
+	() => (betaUsers = pmdDB.collection("betaUsers").countDocuments()),
+	5 * 60 * 1000
+);
 
 //* Export handler
 export { handler };
