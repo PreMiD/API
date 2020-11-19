@@ -107,8 +107,6 @@ function preparePresences(presences) {
 		return presence;
 	});
 
-	presenceInfos = [{ name: "LOL", url: "yes", metadata: {} }];
-
 	presenceInfos = prs.map(p => {
 		return {
 			name: p.name,
