@@ -34,7 +34,7 @@ function cacheBuilder(
 	cachesToGet: Array<string | { name: string; expires: number }>
 ) {
 	return cachesToGet.map(cTG => {
-		return new Promise(async resolve => {
+		return new Promise<void>(async resolve => {
 			// @ts-ignore
 			if (cache.isExpired(cTG.name || cTG))
 				cache.set(
