@@ -8,6 +8,6 @@ const handler: RouteHandlerMethod<
 	ServerResponse,
 	RouteGenericInterface,
 	unknown
-> = async (_req, res) => res.send("OK");
+> = async (_req, res) => res.send();
 
 export { handler };

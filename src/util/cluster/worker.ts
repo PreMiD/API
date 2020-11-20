@@ -1,8 +1,7 @@
 import "source-map-support/register";
 
 import fastify from "fastify";
-import gql from "fastify-gql";
-import helmet from "fastify-helmet";
+import gql from "mercurius";
 import middie from "middie";
 
 import { client, connect } from "../../db/client";
@@ -11,14 +10,11 @@ import loadEndpoints from "../functions/loadEndpoints";
 export async function worker() {
 	const server = fastify({
 		logger: process.env.NODE_ENV !== "production",
+		disableRequestLogging: true,
 		ignoreTrailingSlash: true
 	});
 
-	await Promise.all([
-		connect(),
-		server.register(middie),
-		server.register(helmet)
-	]);
+	await Promise.all([connect(), server.register(middie)]);
 
 	await server.register(gql, {
 		schema: (await import("../../endpoints/v3/schema/schema")).default
@@ -40,6 +36,7 @@ export async function worker() {
 		//@ts-ignore
 		const diff = process.hrtime(req.responseTimeCalc);
 		reply.header("X-Response-Time", diff[0] * 1e3 + diff[1] / 1e6);
+		reply.header("X-Powered-By", "PreMiD");
 		return;
 	});
 
