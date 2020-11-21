@@ -1,6 +1,7 @@
 import "source-map-support/register";
 
 import fastify from "fastify";
+import { readFileSync } from "fs-extra";
 import gql from "mercurius";
 import middie from "middie";
 
@@ -8,11 +9,19 @@ import { client, connect } from "../../db/client";
 import loadEndpoints from "../functions/loadEndpoints";
 
 export async function worker() {
-	const server = fastify({
+	let options = {
+		https: {
+			cert: readFileSync("../cert.pem", "utf-8"),
+			key: readFileSync("../key.pem", "utf-8")
+		},
 		logger: process.env.NODE_ENV !== "production",
 		disableRequestLogging: true,
 		ignoreTrailingSlash: true
-	});
+	};
+
+	if (process.env.NODE_ENV !== "production") delete options.https;
+
+	const server = fastify(options);
 
 	await Promise.all([connect(), server.register(middie)]);
 
