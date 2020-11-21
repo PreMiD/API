@@ -30,8 +30,7 @@ export async function worker() {
 			"X-Response-Time": process.hrtime(),
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers":
-				"Origin, X-Requested-With, Content-Type, Accept",
-			Connection: "Close"
+				"Origin, X-Requested-With, Content-Type, Accept"
 		});
 		return;
 	});
@@ -41,6 +40,7 @@ export async function worker() {
 		const diff = process.hrtime(req.responseTimeCalc);
 		reply.header("X-Response-Time", diff[0] * 1e3 + diff[1] / 1e6);
 		reply.header("X-Powered-By", "PreMiD");
+		reply.header("Connection", "close");
 		return;
 	});
 
