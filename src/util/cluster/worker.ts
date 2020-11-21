@@ -15,7 +15,6 @@ export async function worker() {
 		ignoreTrailingSlash: true
 	};
 
-
 	const server = fastify(options);
 
 	await Promise.all([connect(), server.register(middie)]);
@@ -31,7 +30,8 @@ export async function worker() {
 			"X-Response-Time": process.hrtime(),
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers":
-				"Origin, X-Requested-With, Content-Type, Accept"
+				"Origin, X-Requested-With, Content-Type, Accept",
+			Connection: "Close"
 		});
 		return;
 	});
