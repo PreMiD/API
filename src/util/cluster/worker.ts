@@ -10,16 +10,11 @@ import loadEndpoints from "../functions/loadEndpoints";
 
 export async function worker() {
 	let options = {
-		https: {
-			cert: readFileSync("../cert.pem", "utf-8"),
-			key: readFileSync("../key.pem", "utf-8")
-		},
 		logger: process.env.NODE_ENV !== "production",
 		disableRequestLogging: true,
 		ignoreTrailingSlash: true
 	};
 
-	if (process.env.NODE_ENV !== "production") delete options.https;
 
 	const server = fastify(options);
 
