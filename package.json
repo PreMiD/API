@@ -12,7 +12,7 @@
 	},
 	"dependencies": {
 		"axios": "0.21.0",
-		"discord.js": "12.4.1",
+		"discord.js": "12.5.0",
 		"fast-node-cache": "1.2.1",
 		"fastify": "3.8.0",
 		"fs-extra": "9.0.1",
