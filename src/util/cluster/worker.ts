@@ -1,7 +1,7 @@
 import "source-map-support/register";
 
-import fastify from "fastify";
-import { readFileSync } from "fs-extra";
+import fastify, { FastifyServerOptions } from "fastify";
+import { readFileSync } from "fs";
 import gql from "mercurius";
 import middie from "middie";
 
@@ -12,8 +12,16 @@ export async function worker() {
 	let options = {
 		logger: process.env.NODE_ENV !== "production",
 		disableRequestLogging: true,
-		ignoreTrailingSlash: true
+		ignoreTrailingSlash: true,
+		https: {
+			key: readFileSync("../key.key"),
+			cert: readFileSync("../cert.crt"),
+			requestCert: true,
+			rejectUnauthorized: false
+		}
 	};
+
+	if (process.env.NODE_ENV !== "production") delete options.https;
 
 	const server = fastify(options);
 
