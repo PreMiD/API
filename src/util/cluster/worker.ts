@@ -15,9 +15,7 @@ export async function worker() {
 		ignoreTrailingSlash: true,
 		https: {
 			key: readFileSync("../key.key"),
-			cert: readFileSync("../cert.crt"),
-			requestCert: true,
-			rejectUnauthorized: false
+			cert: readFileSync("../cert.crt")
 		}
 	};
 
