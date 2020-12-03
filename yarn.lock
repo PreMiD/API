@@ -545,10 +545,10 @@ fastify-websocket@^2.0.5:
     find-my-way "^3.0.4"
     ws "^7.3.1"
 
-fastify@3.8.0:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.8.0.tgz#455bfa70394322247050c330d0e52532b349662d"
-  integrity sha512-w57/uvyQWzF/KSr9CbWQ5nfTqSSfYcmrems9Lc3VvtrAF7EsLbfZQBQZul6xwvE1uEfxA4nGdoUKqpU7xiv7cw==
+fastify@3.9.1:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.9.1.tgz#fe7faba92c72fb90054c5f3422965e34142f4cdf"
+  integrity sha512-J+JyYc2PH7N6KxrG0d3d2V0HRPdBMpxp3eKdGcDtemTvXhuQKFHFLQ+WkeFLShkcGDsf+/vBV+NMK8Ki97/OTg==
   dependencies:
     abstract-logging "^2.0.0"
     ajv "^6.12.2"
