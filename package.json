@@ -17,7 +17,7 @@
 		"fastify": "3.8.0",
 		"fs-extra": "9.0.1",
 		"graphql": "15.4.0",
-		"mercurius": "^6.4.0",
+		"mercurius": "^6.5.0",
 		"middie": "5.2.0",
 		"mongodb": "3.6.3",
 		"source-map-support": "^0.5.19"
