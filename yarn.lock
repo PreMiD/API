@@ -695,7 +695,7 @@ graphql-jit@^0.4.0:
     lodash.merge "4.6.2"
     lodash.mergewith "4.6.2"
 
-graphql@15.4.0, graphql@^15.0.0:
+graphql@15.4.0, graphql@^15.4.0:
   version "15.4.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.4.0.tgz#e459dea1150da5a106486ba7276518b5295a4347"
   integrity sha512-EB3zgGchcabbsU9cFe1j+yxdzKQKAbGUWRb13DsrsMN1yyfmmIq+2+L5MqVWcDCE4V89R5AyUOi7sMOGxdsYtA==
@@ -716,17 +716,6 @@ has@^1.0.3:
   integrity sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==
   dependencies:
     function-bind "^1.1.1"
-
-http-errors@^1.7.3:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.8.0.tgz#75d1bbe497e1044f51e4ee9e704a62f28d336507"
-  integrity sha512-4I8r0C5JDhT5VkvI47QktDW75rNlGVsUf/8hzjCC/wkWI/jdTRmBb9aI7erSG82r1bjKY3F6k28WnsVxB1C73A==
-  dependencies:
-    depd "~1.1.2"
-    inherits "2.0.4"
-    setprototypeof "1.2.0"
-    statuses ">= 1.5.0 < 2"
-    toidentifier "1.0.0"
 
 http-errors@~1.7.2:
   version "1.7.3"
@@ -913,19 +902,19 @@ memory-pager@^1.0.2:
   resolved "https://registry.yarnpkg.com/memory-pager/-/memory-pager-1.5.0.tgz#d8751655d22d384682741c972f2c3d6dfa3e66b5"
   integrity sha512-ZS4Bp4r/Zoeq6+NLJpP+0Zzm0pR8whtGPf1XExKLJBAczGMnSi3It14OiNCStjQjM6NU1okjQGSxgEZN8eBYKg==
 
-mercurius@^6.4.0:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/mercurius/-/mercurius-6.4.0.tgz#fcd05ceac069b8a3c450dc09d4ecf1c9142f952a"
-  integrity sha512-zvuuLij+F+OQCkZzQEC5LRdMmLKXaqPzol62AW5m66xhJxgqBEY1F/PM4T/Ejkh/L2bCcwRt2jruYw4l9OmocQ==
+mercurius@^6.8.0:
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/mercurius/-/mercurius-6.8.0.tgz#e6cb2af9d5e42b4375fd99e9d504f41dc217360f"
+  integrity sha512-dp8I/sRtl9kQEcE9UMWXv0eLC27fhlhCQIxr15aJq6zt/usA+zznGrMjj6dn2GXTZwoSf8OodAMt5vWRYzzBUg==
   dependencies:
     end-of-stream "^1.4.4"
     events.on "^1.0.1"
+    fastify-error "^0.2.0"
     fastify-plugin "^2.0.1"
     fastify-static "^3.0.0"
     fastify-websocket "^2.0.5"
-    graphql "^15.0.0"
+    graphql "^15.4.0"
     graphql-jit "^0.4.0"
-    http-errors "^1.7.3"
     mqemitter "^4.0.0"
     p-map "^4.0.0"
     promise.allsettled "^1.0.2"
@@ -1304,11 +1293,6 @@ setprototypeof@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.1.tgz#7e95acb24aa92f5885e0abef5ba131330d4ae683"
   integrity sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==
-
-setprototypeof@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.2.0.tgz#66c9a24a73f9fc28cbe66b09fed3d33dcaf1b424"
-  integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
 
 single-user-cache@^0.3.0:
   version "0.3.1"
