@@ -11,6 +11,6 @@ export const versionsType = new GraphQLObjectType({
 		extension: { type: GraphQLString },
 		bot: { type: GraphQLString },
 		linux: { type: GraphQLString },
-		safari: { type: GraphQLList(safariType) }
+		safari: { type: safariType }
 	})
 });
