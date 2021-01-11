@@ -1,4 +1,4 @@
-import { GraphQLString } from "graphql";
+import { GraphQLBoolean, GraphQLString } from "graphql";
 import { GraphQLObjectType } from "graphql/type/definition";
 
 export const versionsType = new GraphQLObjectType({
@@ -8,6 +8,7 @@ export const versionsType = new GraphQLObjectType({
 		app: { type: GraphQLString },
 		extension: { type: GraphQLString },
 		bot: { type: GraphQLString },
-		linux: { type: GraphQLString }
+		linux: { type: GraphQLString },
+		urgentUpdate: { type: GraphQLBoolean }
 	})
 });
