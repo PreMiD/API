@@ -1,5 +1,7 @@
 import { GraphQLBoolean, GraphQLString } from "graphql";
-import { GraphQLObjectType } from "graphql/type/definition";
+import { GraphQLList, GraphQLObjectType } from "graphql/type/definition";
+
+import { safariType } from "./safariType";
 
 export const versionsType = new GraphQLObjectType({
 	name: "Versions",
@@ -9,6 +11,6 @@ export const versionsType = new GraphQLObjectType({
 		extension: { type: GraphQLString },
 		bot: { type: GraphQLString },
 		linux: { type: GraphQLString },
-		urgentUpdate: { type: GraphQLBoolean }
+		safari: { type: GraphQLList(safariType) }
 	})
 });
