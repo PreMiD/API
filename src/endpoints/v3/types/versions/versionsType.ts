@@ -1,4 +1,4 @@
-import { GraphQLBoolean, GraphQLString } from "graphql";
+import { GraphQLString } from "graphql";
 import { GraphQLList, GraphQLObjectType } from "graphql/type/definition";
 
 import { safariType } from "./safariType";
