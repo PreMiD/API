@@ -11,7 +11,7 @@ jobs:
   DePloY:
     strategy:
       matrix:
-        host: [1.premid.app]
+        host: ${{secrets.SSHHOSTS}}
     runs-on: "ubuntu-latest"
     steps:
       - name: Deploying...
@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.SSHUSERNAME }}
           password: ${{ secrets.SSHPASSWORD }}
           script: |
-            cd /home/PreMiD/API
+            cd /home/API
             git reset --hard
             git pull
             yarn run init
