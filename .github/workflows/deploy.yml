@@ -10,6 +10,7 @@ on:
 jobs:
   DePloY:
     strategy:
+      max-parallel: 2
       matrix:
         host: [94.130.110.12,94.130.228.224,88.198.92.64,88.198.144.181,78.47.55.214]
     runs-on: "ubuntu-latest"
