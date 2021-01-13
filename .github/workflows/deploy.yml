@@ -19,7 +19,7 @@ jobs:
         with:
           host: ${{ matrix.host }}
           username: ${{ secrets.SSHUSERNAME }}
-          password: ${{ secrets.SSHPASSWORD }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
             cd /home/API
             git reset --hard
