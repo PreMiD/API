@@ -11,7 +11,7 @@ jobs:
   DePloY:
     strategy:
       matrix:
-        host: ${{secrets.SSHHOSTS}}
+        host: [94.130.110.12,94.130.228.224,88.198.92.64,88.198.144.181,78.47.55.214]
     runs-on: "ubuntu-latest"
     steps:
       - name: Deploying...
