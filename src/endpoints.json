@@ -9,6 +9,10 @@
 			"handler": "ping"
 		},
 		{
+			"path": "/crowdin",
+			"handler": "crowdin"
+		},
+		{
 			"path": ["/app/update", "/app/update/:bit", "/app/update/*"],
 			"handler": "appUpdate"
 		},
