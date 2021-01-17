@@ -99,9 +99,15 @@ const handler: RouteHandlerMethod<
 
 function preparePresences(presences) {
 	const prs = presences.map(presence => {
-		if (presence.metadata.logo.includes("imgur.com"))
+		if (
+			presence.metadata.logo.includes("imgur.com") &&
+			!presence.metadata.logo.includes("duckduckgo.com")
+		)
 			presence.metadata.logo = `https://proxy.duckduckgo.com/iu/?u=${presence.metadata.logo}`;
-		if (presence.metadata.thumbnail.includes("imgur.com"))
+		if (
+			presence.metadata.thumbnail.includes("imgur.com") &&
+			!presence.metadata.thumbnail.includes("duckduckgo.com")
+		)
 			presence.metadata.thumbnail = `https://proxy.duckduckgo.com/iu/?u=${presence.metadata.thumbnail}`;
 
 		return presence;
