@@ -44,7 +44,7 @@ function deleteOldUsers() {
 	return pmdDB.collection("science").deleteMany({
 		$or: [
 			{ updated: { $exists: false } },
-			{ updated: { $lt: Date.now() - 7 * 24 * 60 * 60 * 1000 } }
+			{ updated: { $lt: Date.now() - 31 * 24 * 60 * 60 * 1000 } }
 		]
 	});
 }
