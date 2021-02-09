@@ -996,10 +996,10 @@ graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
   integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
 
-graphql-jit@^0.4.0:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/graphql-jit/-/graphql-jit-0.4.3.tgz#2ee37f221e8a982536a49e87c4bd4b3daf6ec35a"
-  integrity sha512-eM3W6pC04RhdtFte6/HE9+LBiO57b6cYV72Jkb3cAOJux46mfgR16UwI53QJJbUen0aHoy6oqkah15sDDx95Ug==
+graphql-jit@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/graphql-jit/-/graphql-jit-0.5.0.tgz#83965ae510892cac80325d269b6e1f54b4f67a7a"
+  integrity sha512-9MnnbODEmcCQ75Y5+PvQF6bGj/of9fWigvZnyv29HnZOc5e5fa6cr/lyo7HOQZwvgtw9klJh+DwH1oUE8wsWIw==
   dependencies:
     fast-json-stringify "^1.13.0"
     generate-function "^2.3.1"
@@ -1349,10 +1349,10 @@ memory-pager@^1.0.2:
   resolved "https://registry.yarnpkg.com/memory-pager/-/memory-pager-1.5.0.tgz#d8751655d22d384682741c972f2c3d6dfa3e66b5"
   integrity sha512-ZS4Bp4r/Zoeq6+NLJpP+0Zzm0pR8whtGPf1XExKLJBAczGMnSi3It14OiNCStjQjM6NU1okjQGSxgEZN8eBYKg==
 
-mercurius@^6.10.0:
-  version "6.10.0"
-  resolved "https://registry.yarnpkg.com/mercurius/-/mercurius-6.10.0.tgz#feb9e47d3aefb4bfa1eb22cd0c9de3b686479c5a"
-  integrity sha512-+66emyTKjnqT1vJEk4DHe/Hc+RsqXKbwAL3ZUZRd++ZP4QCzNvnNsbJTzH53V8TGSifSo1iFFelr0D7izICyJg==
+mercurius@^6.12.0:
+  version "6.12.0"
+  resolved "https://registry.yarnpkg.com/mercurius/-/mercurius-6.12.0.tgz#cf8f063f6db63e460b611f9452003f637e7f34ba"
+  integrity sha512-Dn7UuaN0UGvRoHtm37UPDf5KHuYvgBnOxEbORAf5tDW+MTYIM9cImerXIcq16hFEh/YV6yJ6GCL3JgRdjfHimA==
   dependencies:
     "@types/isomorphic-form-data" "^2.0.0"
     end-of-stream "^1.4.4"
@@ -1362,7 +1362,7 @@ mercurius@^6.10.0:
     fastify-static "^3.4.0"
     fastify-websocket "^2.0.11"
     graphql "^15.4.0"
-    graphql-jit "^0.4.0"
+    graphql-jit "^0.5.0"
     mqemitter "^4.0.0"
     p-map "^4.0.0"
     promise.allsettled "^1.0.2"
