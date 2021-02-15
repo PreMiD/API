@@ -14,7 +14,7 @@
 		"axios": "0.21.1",
 		"discord.js": "12.5.1",
 		"fast-node-cache": "1.2.1",
-		"fastify": "3.11.0",
+		"fastify": "3.12.0",
 		"fs-extra": "9.1.0",
 		"graphql": "15.4.0",
 		"mercurius": "^6.12.0",
