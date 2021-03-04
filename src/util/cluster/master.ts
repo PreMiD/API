@@ -6,6 +6,9 @@ import { cpus } from "os";
 import { client, connect, pmdDB } from "../../db/client";
 import { initCache } from "../CacheManager";
 import debug from "../debug";
+import initSentry from "../functions/initSentry";
+
+initSentry();
 
 if (process.env.NODE_ENV !== "production") {
 	const dotenv = require("dotenv").config;

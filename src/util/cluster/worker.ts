@@ -1,13 +1,15 @@
 import "source-map-support/register";
 
-import fastify, { FastifyServerOptions } from "fastify";
+import fastify from "fastify";
 import { readFileSync } from "fs";
 import gql from "mercurius";
 import middie from "middie";
 
 import { client, connect } from "../../db/client";
+import initSentry from "../functions/initSentry";
 import loadEndpoints from "../functions/loadEndpoints";
 
+const Sentry = initSentry();
 export async function worker() {
 	let options = {
 		logger: process.env.NODE_ENV !== "production",
@@ -22,6 +24,12 @@ export async function worker() {
 	if (process.env.NODE_ENV !== "production") delete options.https;
 
 	const server = fastify(options);
+
+	server.addHook("onError", (_request, _reply, error, done) => {
+		console.log(error);
+		Sentry.captureException(error);
+		done();
+	});
 
 	await Promise.all([connect(), server.register(middie)]);
 

@@ -1,17 +1,18 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2018",
-    "inlineSourceMap": true,
-    "baseUrl": ".",
-    "outDir": "dist",
-    "removeComments": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "paths": {
-      "*": ["node_modules/*"]
-    }
-  },
-  "include": ["src/**/*"],
-  "exclude": ["devMode.ts"]
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "ESNEXT",
+		"inlineSourceMap": true,
+		"baseUrl": ".",
+		"rootDir": "src",
+		"outDir": "dist",
+		"removeComments": true,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"paths": {
+			"*": ["node_modules/*"]
+		}
+	},
+	"include": ["src/**/*"],
+	"exclude": ["devMode.ts"]
 }
