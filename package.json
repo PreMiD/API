@@ -24,7 +24,7 @@
 	},
 	"devDependencies": {
 		"@types/connect": "^3.4.34",
-		"@types/mongodb": "^3.6.11",
+		"@types/mongodb": "^3.6.12",
 		"@types/node": "^14.14.37",
 		"dotenv": "^8.2.0",
 		"rimraf": "^3.0.2",
