@@ -855,10 +855,10 @@ fastify-websocket@^3.0.0:
     fastify-plugin "^3.0.0"
     ws "^7.4.2"
 
-fastify@3.14.1:
-  version "3.14.1"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.14.1.tgz#f57e12701a4671b1a4d38c72259b346a66d121e9"
-  integrity sha512-9hoK1vvopsUJnUJpge90t8PZIqNQhGM54yDrd2veCZLkxh8eipnaHrXe2+f7tIt6UScUZ92JZQavxFGB4HX7xA==
+fastify@3.14.2:
+  version "3.14.2"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.14.2.tgz#136c80ab5a811e2f44ef361c1e1986c8a31d6e83"
+  integrity sha512-/PY//7gJnGxLQORaRHCEW148vpFKFpBIQNz1Yo/DxbHuk5EQqK2comzyE2ug8FSEldDX8nleapTshl0m78Px2w==
   dependencies:
     "@fastify/proxy-addr" "^3.0.0"
     abstract-logging "^2.0.0"
