@@ -1,5 +1,5 @@
-import { IncomingMessage, Server, ServerResponse } from "http";
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
+import { IncomingMessage, Server, ServerResponse } from "http";
 
 import { cache } from "../../index";
 
@@ -20,16 +20,8 @@ const handler: RouteHandlerMethod<
 export function prepareUsage(science) {
 	let ranking = {},
 		ranks = [];
-	const times = science.map(s => s.presences).length / 65536;
 
-	for (let i = 1; i < times + 1; i++) {
-		const rankss = [].concat.apply(
-			[],
-			science.map(s => s.presences).slice((i - 1) * 65536, i * 65536)
-		);
-
-		ranks = ranks.concat(rankss);
-	}
+	for (let i = 0; i < science.length; i++) ranks.push(...science[i].presences);
 
 	for (let i = 0; i < ranks.length; i++) {
 		ranking[ranks[i]] = (ranking[ranks[i]] || 0) + 1;
