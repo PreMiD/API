@@ -77,21 +77,25 @@ function shuffle(array: Array<any>) {
 
 function fetchUser(id: string) {
 	return new Promise((resolve, reject) => {
-		getExteralUser(id).then(async (dUser) => {
-			const user = await dUser;
-			return resolve({
-				user: {
-					name: user["username"],
-					id: user["id"],
-					tag: user["discriminator"],
-					avatar:
-						"https://cdn.discordapp.com/avatars/" +
-						user["id"] +
-						"/" +
-						user["avatar"],
-					flags: user["public_flags"]
-				}
+		getExteralUser(id)
+			.then(async (dUser) => {
+				const user = await dUser;
+				return resolve({
+					user: {
+						name: user["username"],
+						id: user["id"],
+						tag: user["discriminator"],
+						avatar:
+							"https://cdn.discordapp.com/avatars/" +
+							user["id"] +
+							"/" +
+							user["avatar"],
+						flags: user["public_flags"]
+					}
+				});
+			})
+			.catch((err) => {
+				return resolve(null);
 			});
-		});
 	});
 }
