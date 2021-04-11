@@ -3,6 +3,7 @@ import { GraphQLList } from "graphql/type/definition";
 
 import { cache } from "../../../index";
 import { creditsType } from "../types/credits/credits";
+import { getExteralUser } from "../../../util/functions/getExternalUser";
 
 let creditsCache = prepareCredits(cache.get("credits"));
 
@@ -20,16 +21,22 @@ export const credits = {
 	resolve(_, args: { id?: string; limit?: number; random: false }) {
 		let res = creditsCache;
 
-		if (args.id) res = res.filter(c => c.user.id === args.id);
+		if (args.id) res = res.filter((c) => c.user.id === args.id);
 		if (args.random) res = shuffle(res);
 		if (args.limit) res = res.slice(0, args.limit);
 
-		return res;
+		if (res[0] != null) return res;
+		if (res.length === 0 && args.id) {
+			res.push(fetchUser(args.id));
+			return res;
+		} else {
+			return res;
+		}
 	}
 };
 
 function prepareCredits(credits) {
-	return credits.map(c => ({
+	return credits.map((c) => ({
 		user: {
 			name: c.name,
 			id: c.userId,
@@ -66,4 +73,25 @@ function shuffle(array: Array<any>) {
 	}
 
 	return array;
+}
+
+function fetchUser(id: string) {
+	return new Promise((resolve, reject) => {
+		getExteralUser(id).then(async (dUser) => {
+			let user = await dUser;
+			return resolve({
+				user: {
+					name: user["username"],
+					id: user["id"],
+					tag: user["discriminator"],
+					avatar:
+						"https://cdn.discordapp.com/avatars/" +
+						user["id"] +
+						"/" +
+						user["avatar"],
+					flags: user["public_flags"]
+				}
+			});
+		});
+	});
 }
