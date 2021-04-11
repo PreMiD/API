@@ -78,7 +78,7 @@ function shuffle(array: Array<any>) {
 function fetchUser(id: string) {
 	return new Promise((resolve, reject) => {
 		getExteralUser(id).then(async (dUser) => {
-			let user = await dUser;
+			const user = await dUser;
 			return resolve({
 				user: {
 					name: user["username"],
