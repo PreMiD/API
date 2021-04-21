@@ -11,7 +11,7 @@
 		"dev": "devScript"
 	},
 	"dependencies": {
-		"@sentry/node": "^6.2.5",
+		"@sentry/node": "^6.3.0",
 		"axios": "0.21.1",
 		"discord.js": "12.5.3",
 		"fast-node-cache": "1.2.1",
