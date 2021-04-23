@@ -1,13 +1,8 @@
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
-import { cache } from "../../index";
-
-let science = prepareUsage(cache.get("science"));
-
-cache.on("update", (_, data) => (science = prepareUsage(data)), {
-	only: "science"
-});
+import { cache } from "../../";
+import { pmdDB } from "../../db/client";
 
 const handler: RouteHandlerMethod<
 	Server,
@@ -15,17 +10,28 @@ const handler: RouteHandlerMethod<
 	ServerResponse,
 	RouteGenericInterface,
 	unknown
-> = async (_req, res) => res.send(science);
+> = async (_req, res) => res.send(cache.get("presenceUsage"));
 
-export function prepareUsage(science) {
-	let ranking = {},
-		ranks = [];
-
-	for (let i = 0; i < science.length; i++) ranks.push(...science[i].presences);
-
-	for (let i = 0; i < ranks.length; i++) {
-		ranking[ranks[i]] = (ranking[ranks[i]] || 0) + 1;
-	}
+export async function prepareUsage() {
+	const data = await pmdDB
+			.collection("science")
+			.aggregate([
+				{ $unwind: "$presences" },
+				{ $group: { _id: "$presences", count: { $sum: 1 } } }
+			])
+			.sort({ count: -1 })
+			.map(d => {
+				return { [d._id]: d.count };
+			})
+			.toArray(),
+		ranking = Object.assign(
+			{},
+			...data.filter(p =>
+				cache
+					.get("presences")
+					.find(p1 => p1.metadata.service === Object.keys(p)[0])
+			)
+		);
 
 	return ranking;
 }

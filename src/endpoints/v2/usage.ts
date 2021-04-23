@@ -9,7 +9,7 @@ const handler: RouteHandlerMethod<
 	ServerResponse,
 	RouteGenericInterface,
 	unknown
-> = async (_req, res) => res.send({ users: cache.get("science").length });
+> = async (_req, res) => res.send({ users: cache.get("users") });
 
 //* Export handler
 export { handler };

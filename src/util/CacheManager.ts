@@ -1,18 +1,21 @@
 import cluster from "cluster";
 
 import { pmdDB } from "../db/client";
+import { prepareUsage } from "../endpoints/v2/presenceUsage";
 import { cache } from "../index";
 
 let initialCacheI = null;
 export async function initCache() {
 	if (!cluster.isMaster) return;
 
-	await Promise.all(
-		cacheBuilder([
+	cache.set("presenceUsage", await prepareUsage());
+	cache.set("users", await pmdDB.collection("science").countDocuments());
+
+	await Promise.all([
+		...cacheBuilder([
 			"presences",
 			"langFiles",
 			{ name: "credits", expires: 5 * 1000 },
-			"science",
 			"versions",
 			"ffUpdates",
 			"changelog",
@@ -23,9 +26,9 @@ export async function initCache() {
 			"benefits",
 			"downloads",
 			"alphaUsers",
-			{ name: "betaUsers", expires: 5 * 1000 },
+			{ name: "betaUsers", expires: 5 * 1000 }
 		])
-	);
+	]);
 
 	if (!initialCacheI) initialCacheI = setInterval(initCache, 10 * 1000);
 }
@@ -33,8 +36,8 @@ export async function initCache() {
 function cacheBuilder(
 	cachesToGet: Array<string | { name: string; expires: number }>
 ) {
-	return cachesToGet.map((cTG) => {
-		return new Promise<void>(async (resolve) => {
+	return cachesToGet.map(cTG => {
+		return new Promise<void>(async resolve => {
 			// @ts-ignore
 			if (cache.isExpired(cTG.name || cTG))
 				cache.set(
