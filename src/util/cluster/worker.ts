@@ -5,11 +5,11 @@ import { readFileSync } from "fs";
 import gql from "mercurius";
 import middie from "middie";
 
+import * as Sentry from "@sentry/node";
+
 import { client, connect } from "../../db/client";
-import initSentry from "../functions/initSentry";
 import loadEndpoints from "../functions/loadEndpoints";
 
-const Sentry = initSentry();
 export async function worker() {
 	let options = {
 		logger: process.env.NODE_ENV !== "production",
@@ -39,6 +39,12 @@ export async function worker() {
 
 	server.addHook("onRequest", async (req, reply) => {
 		//@ts-ignore
+		req.transaction = Sentry.startTransaction({
+			name: req.url,
+			data: req.body
+		});
+
+		//@ts-ignore
 		req.responseTimeCalc = process.hrtime();
 		reply.headers({
 			"X-Response-Time": process.hrtime(),
@@ -50,6 +56,8 @@ export async function worker() {
 	});
 
 	server.addHook("onSend", async (req, reply) => {
+		//@ts-ignore
+		req.transaction.finish();
 		//@ts-ignore
 		const diff = process.hrtime(req.responseTimeCalc);
 		reply.header("X-Response-Time", diff[0] * 1e3 + diff[1] / 1e6);
