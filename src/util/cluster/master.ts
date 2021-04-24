@@ -31,6 +31,7 @@ export async function master() {
 			setInterval(() => deleteOldUsers, 60 * 60 * 1000);
 		})
 		.catch(err => {
+			throw err;
 			debug("error", "index.ts", err);
 			process.exit();
 		});

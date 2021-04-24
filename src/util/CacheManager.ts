@@ -8,15 +8,6 @@ let initialCacheI = null;
 export async function initCache() {
 	if (!cluster.isMaster) return;
 
-	if (cache.isExpired("presenceUsage"))
-		cache.set("presenceUsage", await prepareUsage(), 60 * 60 * 1000);
-	if (cache.isExpired("presenceUsage"))
-		cache.set(
-			"users",
-			await pmdDB.collection("science").countDocuments(),
-			15 * 60 * 1000
-		);
-
 	await Promise.all([
 		...cacheBuilder([
 			"presences",
@@ -35,6 +26,15 @@ export async function initCache() {
 			{ name: "betaUsers", expires: 5 * 1000 }
 		])
 	]);
+
+	if (cache.isExpired("presenceUsage"))
+		cache.set("presenceUsage", await prepareUsage(), 60 * 60 * 1000);
+	if (cache.isExpired("presenceUsage"))
+		cache.set(
+			"users",
+			await pmdDB.collection("science").countDocuments(),
+			15 * 60 * 1000
+		);
 
 	if (!initialCacheI) initialCacheI = setInterval(initCache, 10 * 1000);
 }
