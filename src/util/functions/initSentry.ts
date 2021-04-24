@@ -12,7 +12,7 @@ export default function () {
 		serverName: hostname(),
 		release: `${name}@${version}`,
 		integrations: [new Sentry.Integrations.Http({ tracing: true })],
-		tracesSampleRate: 0.2
+		tracesSampleRate: 1
 	});
 
 	return Sentry;
