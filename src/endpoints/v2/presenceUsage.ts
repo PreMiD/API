@@ -15,10 +15,13 @@ const handler: RouteHandlerMethod<
 export async function prepareUsage() {
 	const data = await pmdDB
 			.collection("science")
-			.aggregate([
-				{ $unwind: "$presences" },
-				{ $group: { _id: "$presences", count: { $sum: 1 } } }
-			])
+			.aggregate(
+				[
+					{ $unwind: "$presences" },
+					{ $group: { _id: "$presences", count: { $sum: 1 } } }
+				],
+				{ allowDiskUse: true }
+			)
 			.sort({ count: -1 })
 			.map(d => {
 				return { [d._id]: d.count };
