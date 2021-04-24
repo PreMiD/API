@@ -8,8 +8,14 @@ let initialCacheI = null;
 export async function initCache() {
 	if (!cluster.isMaster) return;
 
-	cache.set("presenceUsage", await prepareUsage());
-	cache.set("users", await pmdDB.collection("science").countDocuments());
+	if (cache.isExpired("presenceUsage"))
+		cache.set("presenceUsage", await prepareUsage(), 60 * 60 * 1000);
+	if (cache.isExpired("presenceUsage"))
+		cache.set(
+			"users",
+			await pmdDB.collection("science").countDocuments(),
+			15 * 60 * 1000
+		);
 
 	await Promise.all([
 		...cacheBuilder([
