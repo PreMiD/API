@@ -6,7 +6,7 @@
 	"author": "Timeraa",
 	"license": "MPL-2.0",
 	"scripts": {
-		"start": "cd dist && node index.js --no-cluster",
+		"start": "cd dist && node index.js",
 		"init": "yarn && rimraf dist && tsc && devScript --copyOnly",
 		"dev": "devScript --depCheck"
 	},
