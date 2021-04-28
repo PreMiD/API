@@ -6,7 +6,8 @@ import middie from "middie";
 
 import * as Sentry from "@sentry/node";
 
-import { client, connect } from "../../db/client";
+import { connect } from "../../db/client";
+import { initCache } from "../CacheManager";
 import loadEndpoints from "../functions/loadEndpoints";
 
 export async function worker() {
@@ -19,12 +20,12 @@ export async function worker() {
 	const server = fastify(options);
 
 	server.addHook("onError", (_request, _reply, error, done) => {
-		console.log(error);
 		Sentry.captureException(error);
 		done();
 	});
 
 	await Promise.all([connect(), server.register(middie)]);
+	await initCache();
 
 	await server.register(gql, {
 		schema: (await import("../../endpoints/v3/schema/schema")).default
@@ -63,18 +64,11 @@ export async function worker() {
 		reply.graphql((req.body as any).query)
 	);
 
-	server.options("/v3", (req, reply) => {
-		reply.status(200);
-		reply.send("Ok");
+	server.options("/v3", async (req, reply) => {
+		reply.status(200).send("OK");
 		return;
 	});
 
 	loadEndpoints(server, require("../../endpoints.json"));
 	server.listen({ port: 3001 });
-
-	//? Still neeeded?
-	process.on("SIGINT", async function () {
-		await Promise.all([client.close(), server.close()]);
-		process.exit(0);
-	});
 }

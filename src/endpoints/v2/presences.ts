@@ -1,14 +1,15 @@
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
-import { cache } from "../../index";
+import { CacheEventHandler, presences as cache } from "../../util/CacheManager";
 
 let presenceInfos = [],
-	prs = preparePresences(cache.get("presences"));
+	prs = preparePresences(cache.values());
 
-cache.on("update", (_, data) => (prs = preparePresences(data)), {
-	only: "presences"
-});
+CacheEventHandler.on(
+	"presences",
+	() => (prs = preparePresences(cache.values()))
+);
 
 const handler: RouteHandlerMethod<
 	Server,

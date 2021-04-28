@@ -2,13 +2,11 @@ import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 import { readFileSync } from "fs";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
-import { cache } from "../../index";
+import { CacheEventHandler, versions as cache } from "../../util/CacheManager";
 
-let versions = prepare(cache.get("versions"));
+let versions = prepare(cache.values());
 
-cache.on("update", (_, data) => (versions = prepare(data)), {
-	only: "versions"
-});
+CacheEventHandler.on("versions", () => (versions = prepare(cache.values())));
 
 const handler: RouteHandlerMethod<
 	Server,

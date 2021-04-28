@@ -1,7 +1,7 @@
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
-import { cache } from "../../index";
+import { users } from "../../util/CacheManager";
 
 const handler: RouteHandlerMethod<
 	Server,
@@ -9,7 +9,7 @@ const handler: RouteHandlerMethod<
 	ServerResponse,
 	RouteGenericInterface,
 	unknown
-> = async (_req, res) => res.send({ users: cache.get("users") });
+> = async (_req, res) => res.send({ users });
 
 //* Export handler
 export { handler };

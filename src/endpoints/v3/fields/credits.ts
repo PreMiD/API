@@ -1,15 +1,16 @@
 import { GraphQLBoolean, GraphQLInt, GraphQLString } from "graphql";
 import { GraphQLList } from "graphql/type/definition";
 
-import { cache } from "../../../index";
-import { creditsType } from "../types/credits/credits";
+import { CacheEventHandler, credits as cache } from "../../../util/CacheManager";
 import { getExteralUser } from "../../../util/functions/getExternalUser";
+import { creditsType } from "../types/credits/credits";
 
-let creditsCache = prepareCredits(cache.get("credits"));
+let creditsCache = prepareCredits(cache.values());
 
-cache.on("update", (_, data) => (creditsCache = prepareCredits(data)), {
-	only: "credits"
-});
+CacheEventHandler.on(
+	"credits",
+	() => (creditsCache = prepareCredits(cache.values()))
+);
 
 export const credits = {
 	type: GraphQLList(creditsType),
@@ -21,7 +22,7 @@ export const credits = {
 	resolve(_, args: { id?: string; limit?: number; random: false }) {
 		let res = creditsCache;
 
-		if (args.id) res = res.filter((c) => c.user.id === args.id);
+		if (args.id) res = res.filter(c => c.user.id === args.id);
 		if (args.random) res = shuffle(res);
 		if (args.limit) res = res.slice(0, args.limit);
 
@@ -36,7 +37,7 @@ export const credits = {
 };
 
 function prepareCredits(credits) {
-	return credits.map((c) => ({
+	return credits.map(c => ({
 		user: {
 			name: c.name,
 			id: c.userId,
@@ -78,7 +79,7 @@ function shuffle(array: Array<any>) {
 function fetchUser(id: string) {
 	return new Promise((resolve, reject) => {
 		getExteralUser(id)
-			.then(async (dUser) => {
+			.then(async dUser => {
 				const user = await dUser;
 				return resolve({
 					user: {
@@ -94,7 +95,7 @@ function fetchUser(id: string) {
 					}
 				});
 			})
-			.catch((err) => {
+			.catch(err => {
 				return resolve(null);
 			});
 	});

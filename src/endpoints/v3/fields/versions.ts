@@ -1,9 +1,9 @@
-import { cache } from "../../../index";
+import { versions as cache } from "../../../util/CacheManager";
 import { versionsType } from "../types/versions/versionsType";
 
 export const versions = {
 	type: versionsType,
 	resolve() {
-		return cache.get("versions")[0];
+		return cache.values()[0];
 	}
 };

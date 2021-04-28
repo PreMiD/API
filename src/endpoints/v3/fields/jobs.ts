@@ -1,11 +1,11 @@
 import { GraphQLList } from "graphql";
 
-import { cache } from "../../../index";
+import { jobs as cache } from "../../../util/CacheManager";
 import { jobsType } from "../types/jobs/jobsType";
 
 export const jobs = {
 	type: GraphQLList(jobsType),
 	resolve() {
-		return cache.get("jobs");
+		return cache.values();
 	}
 };

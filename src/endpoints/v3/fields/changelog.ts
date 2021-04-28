@@ -1,6 +1,6 @@
 import { GraphQLList, GraphQLString } from "graphql";
 
-import { cache } from "../../../index";
+import { changelog as cache } from "../../../util/CacheManager";
 import { changelogType } from "../types/changelog/changelogType";
 
 export const changelog = {
@@ -9,8 +9,9 @@ export const changelog = {
 		version: { type: GraphQLString, defaultValue: null }
 	},
 	resolve(_, args: { version: string }) {
+		console.log(cache.values());
 		if (args.version)
-			return cache.get("changelog").filter(c => c.version === args.version);
-		else return cache.get("changelog");
+			return cache.values().filter(c => c.version === args.version);
+		else return cache.values();
 	}
 };

@@ -3,9 +3,7 @@ import "source-map-support/register";
 import cluster from "cluster";
 import { cpus } from "os";
 
-import { client, connect, pmdDB } from "../../db/client";
-import { initCache } from "../CacheManager";
-import debug from "../debug";
+import { connect, pmdDB } from "../../db/client";
 import initSentry from "../functions/initSentry";
 
 initSentry();
@@ -19,31 +17,15 @@ if (process.env.NODE_ENV !== "production") {
 export let workers: Array<cluster.Worker> = [];
 
 export async function master() {
-	connect()
-		.then(async () => {
-			await initCache();
+	if (!process.argv.includes("--no-cluster"))
+		for (let i = 0; i < cpus().length; i++) workers.push(cluster.fork());
 
-			if (!process.argv.includes("--no-cluster")) spawnWorkers();
-
-			debug("info", "index.ts", "Listening on port 3001");
-
-			deleteOldUsers();
-			setInterval(() => deleteOldUsers, 60 * 60 * 1000);
-		})
-		.catch(err => {
-			throw err;
-			debug("error", "index.ts", err);
-			process.exit();
-		});
+	await deleteOldUsers();
+	setInterval(() => deleteOldUsers, 60 * 60 * 1000);
 }
 
-function spawnWorkers() {
-	for (let i = 0; i < cpus().length; i++) {
-		workers.push(cluster.fork());
-	}
-}
-
-function deleteOldUsers() {
+async function deleteOldUsers() {
+	await connect();
 	//* Delete older ones than 7 days
 	return pmdDB.collection("science").deleteMany({
 		$or: [
@@ -52,18 +34,3 @@ function deleteOldUsers() {
 		]
 	});
 }
-
-//? Still needed?
-process.on("SIGINT", async function () {
-	await Promise.all([
-		client.close(),
-
-		...workers.map(w => {
-			return new Promise(resolve => {
-				w.once("exit", resolve);
-				if (!w.isDead) w.process.kill("SIGINT");
-			});
-		})
-	]);
-	process.exit(0);
-});

@@ -1,8 +1,8 @@
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
-import { cache } from "../../";
 import { pmdDB } from "../../db/client";
+import { presences, presenceUsage as cache } from "../../util/CacheManager";
 
 const handler: RouteHandlerMethod<
 	Server,
@@ -10,7 +10,7 @@ const handler: RouteHandlerMethod<
 	ServerResponse,
 	RouteGenericInterface,
 	unknown
-> = async (_req, res) => res.send(cache.get("presenceUsage"));
+> = async (_req, res) => res.send(cache);
 
 export async function prepareUsage() {
 	const data = await pmdDB
@@ -30,9 +30,7 @@ export async function prepareUsage() {
 		ranking = Object.assign(
 			{},
 			...data.filter(p =>
-				cache
-					.get("presences")
-					.find(p1 => p1.metadata.service === Object.keys(p)[0])
+				presences.values().find(p1 => p1.metadata.service === Object.keys(p)[0])
 			)
 		);
 

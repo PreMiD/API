@@ -1,12 +1,13 @@
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
-import { cache } from "../../index";
+import { CacheEventHandler, langFiles as cache } from "../../util/CacheManager";
 
-let langFiles = prepareLangFiles(cache.get("langFiles"));
-cache.on("update", (_, data) => (langFiles = prepareLangFiles(data)), {
-	only: "langFiles"
-});
+let langFiles = prepareLangFiles(cache.values());
+CacheEventHandler.on(
+	"langFiles",
+	() => (langFiles = prepareLangFiles(cache.values()))
+);
 
 const handler: RouteHandlerMethod<
 	Server,

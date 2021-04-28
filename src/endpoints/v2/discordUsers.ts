@@ -1,7 +1,7 @@
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
-import { cache } from "../../index";
+import { discordUsers as cache } from "../../util/CacheManager";
 
 const handler: RouteHandlerMethod<
 	Server,
@@ -9,7 +9,7 @@ const handler: RouteHandlerMethod<
 	ServerResponse,
 	RouteGenericInterface,
 	unknown
-> = async (_, res) => res.send(cache.get("discordUsers"));
+> = async (_, res) => res.send(cache.values());
 
 //* Export handler
 export { handler };

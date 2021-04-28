@@ -1,11 +1,11 @@
 import { GraphQLList } from "graphql";
 
-import { cache } from "../../../index";
+import { sponsors as cache } from "../../../util/CacheManager";
 import { sponsorType } from "../types/sponsors/sponsorType";
 
 export const sponsors = {
 	type: GraphQLList(sponsorType),
 	resolve() {
-		return cache.get("sponsors");
+		return cache.values();
 	}
 };

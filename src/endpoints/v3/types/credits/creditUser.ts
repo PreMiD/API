@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLString } from "graphql";
+import { GraphQLFloat, GraphQLInt, GraphQLString } from "graphql";
 import { GraphQLList, GraphQLObjectType } from "graphql/type/definition";
 
 export const creditUserType = new GraphQLObjectType({
@@ -10,7 +10,7 @@ export const creditUserType = new GraphQLObjectType({
 		avatar: { type: GraphQLString },
 		status: { type: GraphQLString },
 		flags: { type: GraphQLList(GraphQLString) },
-		premium_since: { type: GraphQLInt },
+		premium_since: { type: GraphQLFloat },
 		role: { type: GraphQLString },
 		roleId: { type: GraphQLString },
 		roleColor: { type: GraphQLString },

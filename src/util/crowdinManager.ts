@@ -25,7 +25,7 @@ export async function initialize() {
 	collection = pmdDB.collection("crowdin");
 
 	firstTimeInitialization();
-	setInterval(checkForChanges, 600000); // 10 minutes interval;
+	setInterval(checkForChanges, 1 * 60 * 1000); // 1 minute interval;
 }
 
 async function checkForChanges() {
@@ -37,6 +37,7 @@ async function checkForChanges() {
 
 		sendDiscord(await compareChanges(items, tidyApiData(data)));
 	} catch (err) {
+		console.log(err);
 		return;
 	}
 }
@@ -62,6 +63,18 @@ async function firstTimeInitialization() {
 async function compareChanges(oldData, newData) {
 	try {
 		if (!oldData || !newData) return;
+		oldData.master.forEach(d => {
+			if (!Array.isArray(d.files)) d.files = [d.files];
+		});
+		newData.master.forEach(d => {
+			if (!Array.isArray(d.files)) d.files = [d.files];
+		});
+		oldData.documentation.forEach(d => {
+			if (!Array.isArray(d.files)) d.files = [d.files];
+		});
+		newData.documentation.forEach(d => {
+			if (!Array.isArray(d.files)) d.files = [d.files];
+		});
 
 		let changes: {
 			master: object[];
@@ -269,6 +282,7 @@ async function compareChanges(oldData, newData) {
 
 		return changes;
 	} catch (err) {
+		console.log(err);
 		return null;
 	}
 }

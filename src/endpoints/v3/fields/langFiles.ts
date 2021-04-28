@@ -1,6 +1,6 @@
 import { GraphQLList, GraphQLString } from "graphql";
 
-import { cache } from "../../../index";
+import { langFiles as cache } from "../../../util/CacheManager";
 import { langFileType } from "../types/langFiles/langFileType";
 
 export const langFiles = {
@@ -8,29 +8,31 @@ export const langFiles = {
 	args: {
 		lang: { type: GraphQLString, defaultValue: null },
 		project: { type: GraphQLString, defaultValue: null },
-		presence: { type: GraphQLString, defaultValue: null },
+		presence: { type: GraphQLString, defaultValue: null }
 	},
 	resolve(_, args: { lang?: string; project?: string; presence?: string }) {
-
 		let masterLangKeys;
 		if (args.presence) {
 			args.presence = args.presence.toLowerCase();
-			masterLangKeys = Object.keys(formatLangFile(cache.get("langFiles").filter(lF =>
-				lF.project === "presence" &&
-				lF.lang === "en"
-			)[0]));
+			masterLangKeys = Object.keys(
+				formatLangFile(
+					cache
+						.values()
+						.filter(lF => lF.project === "presence" && lF.lang === "en")[0]
+				)
+			);
 
 			if (!masterLangKeys.some(key => key.startsWith(`${args.presence}.`))) {
 				masterLangKeys = null;
 			} else {
-				masterLangKeys = masterLangKeys.filter(key =>
-					key.startsWith(`general.`) ||
-					key.startsWith(`${args.presence}.`)
+				masterLangKeys = masterLangKeys.filter(
+					key =>
+						key.startsWith(`general.`) || key.startsWith(`${args.presence}.`)
 				);
 			}
 		}
 
-		return cache.get("langFiles").filter(lF => {
+		return cache.values().filter(lF => {
 			let checksToPass = 3,
 				checksThatPassed = 0;
 
@@ -45,15 +47,14 @@ export const langFiles = {
 			} else checksThatPassed++;
 
 			if (args.presence) {
-				const keys = Object.keys(lF.translations).filter(key =>
-					key.startsWith(`general.`) ||
-					key.startsWith(`${args.presence}.`)
+				const keys = Object.keys(lF.translations).filter(
+					key =>
+						key.startsWith(`general.`) || key.startsWith(`${args.presence}.`)
 				);
 
 				if (masterLangKeys && masterLangKeys.length == keys.length) {
 					checksThatPassed++;
 				}
-
 			} else checksThatPassed++;
 
 			return checksToPass === checksThatPassed;

@@ -1,15 +1,18 @@
 import { GraphQLString } from "graphql";
 import { GraphQLList } from "graphql/type/definition";
 
-import { cache } from "../../../index";
+import {
+	alphaUsers, betaUsers, CacheEventHandler, downloads as cache
+} from "../../../util/CacheManager";
 import { getDiscordUser } from "../../../util/functions/getDiscordUser";
 import { downloadsType } from "../types/downloads/downloadsType";
 
-let downloadsCache = prepareDownloads(cache.get("downloads"));
+let downloadsCache = prepareDownloads(cache.values());
 
-cache.on("update", (_, data) => (downloadsCache = prepareDownloads(data)), {
-	only: "downloads"
-});
+CacheEventHandler.on(
+	"downloads",
+	() => (downloadsCache = prepareDownloads(cache.values()))
+);
 
 export const downloads = {
 	type: GraphQLList(downloadsType),
@@ -21,11 +24,9 @@ export const downloads = {
 		if (args.token) {
 			try {
 				const dUser = await getDiscordUser(args.token),
-					accessType = cache
-						.get("alphaUsers")
-						.find(aU => aU.userId === dUser.id)
+					accessType = alphaUsers.get(dUser.id)
 						? "alpha"
-						: cache.get("betaUsers").find(aU => aU.userId === dUser.id)
+						: betaUsers.get(dUser.id)
 						? "beta"
 						: false;
 

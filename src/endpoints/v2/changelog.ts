@@ -1,7 +1,7 @@
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
-import { cache } from "../../index";
+import { changelog as cache } from "../../util/CacheManager";
 
 const handler: RouteHandlerMethod<
 	Server,
@@ -25,12 +25,16 @@ const handler: RouteHandlerMethod<
 	//* Send changelog
 	res.send(
 		cache
-			.get("changelog")
+			.values()
 			.filter(
 				c =>
 					c.project === req.params["project"] &&
 					c.version === req.params["version"]
 			)
+			.map(c => {
+				delete c._id;
+				return { ...c };
+			})
 	);
 };
 

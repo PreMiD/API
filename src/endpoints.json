@@ -53,14 +53,6 @@
 			"handler": "presenceUsage"
 		},
 		{
-			"path": "/v2/presenceInfo/:presence",
-			"handler": "presenceInfo"
-		},
-		{
-			"path": "/v2/presenceLikes/:presence/:method/:token",
-			"handler": "presenceLikes"
-		},
-		{
 			"path": "/v2/versions",
 			"handler": "versions"
 		},
