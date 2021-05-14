@@ -10,6 +10,8 @@ import { connect } from "../../db/client";
 import { initCache } from "../CacheManager";
 import loadEndpoints from "../functions/loadEndpoints";
 
+let requests = [];
+
 export async function worker() {
 	let options = {
 		logger: process.env.NODE_ENV !== "production",
@@ -32,6 +34,13 @@ export async function worker() {
 	});
 
 	server.addHook("onRequest", async (req, reply) => {
+		let cfip = req.headers["cf-connecting-ip"] || req.ip,
+			rIp = requests.find(r => r.ip === cfip);
+
+		if (rIp && rIp.count > 20) {
+			console.log(`Request blocked: ${rIp.ip} - ${rIp.count} requests`);
+			return req.socket.end();
+		}
 		//@ts-ignore
 		req.transaction = Sentry.startTransaction({
 			name: req.url,
@@ -50,6 +59,12 @@ export async function worker() {
 	});
 
 	server.addHook("onSend", async (req, reply) => {
+		let cfip = req.headers["cf-connecting-ip"],
+			rIp = requests.find(r => r.ip === cfip);
+
+		if (rIp) rIp.count++;
+		else requests.push({ ip: cfip, count: 1, path: req.url });
+
 		//@ts-ignore
 		req.transaction.finish();
 		//@ts-ignore
@@ -72,3 +87,12 @@ export async function worker() {
 	loadEndpoints(server, require("../../endpoints.json"));
 	server.listen({ port: 3001 });
 }
+
+// setInterval(() => {
+// 	console.log(requests.sort((a, b) => b.count - a.count).slice(0, 10));
+// }, 2000);
+
+setInterval(() => {
+	// console.log(requests);
+	requests = [];
+}, 10 * 60 * 1000);
