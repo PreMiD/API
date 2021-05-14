@@ -648,10 +648,10 @@ displayastree@^1.0.3:
   resolved "https://registry.yarnpkg.com/displayastree/-/displayastree-1.0.3.tgz#662db5495ff2b357ea1ddbbfd8e7fbe9f8119325"
   integrity sha512-cpUYNudvG8G1H9pE4SpQKmCIei2DKMtE+PjqB/FqDdtWQtEuDgWY+cxkRQ9BcUEUb5lL2mYqb2hvoeUx2kOq0g==
 
-dotenv@^8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
-  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
+dotenv@^9.0.2:
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-9.0.2.tgz#dacc20160935a37dea6364aa1bef819fb9b6ab05"
+  integrity sha512-I9OvvrHp4pIARv4+x9iuewrWycX6CcZtoAu1XrzPxc5UygMJXJZYmBsynku8IkrJwgypE5DGNjDPmPRhDCptUg==
 
 duplexer3@^0.1.4:
   version "0.1.4"
