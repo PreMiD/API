@@ -1191,16 +1191,6 @@ inquirer@^7.3.3:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-ip6@^0.2.0:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/ip6/-/ip6-0.2.6.tgz#01dab61e4182c01cb8911e7fe2963330cda285a0"
-  integrity sha512-Im9kYH0L2PdGysroiMzuK4JoRnMr7U+I8NW1C7cvMfpPlPkz7OpJoHQPeGCarmYGH2cqoWRXI7o/pLKa6KXZ5Q==
-
-ipaddr.js@^1.9.1:
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz#bff38543eeb8984825079ff3a2a8e6cbd46781b3"
-  integrity sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==
-
 ipaddr.js@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-2.0.0.tgz#77ccccc8063ae71ab65c55f21b090698e763fc6e"
@@ -1617,13 +1607,6 @@ node-fetch@^2.6.1:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
-node_cloudflare@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/node_cloudflare/-/node_cloudflare-0.0.6.tgz#6bb6c6bbac892c900a001a2d1ede5c6399cf44a6"
-  integrity sha512-unLfFgt4u9ua2fTLMBoV4k1yCszpcvwjyKxs5CAGnAWdP0WHdgzwbr1xm8QCtIGnmvE6ZtcNkq9NjTYUrqnCWQ==
-  dependencies:
-    range_check "2.x"
-
 normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
@@ -1818,14 +1801,6 @@ range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
-
-range_check@2.x:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/range_check/-/range_check-2.0.4.tgz#6682e9ed16da5e84089a553028ceb5920f1111a5"
-  integrity sha512-aed0ocXXj+SIiNNN9b+mZWA3Ow2GXHtftOGk2xQwshK5GbEZAvUcPWNQBLTx/lPcdFRIUFlFCRtHTQNIFMqynQ==
-  dependencies:
-    ip6 "^0.2.0"
-    ipaddr.js "^1.9.1"
 
 rc@^1.2.8:
   version "1.2.8"
