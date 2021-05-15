@@ -52,7 +52,7 @@ export async function master() {
 		await saveLoggedRequests(requests);
 
 		requests = [];
-	}, 5 * 60 * 1000);
+	}, 30 * 60 * 1000);
 }
 
 async function deleteOldUsers() {
