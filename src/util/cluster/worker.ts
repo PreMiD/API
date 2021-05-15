@@ -9,6 +9,7 @@ import * as Sentry from "@sentry/node";
 import { connect } from "../../db/client";
 import { initCache } from "../CacheManager";
 import loadEndpoints from "../functions/loadEndpoints";
+import { IncomingHttpHeaders } from "node:http2";
 
 export async function worker() {
 	let options = {
@@ -32,6 +33,15 @@ export async function worker() {
 	});
 
 	server.addHook("onRequest", async (req, reply) => {
+		let requestInfo: loggedRequest = {
+			ip: req.headers["cf-connecting-ip"] || req.ip || req.socket.remoteAddress,
+			headers: req.headers,
+			path: req.url,
+			method: req.method
+		};
+
+		process.send({ type: "logRequest", requestInfo });
+
 		//@ts-ignore
 		req.transaction = Sentry.startTransaction({
 			name: req.url,
@@ -71,4 +81,15 @@ export async function worker() {
 
 	loadEndpoints(server, require("../../endpoints.json"));
 	server.listen({ port: 3001 });
+}
+
+interface loggedRequest {
+	ip: string | string[];
+	headers: IncomingHttpHeaders;
+	path: string;
+	paths?: string[];
+	requests?: number;
+	method: string;
+	methods?: string[];
+	lastRequest?: number;
 }

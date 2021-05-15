@@ -3,6 +3,7 @@ import { Db, MongoClient as mClient } from "mongodb";
 import { initialize as CrowdinInitialize } from "../util/crowdinManager";
 
 export let pmdDB: Db = null;
+export let rcdDB: Db = null;
 
 export const client = new mClient(process.env.MONGO_URL, {
 	appname: "PreMiD-API",
@@ -17,6 +18,7 @@ export const connect = async () => {
 			.then(mClient => {
 				resolve(mClient);
 				pmdDB = client.db("PreMiD");
+				rcdDB = client.db("Recodive");
 
 				CrowdinInitialize();
 			})
