@@ -52,7 +52,7 @@ export async function master() {
 		await saveLoggedRequests(requests);
 
 		requests = [];
-	}, 15 * 60 * 1000);
+	}, 5 * 60 * 1000);
 }
 
 async function deleteOldUsers() {
@@ -74,20 +74,22 @@ export function logRequest(requests: loggedRequest[], data: loggedRequest) {
 	let lR = requests.find((r: loggedRequest) => r.ip === data.ip);
 
 	if (lR !== undefined) {
-		if (!lR.paths) lR.paths = [data.path];
 		if (!lR.paths.find((p: string) => p === data.path))
 			lR.paths.push(data.path);
 
-		if (!lR.requests) lR.requests = 1;
-		else lR.requests++;
-
-		if (!lR.methods) lR.methods = [lR.method];
-		else if (!lR.methods.find(m => m === lR.method)) lR.methods.push(lR.method);
+		if (!lR.methods.find(m => m === lR.method)) lR.methods.push(lR.method);
 
 		lR.lastRequest = Date.now();
+		lR.requests++;
 
 		return;
-	} else return requests.push(data as loggedRequest);
+	} else {
+		data.paths = [data.path];
+		data.requests = 1;
+		data.methods = [data.method];
+
+		return requests.push(data as loggedRequest);
+	}
 }
 
 /**
@@ -98,6 +100,7 @@ async function saveLoggedRequests(loggedRequests: loggedRequest[]) {
 	if (!fs.existsSync("../logs")) fs.mkdirSync("../logs");
 
 	let sorted = loggedRequests
+		.filter((lR: loggedRequest) => lR.requests !== undefined)
 		.sort((a: loggedRequest, b: loggedRequest) => b.requests - a.requests)
 		.slice(0, 50);
 
