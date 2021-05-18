@@ -11,7 +11,7 @@
 		"dev": "devScript --depCheck"
 	},
 	"dependencies": {
-		"@sentry/node": "^6.3.3",
+		"@sentry/node": "^6.4.0",
 		"@sentry/tracing": "^6.3.3",
 		"axios": "0.21.1",
 		"cron": "^1.8.2",
