@@ -28,7 +28,7 @@
 		"@types/connect": "^3.4.34",
 		"@types/cron": "^1.7.2",
 		"@types/lru-cache": "^5.1.0",
-		"@types/mongodb": "^3.6.12",
+		"@types/mongodb": "^3.6.14",
 		"@types/node": "^15.0.1",
 		"dotenv": "^8.2.0",
 		"rimraf": "^3.0.2",
