@@ -164,10 +164,10 @@
   resolved "https://registry.yarnpkg.com/@types/lru-cache/-/lru-cache-5.1.0.tgz#57f228f2b80c046b4a1bd5cac031f81f207f4f03"
   integrity sha512-RaE0B+14ToE4l6UqdarKPnXwVDuigfFv+5j9Dze/Nqr23yyuqdNvzcZi3xB+3Agvi5R4EOgAksfv3lXX4vBt9w==
 
-"@types/mongodb@^3.6.12":
-  version "3.6.12"
-  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.12.tgz#727960d34f35054d2f2ce68909e16094f742d935"
-  integrity sha512-49aEzQD5VdHPxyd5dRyQdqEveAg9LanwrH8RQipnMuulwzKmODXIZRp0umtxi1eBUfEusRkoy8AVOMr+kVuFog==
+"@types/mongodb@^3.6.16":
+  version "3.6.16"
+  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.16.tgz#7a48aaeb777f57e4655515ce18acbc68600dfeb9"
+  integrity sha512-D3tM0iRUet3TiIMAdvovxAIRG9gYqFd4j7visGwmPNdQj8Fq/uFFfRxyGCgEwVXAs0NnJPMI/QGVTADxDwhmSQ==
   dependencies:
     "@types/bson" "*"
     "@types/node" "*"
