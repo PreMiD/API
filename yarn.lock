@@ -2175,10 +2175,10 @@ tree-kill@^1.2.2:
   resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.2.tgz#4ca09a9092c88b73a7cdc5e8a01b507b0790a0cc"
   integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
 
-ts-devscript@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/ts-devscript/-/ts-devscript-3.0.3.tgz#51f2b8fadfb61f08f431de28850eccad08dcfdf3"
-  integrity sha512-9RJ3TzIrGbYTAyehP/z7dAyZSp+//rtwQEY0bRY5ODCcjdvQJX45beiG0XnHqAnNOgaXDHu8T8NtzILtrmKrFQ==
+ts-devscript@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/ts-devscript/-/ts-devscript-3.0.4.tgz#c18ae517073ae2f92465f94f81597d80d20b992d"
+  integrity sha512-jMS5NnSFtnbVIODyxIj6KyLrTE6r6DVYcOVtcmyi5H9wkg0Wn5LYmQYSKYpQcJjdt+Y+x1JnJe4fo+Q+OP5ReQ==
   dependencies:
     "@yarnpkg/parsers" "^2.3.0"
     autopm "^1.3.0"
