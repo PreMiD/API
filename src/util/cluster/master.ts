@@ -1,13 +1,12 @@
 import "source-map-support/register";
 
-import cluster from "cluster";
+import { connect, pmdDB, rcdDB } from "../../db/client";
 import { cpus, hostname } from "os";
 
-import { connect, pmdDB, rcdDB } from "../../db/client";
-import initSentry from "../functions/initSentry";
-import { IncomingHttpHeaders } from "node:http2";
-
+import { IncomingHttpHeaders } from "http2";
+import cluster from "cluster";
 import fs from "fs";
+import initSentry from "../functions/initSentry";
 
 initSentry();
 
