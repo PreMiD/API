@@ -33,14 +33,17 @@ export async function worker() {
 	});
 
 	server.addHook("onRequest", async (req, reply) => {
-		let requestInfo: loggedRequest = {
-			ip: req.headers["cf-connecting-ip"] || req.ip || req.socket.remoteAddress,
-			headers: req.headers,
-			path: req.url,
-			method: req.method
-		};
+		if (process.env.NODE_ENV !== "dev") {
+			let requestInfo: loggedRequest = {
+				ip:
+					req.headers["cf-connecting-ip"] || req.ip || req.socket.remoteAddress,
+				headers: req.headers,
+				path: req.url,
+				method: req.method
+			};
 
-		process.send({ type: "logRequest", requestInfo });
+			process.send({ type: "logRequest", requestInfo });
+		}
 
 		//@ts-ignore
 		req.transaction = Sentry.startTransaction({

@@ -20,15 +20,18 @@ if (process.env.NODE_ENV !== "production") {
 export let workers: Array<cluster.Worker> = [];
 
 export async function master() {
-	await deleteOldUsers();
-	setInterval(() => deleteOldUsers, 60 * 60 * 1000);
+	await deleteOldData();
+	setInterval(() => deleteOldData, 60 * 60 * 1000);
 
 	let requests: loggedRequest[] = [],
-		activeLogging = (
-			await rcdDB
-				.collection("projectSettings")
-				.findOne({ name: "PreMiD" }, { projection: { _id: false } })
-		).settings.requestLogging;
+		activeLogging =
+			process.env.NODE_ENV !== "dev"
+				? (
+						await rcdDB
+							.collection("projectSettings")
+							.findOne({ name: "PreMiD" }, { projection: { _id: false } })
+				  ).settings.requestLogging
+				: false;
 
 	if (!process.argv.includes("--no-cluster"))
 		for (let i = 0; i < cpus().length; i++) {
@@ -42,28 +45,37 @@ export async function master() {
 			workers.push(worker);
 		}
 
-	setInterval(async () => {
-		activeLogging = (
-			await rcdDB
-				.collection("projectSettings")
-				.findOne({ name: "PreMiD" }, { projection: { _id: false } })
-		).settings.requestLogging;
+	if (process.env.NODE_ENV !== "dev") {
+		setInterval(async () => {
+			activeLogging = (
+				await rcdDB
+					.collection("projectSettings")
+					.findOne({ name: "PreMiD" }, { projection: { _id: false } })
+			).settings.requestLogging;
 
-		await saveLoggedRequests(requests);
+			await saveLoggedRequests(requests);
 
-		requests = [];
-	}, 30 * 60 * 1000);
+			requests = [];
+		}, 30 * 60 * 1000);
+	}
 }
 
-async function deleteOldUsers() {
+async function deleteOldData() {
 	await connect();
 	//* Delete older ones than 7 days
-	return pmdDB.collection("science").deleteMany({
-		$or: [
-			{ updated: { $exists: false } },
-			{ updated: { $lt: Date.now() - 31 * 24 * 60 * 60 * 1000 } }
-		]
-	});
+	return Promise.all([
+		pmdDB.collection("science").deleteMany({
+			$or: [
+				{ updated: { $exists: false } },
+				{ updated: { $lt: Date.now() - 31 * 24 * 60 * 60 * 1000 } }
+			]
+		}),
+		process.env.NODE_ENV !== "dev"
+			? rcdDB.collection("logs").deleteMany({
+					savedOn: { $lt: Date.now() - 14 * 24 * 60 * 60 * 1000 }
+			  })
+			: null
+	]);
 }
 
 /**

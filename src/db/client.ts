@@ -18,7 +18,7 @@ export const connect = async () => {
 			.then(mClient => {
 				resolve(mClient);
 				pmdDB = client.db("PreMiD");
-				rcdDB = client.db("Recodive");
+				rcdDB = process.env.NODE_ENV !== "dev" ? client.db("Recodive") : null;
 
 				CrowdinInitialize();
 			})
