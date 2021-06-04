@@ -1,15 +1,14 @@
 import "source-map-support/register";
 
-import fastify from "fastify";
-import gql from "mercurius";
-import middie from "middie";
-
 import * as Sentry from "@sentry/node";
 
+import { IncomingHttpHeaders } from "http2";
 import { connect } from "../../db/client";
+import fastify from "fastify";
+import gql from "mercurius";
 import { initCache } from "../CacheManager";
 import loadEndpoints from "../functions/loadEndpoints";
-import { IncomingHttpHeaders } from "node:http2";
+import middie from "middie";
 
 export async function worker() {
 	let options = {
