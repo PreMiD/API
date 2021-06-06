@@ -12,6 +12,7 @@ import { credits } from "../fields/credits";
 import { deleteScience } from "../fields/deleteScience";
 import { discordUsers } from "../fields/discordUsers";
 import { downloads } from "../fields/downloads";
+import { jobApply } from "../fields/jobApply";
 import { jobs } from "../fields/jobs";
 import { langFiles } from "../fields/langFiles";
 import { partners } from "../fields/partners";
@@ -54,6 +55,7 @@ const mutationType = new GraphQLObjectType({
 		addReview,
 		addScience,
 		deleteScience,
+		jobApply
 	},
 });
 
