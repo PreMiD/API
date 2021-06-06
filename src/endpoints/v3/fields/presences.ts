@@ -1,7 +1,11 @@
 import { GraphQLError, GraphQLInt, GraphQLString } from "graphql";
 import { GraphQLList, GraphQLScalarType } from "graphql/type/definition";
 
-import { CacheEventHandler, presences as cache, presenceUsage } from "../../../util/CacheManager";
+import {
+	CacheEventHandler,
+	presences as cache,
+	presenceUsage
+} from "../../../util/CacheManager";
 import { presenceType } from "../types/presences/presencesType";
 
 let presencesCache = preparePresences(cache.values());

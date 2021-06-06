@@ -6,8 +6,8 @@ import { partnerType } from "../types/partners/partnerType";
 
 export const partners = {
 	type: GraphQLList(partnerType),
-	args:{
-		name: { type: GraphQLString, defaultValue: null}
+	args: {
+		name: { type: GraphQLString, defaultValue: null }
 	},
 	resolve(
 		_,
@@ -17,8 +17,8 @@ export const partners = {
 	) {
 		let result = cache.values();
 
-		if (args.name){
-			result = result.filter(p => p.name === args.name)
+		if (args.name) {
+			result = result.filter(p => p.name === args.name);
 		}
 
 		return result;
