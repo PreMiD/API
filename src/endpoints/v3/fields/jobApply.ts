@@ -43,44 +43,55 @@ export const jobApply = {
       };
     }
     return new Promise((resolve, reject) => {
-      getDiscordUser(args.token).then(async (dUser) => {
-        if (
-          await coll.findOne({ type: "job", userId: dUser.id, reviewed: false })
-        ) {
-          return resolve({
-            error: 3,
-            message: "You already applied before.",
+      getDiscordUser(args.token)
+        .then(async (dUser) => {
+          if (
+            await coll.findOne({
+              type: "job",
+              userId: dUser.id,
+              reviewed: false,
+            })
+          ) {
+            return resolve({
+              error: 3,
+              message: "You already applied before.",
+            });
+          }
+
+          coll.insertOne({
+            type: "job",
+            userId: dUser.id,
+            reviewed: false,
+            position: { name: args.position, questions: args.input },
           });
-        }
 
-        coll.insertOne({
-          type: "job",
-          userId: dUser.id,
-          reviewed: false,
-          position: { name: args.position, questions: args.input },
-        });
-
-        webhook.send({
-          embeds: [
-            {
-              title: `Job Application (${args.position})`,
-              description: `By <@${dUser.id}>`,
-              fields: args.input.map((q: any) => {
-                return {
-                  name: q.label,
-                  value: q.response ?? "No response.",
-                };
-              }),
-              thumbnail: {
-                url: `https://cdn.discordapp.com/avatars/${dUser.id}/${dUser.avatar}.png`,
+          webhook.send({
+            embeds: [
+              {
+                title: `Job Application (${args.position})`,
+                description: `By <@${dUser.id}>`,
+                fields: args.input.map((q: any) => {
+                  return {
+                    name: q.label,
+                    value: q.response ?? "No response.",
+                  };
+                }),
+                thumbnail: {
+                  url: `https://cdn.discordapp.com/avatars/${dUser.id}/${dUser.avatar}.png`,
+                },
               },
-            },
-          ],
+            ],
+          });
+          return resolve({
+            message: "Job application submitted",
+          });
+        })
+        .catch((err) => {
+          return resolve({
+            error: 4,
+            message: err,
+          });
         });
-        return resolve({
-          message: "Job application submitted",
-        });
-      });
     });
   },
 };
