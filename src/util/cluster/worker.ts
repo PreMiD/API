@@ -3,6 +3,7 @@ import "source-map-support/register";
 import * as Sentry from "@sentry/node";
 
 import { IncomingHttpHeaders } from "http2";
+import SlowDown from "express-slow-down";
 import { connect } from "../../db/client";
 import fastify from "fastify";
 import gql from "mercurius";
@@ -25,6 +26,14 @@ export async function worker() {
 	});
 
 	await Promise.all([connect(), server.register(middie)]);
+	server.use(
+		SlowDown({
+			windowMs: 10 * 1000,
+			delayAfter: 15,
+			delayMs: 500
+		})
+	);
+
 	await initCache();
 
 	await server.register(gql, {
