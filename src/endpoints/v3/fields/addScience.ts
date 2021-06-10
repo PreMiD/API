@@ -18,8 +18,6 @@ setInterval(() => {
 
 	if (scienceToUpdate.length === 0) return;
 
-	console.log(scienceToUpdate.length, scienceUpdateQueue.length);
-
 	science.bulkWrite(
 		scienceToUpdate.map(s => {
 			return {
@@ -54,14 +52,14 @@ export const addScience = {
 		}
 	},
 	resolve(_, args) {
-			let data: any = {
-				identifier: args.identifier,
-				presences: args.presences,
-				platform: {
-					os: args.os,
-					arch: args.arch
-				},
-				updated: Date.now()
+		let data: any = {
+			identifier: args.identifier,
+			presences: args.presences,
+			platform: {
+				os: args.os,
+				arch: args.arch
+			},
+			updated: Date.now()
 		};
 		scienceUpdateQueue.push(data);
 
