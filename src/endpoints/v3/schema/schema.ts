@@ -13,12 +13,15 @@ import { deleteScience } from "../fields/deleteScience";
 import { discordUsers } from "../fields/discordUsers";
 import { downloads } from "../fields/downloads";
 import { jobs } from "../fields/jobs";
+import { jobApply } from "../fields/jobApply";
 import { langFiles } from "../fields/langFiles";
 import { partners } from "../fields/partners";
+import { partnerApply } from "../fields/partnerApply";
 import { presences } from "../fields/presences";
 import { science } from "../fields/science";
 import { sponsors } from "../fields/sponsors";
 import { tickets } from "../fields/tickets";
+import { usage } from "../fields/usage";
 import { versions } from "../fields/versions";
 
 //* Root Query
@@ -40,8 +43,9 @@ const rootQuery = new GraphQLObjectType({
 		sponsors,
 		tickets,
 		versions,
-		alphaBetaAccess,
-	},
+		usage,
+		alphaBetaAccess
+	}
 });
 
 //* Mutation type
@@ -52,10 +56,12 @@ const mutationType = new GraphQLObjectType({
 		addReview,
 		addScience,
 		deleteScience,
-	},
+		jobApply,
+		partnerApply
+	}
 });
 
 export default new GraphQLSchema({
 	query: rootQuery,
-	mutation: mutationType,
+	mutation: mutationType
 });

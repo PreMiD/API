@@ -8,6 +8,7 @@ export const partnerType = new GraphQLObjectType({
 		description: { type: GraphQLString },
 		image: { type: GraphQLString },
 		tString: { type: GraphQLString },
-		storeName: { type: GraphQLString }
+		storeName: { type: GraphQLString },
+		url: { type: GraphQLString }
 	})
 });
