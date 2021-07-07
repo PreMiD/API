@@ -21,7 +21,7 @@
 		"lru-cache": "^6.0.0",
 		"mercurius": "^7.7.0",
 		"middie": "5.2.0",
-		"mongodb": "^3.6.9",
+		"mongodb": "^3.6.10",
 		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
