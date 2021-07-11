@@ -3,6 +3,7 @@ import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
 import { pmdDB } from "../../db/client";
+import { jobs as cache } from "../../util/CacheManager";
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
 
 const coll = pmdDB.collection("applications");
@@ -28,6 +29,14 @@ const handler: RouteHandlerMethod<
 	if (!body.questions) {
 		res.status(400).send({ error: 2, message: "No questions providen." });
 		return;
+	}
+
+	const dbJob = cache.values().filter(job => job.jobName === body.position);
+	if (!dbJob[0]?.available) {
+		return {
+			error: 4,
+			message: "Job not open."
+		};
 	}
 
 	getDiscordUser(body.token).then(async dUser => {
