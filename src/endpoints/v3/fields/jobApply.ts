@@ -44,7 +44,7 @@ export const jobApply = {
 			};
 		}
 
-		const dbJob = cache.values().filter(x => x.jobName === args.position);
+		const dbJob = cache.values().filter(job => job.jobName === args.position);
 		if (!dbJob[0]?.available) {
 			return {
 				error: 4,
