@@ -19,7 +19,7 @@
 		"fastify": "3.17.0",
 		"graphql": "15.5.0",
 		"lru-cache": "^6.0.0",
-		"mercurius": "^7.7.0",
+		"mercurius": "^8.1.1",
 		"middie": "5.2.0",
 		"mongodb": "^4.0.1",
 		"source-map-support": "^0.5.19"
