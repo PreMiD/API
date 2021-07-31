@@ -6,9 +6,7 @@ export let pmdDB: Db = null;
 export let rcdDB: Db = null;
 
 export const client = new mClient(process.env.MONGO_URL, {
-	appname: "PreMiD-API",
-	useUnifiedTopology: true,
-	maxIdleTimeMS: 60 * 1000
+	appName: "PreMiD-API"
 });
 
 export const connect = async () => {

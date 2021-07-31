@@ -1,10 +1,10 @@
 import "source-map-support/register";
 
+import cluster, { Worker } from "cluster";
 import { connect, pmdDB, rcdDB } from "../../db/client";
 import { cpus, hostname } from "os";
 
 import { IncomingHttpHeaders } from "http2";
-import cluster from "cluster";
 import fs from "fs";
 import initSentry from "../functions/initSentry";
 
@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== "production") {
 	dotenv({ path: "../.env" });
 }
 
-export let workers: Array<cluster.Worker> = [];
+export let workers: Array<Worker> = [];
 
 export async function master() {
 	await deleteOldData();

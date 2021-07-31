@@ -7,32 +7,33 @@ const betaUsers = pmdDB.collection("betaUsers");
 const alphaUsers = pmdDB.collection("alphaUsers");
 
 export const alphaBetaAccess = {
-  type: GraphQLList(alphaBetaAccessType),
-  args: {
-      userId: { type: GraphQLString, defaultValue: null }
-  },
-  async resolve(_, args: { userId?: string }) {
+	type: GraphQLList(alphaBetaAccessType),
+	args: {
+		userId: { type: GraphQLString, defaultValue: null }
+	},
+	async resolve(_, args: { userId?: string }) {
+		let hasAlpha = (await alphaUsers.findOne(
+				{ userId: args.userId },
+				{ projection: { _id: false, keysLeft: false } }
+			)) as any,
+			hasBeta;
 
-      let hasAlpha = await alphaUsers.findOne(
-          { userId: args.userId },
-          { projection: { _id: false, keysLeft: false } }
-      ), hasBeta;
+		hasAlpha = hasAlpha ? true : false;
+		if (!hasAlpha) {
+			hasBeta = await betaUsers.findOne(
+				{ userId: args.userId },
+				{ projection: { _id: false, keysLeft: false } }
+			);
+			hasBeta = hasBeta ? true : false;
+		} else {
+			hasBeta = true;
+		}
 
-      hasAlpha = hasAlpha ? true : false;
-      if (!hasAlpha) {
-          hasBeta = await betaUsers.findOne(
-            { userId: args.userId },
-            { projection: { _id: false, keysLeft: false } }
-          );
-          hasBeta = hasBeta ? true : false;
-      } else {
-          hasBeta = true;
-      }
-
-
-    return [{
-      betaAccess: hasBeta,
-      alphaAccess: hasAlpha
-    }]
-  }
-}
+		return [
+			{
+				betaAccess: hasBeta,
+				alphaAccess: hasAlpha
+			}
+		];
+	}
+};
