@@ -27,7 +27,7 @@
 	"devDependencies": {
 		"@types/connect": "^3.4.34",
 		"@types/cron": "^1.7.3",
-		"@types/lru-cache": "^5.1.0",
+		"@types/lru-cache": "^5.1.1",
 		"@types/mongodb": "^4.0.7",
 		"@types/node": "^16.4.8",
 		"dotenv": "^10.0.0",
