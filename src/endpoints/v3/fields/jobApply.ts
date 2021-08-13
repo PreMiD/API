@@ -2,6 +2,7 @@ import { WebhookClient } from "discord.js";
 import { GraphQLList, GraphQLString } from "graphql";
 
 import { pmdDB } from "../../../db/client";
+import { jobs as cache } from "../../../util/CacheManager";
 import { getDiscordUser } from "../../../util/functions/getDiscordUser";
 import { jobApplyType } from "../types/jobApply/jobApplyType";
 import { questionsInputType } from "../types/jobApply/questionType";
@@ -42,6 +43,15 @@ export const jobApply = {
 				message: "No questions providen."
 			};
 		}
+
+		const dbJob = cache.values().filter(job => job.jobName === args.position);
+		if (!dbJob[0]?.available) {
+			return {
+				error: 4,
+				message: "Job not open."
+			};
+		}
+
 		return new Promise((resolve, reject) => {
 			getDiscordUser(args.token)
 				.then(async dUser => {
