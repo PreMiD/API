@@ -6,10 +6,10 @@ import { getDiscordUser } from "../../../util/functions/getDiscordUser";
 import { partnerApplyType } from "../types/partnerApply/partnerApplyType";
 
 const coll = pmdDB.collection("applications");
-const webhook = new WebhookClient(
-	process.env.DISCORD_WEBHOOK_ID,
-	process.env.DISCORD_WEBHOOK_TOKEN
-);
+const webhook = new WebhookClient({
+	id: process.env.DISCORD_WEBHOOK_ID,
+	token: process.env.DISCORD_WEBHOOK_TOKEN
+});
 
 export const partnerApply = {
 	type: partnerApplyType,
@@ -91,7 +91,7 @@ export const partnerApply = {
 						imageLink: args.imageLink
 					});
 
-					webhook.send("", {
+					webhook.send({
 						embeds: [
 							{
 								title: `Partner Application (${args.partnerType})`,

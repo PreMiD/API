@@ -7,10 +7,10 @@ import { jobApplyType } from "../types/jobApply/jobApplyType";
 import { questionsInputType } from "../types/jobApply/questionType";
 
 const coll = pmdDB.collection("applications");
-const webhook = new WebhookClient(
-	process.env.DISCORD_WEBHOOK_ID,
-	process.env.DISCORD_WEBHOOK_TOKEN
-);
+const webhook = new WebhookClient({
+	id: process.env.DISCORD_WEBHOOK_ID,
+	token: process.env.DISCORD_WEBHOOK_TOKEN
+});
 
 export const jobApply = {
 	type: jobApplyType,

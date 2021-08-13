@@ -6,10 +6,10 @@ import { pmdDB } from "../../db/client";
 import { getDiscordUser } from "../../util/functions/getDiscordUser";
 
 const coll = pmdDB.collection("applications");
-const webhook = new WebhookClient(
-	process.env.DISCORD_WEBHOOK_ID,
-	process.env.DISCORD_WEBHOOK_TOKEN
-);
+const webhook = new WebhookClient({
+	id: process.env.DISCORD_WEBHOOK_ID,
+	token: process.env.DISCORD_WEBHOOK_TOKEN
+});
 
 const handler: RouteHandlerMethod<
 	Server,
