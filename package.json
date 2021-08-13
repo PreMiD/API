@@ -8,7 +8,7 @@
 	"scripts": {
 		"start": "cd dist && node index.js",
 		"init": "yarn && rimraf dist && tsc && devScript --copyOnly",
-		"dev": "devScript --depCheck"
+		"dev": "devScript --depCheck --no-cluster"
 	},
 	"dependencies": {
 		"@sentry/node": "^6.11.0",
