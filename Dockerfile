@@ -1,14 +1,18 @@
 FROM node:current-alpine
 
-WORKDIR /PreMiD/API
-
 COPY . .
 
-RUN yarn run init
+RUN yarn
+RUN yarn build
 RUN npm prune --production
+
+FROM node:current-alpine
+
+COPY --from=0 /dist .
+COPY --from=0 /node_modules node_modules
 
 EXPOSE 3001
 
 ENV NODE_ENV=production
 
-CMD [ "yarn", "start" ]
+CMD [ "node", "index", "--no-cluster"]

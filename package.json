@@ -7,6 +7,7 @@
 	"license": "MPL-2.0",
 	"scripts": {
 		"start": "cd dist && node index.js",
+		"build": "tsc && devScript --copyOnly",
 		"init": "yarn && rimraf dist && tsc && devScript --copyOnly",
 		"dev": "devScript --depCheck --no-cluster"
 	},

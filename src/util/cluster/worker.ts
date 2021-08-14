@@ -1,8 +1,5 @@
 import "source-map-support/register";
 
-import * as Sentry from "@sentry/node";
-
-import { IncomingHttpHeaders } from "http2";
 import { connect } from "../../db/client";
 import fastify from "fastify";
 import gql from "mercurius";
@@ -20,7 +17,6 @@ export async function worker() {
 	const server = fastify(options);
 
 	server.addHook("onError", (_request, _reply, error, done) => {
-		Sentry.captureException(error);
 		done();
 	});
 
@@ -33,24 +29,6 @@ export async function worker() {
 	});
 
 	server.addHook("onRequest", async (req, reply) => {
-		if (process.env.NODE_ENV !== "dev") {
-			let requestInfo: loggedRequest = {
-				ip:
-					req.headers["cf-connecting-ip"] || req.ip || req.socket.remoteAddress,
-				headers: req.headers,
-				path: req.url,
-				method: req.method
-			};
-
-			process.send({ type: "logRequest", requestInfo });
-		}
-
-		//@ts-ignore
-		req.transaction = Sentry.startTransaction({
-			name: req.url,
-			data: req.body
-		});
-
 		//@ts-ignore
 		req.responseTimeCalc = process.hrtime();
 		reply.headers({
@@ -63,8 +41,6 @@ export async function worker() {
 	});
 
 	server.addHook("onSend", async (req, reply) => {
-		//@ts-ignore
-		req.transaction.finish();
 		//@ts-ignore
 		const diff = process.hrtime(req.responseTimeCalc);
 		reply.header("X-Response-Time", diff[0] * 1e3 + diff[1] / 1e6);
@@ -84,15 +60,4 @@ export async function worker() {
 
 	loadEndpoints(server, require("../../endpoints.json"));
 	server.listen({ port: 3001 });
-}
-
-interface loggedRequest {
-	ip: string | string[];
-	headers: IncomingHttpHeaders;
-	path: string;
-	paths?: string[];
-	requests?: number;
-	method: string;
-	methods?: string[];
-	lastRequest?: number;
 }
