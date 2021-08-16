@@ -1496,10 +1496,10 @@ memory-pager@^1.0.2:
   resolved "https://registry.yarnpkg.com/memory-pager/-/memory-pager-1.5.0.tgz#d8751655d22d384682741c972f2c3d6dfa3e66b5"
   integrity sha512-ZS4Bp4r/Zoeq6+NLJpP+0Zzm0pR8whtGPf1XExKLJBAczGMnSi3It14OiNCStjQjM6NU1okjQGSxgEZN8eBYKg==
 
-mercurius@^8.1.1:
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/mercurius/-/mercurius-8.1.1.tgz#12662b644a74d30b013e61d6e18bf43e21f8386c"
-  integrity sha512-2/b04m/GBqyr5OfvfaZbyGizcmV5ldSoR2h5tWKPw1niaHa8LCL5dnL1a19/HsJjDBvDzQXT7iBKcIEVv+KilA==
+mercurius@^8.1.2:
+  version "8.1.2"
+  resolved "https://registry.yarnpkg.com/mercurius/-/mercurius-8.1.2.tgz#e307fa995b19563f12ccebd080077c8079bc17ab"
+  integrity sha512-2lQ+PUrUBz8I3tWi7bdze7fuNIBn8Wkvs8TC42M7LivCOLm/b2eUhcs+J9LleuZDntG1Vwo/J4nOMmMvgNYQlA==
   dependencies:
     "@types/isomorphic-form-data" "^2.0.0"
     end-of-stream "^1.4.4"
