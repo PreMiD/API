@@ -1107,7 +1107,7 @@ graphql-jit@^0.5.1:
     lodash.merge "4.6.2"
     lodash.mergewith "4.6.2"
 
-graphql@15.5.3:
+graphql@15.5.3, graphql@^15.5.1:
   version "15.5.3"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.5.3.tgz#c72349017d5c9f5446a897fe6908b3186db1da00"
   integrity sha512-sM+jXaO5KinTui6lbK/7b7H/Knj9BpjGxZ+Ki35v7YbUJxxdBCUqNM0h3CRVU1ZF9t5lNiBzvBCSYPvIwxPOQA==
@@ -1496,10 +1496,10 @@ memory-pager@^1.0.2:
   resolved "https://registry.yarnpkg.com/memory-pager/-/memory-pager-1.5.0.tgz#d8751655d22d384682741c972f2c3d6dfa3e66b5"
   integrity sha512-ZS4Bp4r/Zoeq6+NLJpP+0Zzm0pR8whtGPf1XExKLJBAczGMnSi3It14OiNCStjQjM6NU1okjQGSxgEZN8eBYKg==
 
-mercurius@^8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/mercurius/-/mercurius-8.2.0.tgz#2f3a437745f8d0806d84073e989eb176f18aa1d4"
-  integrity sha512-pA5Fd+jbti8ytznq1OwXDzit20Ma6aS3629i2obhhtblMOk8FFS3z8NRtNm8bdeZapdJmDsUjCEXXLuGapldjw==
+mercurius@^8.2.1:
+  version "8.2.1"
+  resolved "https://registry.yarnpkg.com/mercurius/-/mercurius-8.2.1.tgz#6d9fabb0bf398a1699e58b107e426a9a9704cf54"
+  integrity sha512-ZSfSHLOROaLzj0L2VYama32sCpOpZ6WDJZ7BIqNaOmpF6Cgbgsz9hoQDOpqzBliYWfcdP50bQd+L/8fW0FjSnw==
   dependencies:
     "@types/isomorphic-form-data" "^2.0.0"
     end-of-stream "^1.4.4"
@@ -1508,6 +1508,7 @@ mercurius@^8.2.0:
     fastify-plugin "^3.0.0"
     fastify-static "^4.2.2"
     fastify-websocket "^4.0.0"
+    graphql "^15.5.1"
     graphql-jit "^0.5.1"
     mqemitter "^4.4.1"
     p-map "^4.0.0"
