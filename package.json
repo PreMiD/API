@@ -17,7 +17,7 @@
 		"axios": "0.21.4",
 		"cron": "^1.8.2",
 		"discord.js": "13.1.0",
-		"fastify": "3.21.6",
+		"fastify": "3.22.0",
 		"graphql": "15.6.0",
 		"lru-cache": "^6.0.0",
 		"mercurius": "^8.4.2",
