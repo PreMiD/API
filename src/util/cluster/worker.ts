@@ -1,11 +1,12 @@
 import "source-map-support/register";
 
-import { connect } from "../../db/client";
 import fastify from "fastify";
 import gql from "mercurius";
+import middie from "middie";
+
+import { connect } from "../../db/client";
 import { initCache } from "../CacheManager";
 import loadEndpoints from "../functions/loadEndpoints";
-import middie from "middie";
 
 export async function worker() {
 	let options = {
@@ -25,6 +26,7 @@ export async function worker() {
 	await initCache();
 
 	await server.register(gql, {
+		path: "/v3",
 		schema: (await import("../../endpoints/v3/schema/schema")).default
 	});
 
@@ -46,15 +48,6 @@ export async function worker() {
 		reply.header("X-Response-Time", diff[0] * 1e3 + diff[1] / 1e6);
 		reply.header("X-Powered-By", "PreMiD");
 		reply.header("Connection", "close");
-		return;
-	});
-
-	server.post("/v3", async (req, reply) =>
-		reply.graphql((req.body as any).query)
-	);
-
-	server.options("/v3", async (req, reply) => {
-		reply.status(200).send("OK");
 		return;
 	});
 
