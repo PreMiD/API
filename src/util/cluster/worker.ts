@@ -50,6 +50,10 @@ export async function worker() {
 		reply.header("Connection", "close");
 		return;
 	});
+	
+	server.options("/v3", async (req, reply) => {
+		return reply.status(200).send("OK");
+	});
 
 	loadEndpoints(server, require("../../endpoints.json"));
 	server.listen({ port: 3001 });
