@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@sentry/node": "^6.13.2",
-		"@sentry/tracing": "^6.10.0",
+		"@sentry/tracing": "^6.13.3",
 		"axios": "0.22.0",
 		"cron": "^1.8.2",
 		"discord.js": "13.2.0",
