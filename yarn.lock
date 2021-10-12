@@ -867,14 +867,15 @@ fastify-plugin@^3.0.0:
   integrity sha512-ZdCvKEEd92DNLps5n0v231Bha8bkz1DjnPP/aEz37rz/q42Z5JVLmgnqR4DYuNn3NXAO3IDCPyRvgvxtJ4Ym4w==
 
 fastify-static@^4.2.2:
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/fastify-static/-/fastify-static-4.2.4.tgz#65930872df92e6e9ab397da71ff42dd4fa3d8854"
-  integrity sha512-Uk24B9R/PtXG2pMd26r8/Yyfs2lKlghiqyjUsGwT0qMiSs0VZbhCvKn6rwEve63ttvFjLMwNNz1q0/5QoTy4HA==
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/fastify-static/-/fastify-static-4.4.1.tgz#8df79f379a96f58593811da522b769b72f9b8f3e"
+  integrity sha512-l8l/iVwDUaqonRZRr7XWkWnre2WWAAvhehdyDjHL6MIsJBEEa+HGg0SfnwF5NHxjXU0mGjdxz73ocvic9F8JlA==
   dependencies:
     content-disposition "^0.5.3"
     encoding-negotiator "^2.0.1"
     fastify-plugin "^3.0.0"
     glob "^7.1.4"
+    p-limit "^3.1.0"
     readable-stream "^3.4.0"
     send "^0.17.1"
 
@@ -1738,6 +1739,13 @@ p-cancelable@^1.0.0:
   resolved "https://registry.yarnpkg.com/p-cancelable/-/p-cancelable-1.1.0.tgz#d078d15a3af409220c886f1d9a0ca2e441ab26cc"
   integrity sha512-s73XxOZ4zpt1edZYZzvhqFa6uvQc1vwUa0K0BdtIZgQMAJj9IbebH+JkgKZc9h+B05PKHLOTl4ajG1BmNrVZlw==
 
+p-limit@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-3.1.0.tgz#e1daccbe78d0d1388ca18c64fea38e3e57e3706b"
+  integrity sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==
+  dependencies:
+    yocto-queue "^0.1.0"
+
 p-map@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-4.0.0.tgz#bb2f95a5eda2ec168ec9274e06a747c3e2904d2b"
@@ -2354,3 +2362,8 @@ yarn@^1.22.15:
   version "1.22.15"
   resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.15.tgz#3431d5f134d3c752a57a9dd7f5e1167627ca3cc3"
   integrity sha512-AzoEDxj256BOS/jqDXA3pjyhmi4FRBBUMgYoTHI4EIt2EhREkvH0soPVEtnD+DQIJfU5R9bKhcZ1H9l8zPWeoA==
+
+yocto-queue@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
+  integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
