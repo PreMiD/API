@@ -50,7 +50,10 @@ const handler: RouteHandlerMethod<
 		);
 
 	try {
-		const { token_type, access_token } = (
+		const {
+				token_type,
+				access_token
+			}: { token_type: String; access_token: String } = (
 				await base("oauth/token", {
 					method: "POST",
 					data: {
@@ -65,11 +68,11 @@ const handler: RouteHandlerMethod<
 						code: query.code
 					}
 				})
-			).data,
+			).data as any,
 			user = (
-				await axios("https://api.crowdin.com/api/v2/user", {
+				(await axios("https://api.crowdin.com/api/v2/user", {
 					headers: { Authorization: `${token_type} ${access_token}` }
-				})
+				})) as any
 			).data.data;
 
 		await pmdDB
