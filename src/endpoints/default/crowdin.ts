@@ -24,10 +24,10 @@ interface CrowdinUser {
 }
 
 interface CrowdinAuth {
-	access_token: String;
-	token_type: String;
-	expires_in: Number;
-	refresh_token: String;
+	access_token: string;
+	token_type: string;
+	expires_in: number;
+	refresh_token: string;
 }
 
 const handler: RouteHandlerMethod<
@@ -71,7 +71,7 @@ const handler: RouteHandlerMethod<
 		);
 
 	try {
-		const { token_type, access_token }: CrowdinAuth = (
+		const { token_type, access_token } = (
 				await base("oauth/token", {
 					method: "POST",
 					data: {
@@ -86,7 +86,7 @@ const handler: RouteHandlerMethod<
 						code: query.code
 					}
 				})
-			).data as any,
+			).data as CrowdinAuth,
 			user = (
 				(
 					await axios("https://api.crowdin.com/api/v2/user", {
