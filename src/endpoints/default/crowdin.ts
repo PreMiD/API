@@ -11,17 +11,15 @@ const base = axios.create({
 
 interface CrowdinUser {
 	data: {
-		data: {
-			id: Number;
-			username: String;
-			email: String;
-			fullName: String;
-			avatarUrl: String;
-			createdAt: String;
-			lastSeen: String;
-			twoFactor: String;
-			timezone: String;
-		};
+		id: Number;
+		username: String;
+		email: String;
+		fullName: String;
+		avatarUrl: String;
+		createdAt: String;
+		lastSeen: String;
+		twoFactor: String;
+		timezone: String;
 	};
 }
 
@@ -90,10 +88,12 @@ const handler: RouteHandlerMethod<
 				})
 			).data as any,
 			user = (
-				(await axios("https://api.crowdin.com/api/v2/user", {
-					headers: { Authorization: `${token_type} ${access_token}` }
-				})) as CrowdinUser
-			).data.data;
+				(
+					await axios("https://api.crowdin.com/api/v2/user", {
+						headers: { Authorization: `${token_type} ${access_token}` }
+					})
+				).data as CrowdinUser
+			).data;
 
 		await pmdDB
 			.collection("crowdin")
