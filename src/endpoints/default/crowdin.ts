@@ -9,6 +9,22 @@ const base = axios.create({
 	baseURL: "https://accounts.crowdin.com/"
 });
 
+interface CrowdinUser {
+	data: {
+		data: {
+			id: Number;
+			username: String;
+			email: String;
+			fullName: String;
+			avatarUrl: String;
+			createdAt: String;
+			lastSeen: String;
+			twoFactor: String;
+			timezone: String;
+		};
+	};
+}
+
 const handler: RouteHandlerMethod<
 	Server,
 	IncomingMessage,
@@ -53,7 +69,12 @@ const handler: RouteHandlerMethod<
 		const {
 				token_type,
 				access_token
-			}: { token_type: String; access_token: String } = (
+			}: {
+				access_token: String;
+				token_type: String;
+				expires_in: Number;
+				refresh_token: String;
+			} = (
 				await base("oauth/token", {
 					method: "POST",
 					data: {
@@ -72,7 +93,7 @@ const handler: RouteHandlerMethod<
 			user = (
 				(await axios("https://api.crowdin.com/api/v2/user", {
 					headers: { Authorization: `${token_type} ${access_token}` }
-				})) as any
+				})) as CrowdinUser
 			).data.data;
 
 		await pmdDB
