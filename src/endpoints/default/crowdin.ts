@@ -25,6 +25,13 @@ interface CrowdinUser {
 	};
 }
 
+interface CrowdinAuth {
+	access_token: String;
+	token_type: String;
+	expires_in: Number;
+	refresh_token: String;
+}
+
 const handler: RouteHandlerMethod<
 	Server,
 	IncomingMessage,
@@ -66,15 +73,7 @@ const handler: RouteHandlerMethod<
 		);
 
 	try {
-		const {
-				token_type,
-				access_token
-			}: {
-				access_token: String;
-				token_type: String;
-				expires_in: Number;
-				refresh_token: String;
-			} = (
+		const { token_type, access_token }: CrowdinAuth = (
 				await base("oauth/token", {
 					method: "POST",
 					data: {
