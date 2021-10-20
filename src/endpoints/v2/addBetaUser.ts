@@ -3,23 +3,11 @@ import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
 import { pmdDB } from "../../db/client";
+import { getDiscordUser } from "../../util/functions/getDiscordUser";
 
 //* Define credits collection
 const betaUsers = pmdDB.collection("betaUsers");
 const discordUsers = pmdDB.collection("discordUsers");
-
-interface DiscordUser {
-	id: string;
-	username: string;
-	avatar: string;
-	discriminator: string;
-	email: string;
-	verified: boolean;
-	locale: string;
-	mfa_enabled: boolean;
-	flags: number;
-	premium_type: number;
-}
 
 const handler: RouteHandlerMethod<
 	Server,
@@ -36,20 +24,12 @@ const handler: RouteHandlerMethod<
 		return;
 	}
 
-	let discordUser: DiscordUser = (await axios(
-		"https://discordapp.com/api/users/@me",
-		{
-			headers: { Authorization: req.params["token"] }
-		}
-	).catch(() => {})) as any;
+	const discordUser = await getDiscordUser(req.params["token"]);
 
 	if (!discordUser) {
 		res.status(403).send({ error: 2, message: "Invalid token providen." });
 		return;
 	}
-
-	// @ts-ignore
-	discordUser = discordUser.data;
 
 	//* Find user in db
 	//* Send response
