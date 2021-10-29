@@ -26,7 +26,8 @@ Sentry.init({
 	dsn: process.env.SENTRY_DSN,
 	enabled: process.env.NODE_ENV === "production",
 	environment: process.env.NODE_ENV,
-	integrations: [new Integrations.Mongo()]
+	integrations: [new Integrations.Mongo()],
+	sampleRate: 0.05
 });
 
 export const mongodb = new MongoClient(process.env.MONGO_URL!, {

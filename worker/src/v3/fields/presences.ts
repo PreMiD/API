@@ -64,11 +64,17 @@ export const schema = gql`
 		id: String!
 		title: String
 		icon: String
-		if: Scalar # serialize
+		if: PresenceMetadataSettingsIf # serialize
 		placeholder: String
 		value: Scalar # serialize
 		values: Scalar # serialize
 		multiLanguage: Scalar # serialize
+	}
+
+	type PresenceMetadataSettingsIf {
+		# Smh for that type, blame TheDrop.
+		propretyNames: String
+		patternProprties: Scalar
 	}
 `;
 
