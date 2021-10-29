@@ -1,0 +1,25 @@
+{
+	"name": "PreMiD-API",
+	"version": "4.0.0",
+	"main": "index.js",
+	"license": "MPL-2.0",
+	"scripts": {
+		"start": "cd dist && node index",
+		"dev": "devScript",
+		"build": "tsc && devScript --copyOnly"
+	},
+	"dependencies": {
+		"@sentry/node": "^6.13.3",
+		"@sentry/tracing": "^6.13.3",
+		"debug": "^4.3.2",
+		"mongodb": "^4.1.3",
+		"redis": "^4.0.0-rc.3",
+		"source-map-support": "^0.5.20"
+	},
+	"devDependencies": {
+		"@types/debug": "^4.1.7",
+		"dotenv": "^10.0.0",
+		"ts-devscript": "^3.0.5",
+		"typescript": "^4.4.4"
+	}
+}
