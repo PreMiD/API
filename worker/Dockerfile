@@ -17,4 +17,6 @@ RUN yarn
 
 COPY --from=0 dist .
 
+EXPOSE 3001
+
 CMD ["node", "index.js"]
