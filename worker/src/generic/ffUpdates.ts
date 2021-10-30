@@ -1,7 +1,7 @@
+import MongoDataSource from "apollo-mongodb-datasource";
 import { RouteGenericInterface, RouteHandlerMethod } from "fastify/types/route";
 import { IncomingMessage, Server, ServerResponse } from "http";
 
-import MongoDataSource from "../classes/MongoDataSource";
 import { dSources } from "../util/dataSources";
 
 export class FFUpdates extends MongoDataSource {

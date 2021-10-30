@@ -371,6 +371,15 @@ apollo-graphql@^0.9.0:
     lodash.sortby "^4.7.0"
     sha.js "^2.4.11"
 
+apollo-mongodb-datasource@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/apollo-mongodb-datasource/-/apollo-mongodb-datasource-1.0.0.tgz#c687a407de357c7186a37ab270e5aa11786917c6"
+  integrity sha512-kRm1Rubjl4ww1zHEIdqUNS3NfGErnrDfx2iStEd5k0zGTC1Vjl/1/T5T+bgjjvwsusOtlt/VV8QZD192Nx8Jog==
+  dependencies:
+    apollo-datasource "^3.2.0"
+    apollo-server-caching "^3.2.0"
+    mongodb "^4.1.3"
+
 apollo-reporting-protobuf@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/apollo-reporting-protobuf/-/apollo-reporting-protobuf-3.1.0.tgz#6f5501c58270b157834f2083668bc74f0e4d6104"

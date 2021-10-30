@@ -1,3 +1,4 @@
+import MongoDataSource from "apollo-mongodb-datasource";
 import { Db } from "mongodb";
 
 import { baseRedisCache, mongodb } from "..";
@@ -20,24 +21,26 @@ export let pmdDb: Db, dSources: ReturnType<typeof dataSources>;
 export default function dataSources() {
 	pmdDb = mongodb.db("PreMiD");
 
+	new MongoDataSource(pmdDb.collection("science"));
+
 	const sources = {
-		usage: new Usage(baseRedisCache, pmdDb.collection("science")),
-		presences: new Presences(baseRedisCache, pmdDb.collection("presences")),
-		versions: new Versions(baseRedisCache, pmdDb.collection("versions")),
+		usage: new Usage(pmdDb.collection("science"), baseRedisCache),
+		presences: new Presences(pmdDb.collection("presences"), baseRedisCache),
+		versions: new Versions(pmdDb.collection("versions"), baseRedisCache),
 		discordUsers: new DiscordUsers(
-			baseRedisCache,
-			pmdDb.collection("discordUsers")
+			pmdDb.collection("discordUsers"),
+			baseRedisCache
 		),
-		langFiles: new LangFiles(baseRedisCache, pmdDb.collection("langFiles")),
-		sponsors: new Sponsors(baseRedisCache, pmdDb.collection("sponsors")),
-		partners: new Partners(baseRedisCache, pmdDb.collection("partners")),
-		jobs: new Jobs(baseRedisCache, pmdDb.collection("jobs")),
-		downloads: new Downloads(baseRedisCache, pmdDb.collection("downloads")),
-		alphaUsers: new AlphaUsers(baseRedisCache, pmdDb.collection("alphaUsers")),
-		betaUsers: new BetaUsers(baseRedisCache, pmdDb.collection("betaUsers")),
-		credits: new Credits(baseRedisCache, pmdDb.collection("credits")),
-		benefits: new Benefits(baseRedisCache, pmdDb.collection("benefits")),
-		ffUpdates: new FFUpdates(baseRedisCache, pmdDb.collection("ffUpdates"))
+		langFiles: new LangFiles(pmdDb.collection("langFiles"), baseRedisCache),
+		sponsors: new Sponsors(pmdDb.collection("sponsors"), baseRedisCache),
+		partners: new Partners(pmdDb.collection("partners"), baseRedisCache),
+		jobs: new Jobs(pmdDb.collection("jobs"), baseRedisCache),
+		downloads: new Downloads(pmdDb.collection("downloads"), baseRedisCache),
+		alphaUsers: new AlphaUsers(pmdDb.collection("alphaUsers"), baseRedisCache),
+		betaUsers: new BetaUsers(pmdDb.collection("betaUsers"), baseRedisCache),
+		credits: new Credits(pmdDb.collection("credits"), baseRedisCache),
+		benefits: new Benefits(pmdDb.collection("benefits"), baseRedisCache),
+		ffUpdates: new FFUpdates(pmdDb.collection("ffUpdates"), baseRedisCache)
 	};
 
 	dSources = sources;

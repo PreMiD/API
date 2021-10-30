@@ -1,6 +1,5 @@
+import MongoDataSource from "apollo-mongodb-datasource";
 import { gql, UserInputError } from "apollo-server-core";
-
-import MongoDataSource from "../../classes/MongoDataSource";
 
 interface PresenceQueryArgs {
 	service?: string | string[];

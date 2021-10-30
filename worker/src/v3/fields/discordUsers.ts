@@ -1,6 +1,5 @@
+import MongoDataSource from "apollo-mongodb-datasource";
 import { gql } from "apollo-server-core";
-
-import MongoDataSource from "../../classes/MongoDataSource";
 
 export const schema = gql`
 	type Query {

@@ -1,6 +1,6 @@
+import MongoDataSource from "apollo-mongodb-datasource";
 import { gql } from "apollo-server-core";
 
-import MongoDataSource from "../../classes/MongoDataSource";
 import { pmdDb } from "../../util/dataSources";
 
 export const schema = gql`

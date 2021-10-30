@@ -12,6 +12,7 @@
 		"@sentry/node": "^6.13.3",
 		"@sentry/tracing": "^6.13.3",
 		"apollo-datasource": "^3.2.0",
+		"apollo-mongodb-datasource": "^1.0.0",
 		"apollo-server-cache-redis": "^3.2.0",
 		"apollo-server-core": "^3.4.0",
 		"apollo-server-fastify": "^3.4.0",

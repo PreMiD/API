@@ -22,13 +22,14 @@ import { typeDefs } from "./v3/typeDefinition";
 if (process.env.NODE_ENV !== "production")
 	require("dotenv").config({ path: "../../.env" });
 
-Sentry.init({
-	dsn: process.env.SENTRY_DSN,
-	enabled: process.env.NODE_ENV === "production",
-	environment: process.env.NODE_ENV,
-	integrations: [new Integrations.Mongo()],
-	sampleRate: 0.05
-});
+if (process.env.SENTRY_DSN)
+	Sentry.init({
+		dsn: process.env.SENTRY_DSN,
+		enabled: process.env.NODE_ENV === "production",
+		environment: process.env.NODE_ENV,
+		integrations: [new Integrations.Mongo()],
+		sampleRate: 0.05
+	});
 
 export const mongodb = new MongoClient(process.env.MONGO_URL!, {
 		appName: "PreMiD-API-Worker"
