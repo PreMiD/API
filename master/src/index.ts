@@ -6,6 +6,7 @@ import debug from "debug";
 import { MongoClient } from "mongodb";
 import { createClient } from "redis";
 
+import calculatePresenceUsage from "./util/calculatePresenceUsage";
 import updateScience from "./util/updateScience";
 
 if (process.env.NODE_ENV !== "production")
@@ -35,8 +36,12 @@ async function run() {
 
 	mainLog("Running");
 
-	await updateScience();
-	setInterval(updateScience, 60 * 1000);
+	await Promise.all([updateScience(), calculatePresenceUsage()]);
+
+	setInterval(() => {
+		updateScience();
+		calculatePresenceUsage();
+	}, 60 * 1000);
 }
 
 run();

@@ -1,6 +1,8 @@
 import MongoDataSource from "apollo-mongodb-datasource";
 import { gql, UserInputError } from "apollo-server-core";
 
+import { redis } from "../..";
+
 interface PresenceQueryArgs {
 	service?: string | string[];
 	author?: string;
@@ -78,11 +80,11 @@ export const schema = gql`
 `;
 
 export default class Presences extends MongoDataSource {
-	getAll() {
-		return this.find();
+	async getAll() {
+		return this.preparePresences(await this.find());
 	}
 
-	get(args: PresenceQueryArgs) {
+	async get(args: PresenceQueryArgs) {
 		let query: any = {};
 
 		if (args.service)
@@ -109,7 +111,21 @@ export default class Presences extends MongoDataSource {
 		if (args.limit)
 			options.findOptions = { limit: args.limit, skip: args.start || 0 };
 
-		return this.find(query, options);
+		return this.preparePresences(await this.find(query, options));
+	}
+
+	async preparePresences(presences: any[]) {
+		let usage: any;
+
+		try {
+			usage = JSON.parse((await redis.get("pmd-api.presence-usage")) || "");
+		} catch (err) {}
+
+		presences.forEach(p => {
+			p.users = usage ? usage[p.metadata.service] || 0 : 0;
+		});
+
+		return presences;
 	}
 }
 
