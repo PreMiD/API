@@ -33,7 +33,7 @@ export async function resolver(
 ) {
 	if (args.name?.trim().length) {
 		const res = await partners.get(args.name);
-		return res ? [res] : null;
+		return res ? [res] : [];
 	}
 
 	return partners.getAll();
