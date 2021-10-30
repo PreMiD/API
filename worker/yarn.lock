@@ -461,6 +461,14 @@ apollo-server-plugin-base@^3.3.0:
   dependencies:
     apollo-server-types "^3.3.0"
 
+apollo-server-plugin-response-cache@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/apollo-server-plugin-response-cache/-/apollo-server-plugin-response-cache-3.3.0.tgz#c9adb2108d3f00e213961d172a9f5bfd1bc93f0d"
+  integrity sha512-McAxmEumKCIa2O9Iiyi8KFGwXOmI+Y+d8lFHuK9TtoW+3wD4Ivpvw8CowOOHMrYgNAJPun4tRmIl4dojUQ8UnA==
+  dependencies:
+    apollo-server-caching "^3.2.0"
+    apollo-server-plugin-base "^3.3.0"
+
 apollo-server-types@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/apollo-server-types/-/apollo-server-types-3.3.0.tgz#20448e2c88e2045764a5fe82ab66069e79c4a834"

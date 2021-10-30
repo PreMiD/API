@@ -8,6 +8,17 @@ export const typeDefs = new Promise<DocumentNode>(async r => {
 		scalar Scalar
 		scalar StringOrStringArray
 
+		enum CacheControlScope {
+			PUBLIC
+			PRIVATE
+		}
+
+		directive @cacheControl(
+			maxAge: Int
+			scope: CacheControlScope
+			inheritMaxAge: Boolean
+		) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION
+
 		${(await getFields()).map(f => print(f[1].schema))}
 		${(await getFields("mutation")).map(f => print(f[1].schema))}
 	`);

@@ -2,9 +2,15 @@ import "source-map-support/register";
 
 import * as Sentry from "@sentry/node";
 import { Integrations } from "@sentry/tracing";
+import { BaseRedisCache } from "apollo-server-cache-redis";
 import { InMemoryLRUCache } from "apollo-server-caching";
-import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageDisabled } from "apollo-server-core";
+import {
+  ApolloServerPluginCacheControl,
+  ApolloServerPluginDrainHttpServer,
+  ApolloServerPluginLandingPageDisabled,
+} from "apollo-server-core";
 import { ApolloServer } from "apollo-server-fastify";
+import responseCachePlugin from "apollo-server-plugin-response-cache";
 import fastify, { FastifyContext } from "fastify";
 import Redis from "ioredis";
 import { MongoClient } from "mongodb";
@@ -35,7 +41,9 @@ export const mongodb = new MongoClient(process.env.MONGO_URL!, {
 		appName: "PreMiD-API-Worker"
 	}),
 	redis = new Redis(process.env.REDIS_URL || "localhost"),
-	baseRedisCache = new InMemoryLRUCache(),
+	baseRedisCache = new BaseRedisCache({
+		client: redis
+	}),
 	dSources = dataSources(),
 	app = fastify();
 
@@ -57,7 +65,9 @@ async function run() {
 		plugins: [
 			fastifyAppClosePlugin(app),
 			ApolloServerPluginDrainHttpServer({ httpServer: app.server }),
-			ApolloServerPluginLandingPageDisabled()
+			ApolloServerPluginLandingPageDisabled(),
+			responseCachePlugin({ cache: new InMemoryLRUCache() }),
+			ApolloServerPluginCacheControl({ defaultMaxAge: 60 })
 		]
 	});
 
