@@ -2,7 +2,7 @@ import "source-map-support/register";
 
 import * as Sentry from "@sentry/node";
 import { Integrations } from "@sentry/tracing";
-import { BaseRedisCache } from "apollo-server-cache-redis";
+import { InMemoryLRUCache } from "apollo-server-caching";
 import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageDisabled } from "apollo-server-core";
 import { ApolloServer } from "apollo-server-fastify";
 import fastify, { FastifyContext } from "fastify";
@@ -35,9 +35,7 @@ export const mongodb = new MongoClient(process.env.MONGO_URL!, {
 		appName: "PreMiD-API-Worker"
 	}),
 	redis = new Redis(process.env.REDIS_URL || "localhost"),
-	baseRedisCache = new BaseRedisCache({
-		client: redis
-	}),
+	baseRedisCache = new InMemoryLRUCache(),
 	dSources = dataSources(),
 	app = fastify();
 
