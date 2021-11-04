@@ -9,7 +9,7 @@
 		"build": "tsc && devScript --copyOnly"
 	},
 	"dependencies": {
-		"@sentry/node": "^6.13.3",
+		"@sentry/node": "^6.14.0",
 		"@sentry/tracing": "^6.13.3",
 		"debug": "^4.3.2",
 		"mongodb": "^4.1.3",
