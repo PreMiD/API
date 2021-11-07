@@ -39,8 +39,8 @@ const handler: RouteHandlerMethod<
 	const versions = await dSources.versions.get();
 
 	xml = xml
-		.replace("VERSIONID", versions.app.replace(/[.]/g, "").padStart(4, "0"))
-		.replace("VERSION", versions.app);
+		.replace("VERSIONID", versions!.app.replace(/[.]/g, "").padStart(4, "0"))
+		.replace("VERSION", versions!.app);
 
 	res.send(xml);
 };

@@ -12,8 +12,8 @@ const handler: RouteHandlerMethod<
 > = async (req, res) => {
 	const r = await dSources.versions.get();
 
-	delete r.key;
-	delete r._id;
+	delete r!.key;
+	delete r!._id;
 
 	return res.send(r);
 };
