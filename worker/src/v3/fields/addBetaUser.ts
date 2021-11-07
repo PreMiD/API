@@ -32,8 +32,6 @@ export async function resolver(
 		message: "Invalid token providen."
 	};
 
-	throw new Error("Test error");
-
 	try {
 		const user = await getDiscordUser(params.token);
 

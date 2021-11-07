@@ -1,5 +1,4 @@
-import { gql } from "apollo-server-core";
-import { GraphQLError } from "graphql";
+import { gql, UserInputError } from "apollo-server-core";
 import validator from "validator";
 
 import { redis } from "../..";
@@ -27,7 +26,7 @@ export async function resolver(
 	params: { identifier: string; presences: string[]; os: string; arch: string }
 ) {
 	if (!validator.isUUID(params.identifier, "4"))
-		return new GraphQLError("identifier must be a UUID v4.");
+		return new UserInputError("identifier must be a UUID v4.");
 
 	const data = {
 		identifier: params.identifier,

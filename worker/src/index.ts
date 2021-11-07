@@ -2,6 +2,7 @@ import "source-map-support/register";
 
 import * as Sentry from "@sentry/node";
 import { Integrations } from "@sentry/tracing";
+import { Transaction } from "@sentry/types";
 import { BaseRedisCache } from "apollo-server-cache-redis";
 import { InMemoryLRUCache } from "apollo-server-caching";
 import {
@@ -18,8 +19,9 @@ import pEvent from "p-event";
 
 import appUpdate from "./generic/appUpdate";
 import ffUpdates from "./generic/ffUpdates";
+import fastifyAppClosePlugin from "./plugins/fastifyAppClosePlugin";
+import sentryPlugin from "./plugins/sentryPlugin";
 import dataSources from "./util/dataSources";
-import fastifyAppClosePlugin from "./util/fastifyAppClosePlugin";
 import deleteScience from "./v2/deleteScience";
 import versions from "./v2/versions";
 import { resolvers } from "./v3/resolvers";
@@ -31,10 +33,10 @@ if (process.env.NODE_ENV !== "production")
 if (process.env.SENTRY_DSN)
 	Sentry.init({
 		dsn: process.env.SENTRY_DSN,
-		enabled: process.env.NODE_ENV === "production",
 		environment: process.env.NODE_ENV,
 		integrations: [new Integrations.Mongo()],
-		sampleRate: 0.05
+		sampleRate: process.env.NODE_ENV !== "production" ? 1 : 0.05,
+		tracesSampleRate: process.env.NODE_ENV !== "production" ? 1 : 0.1
 	});
 
 export const mongodb = new MongoClient(process.env.MONGO_URL!, {
@@ -49,20 +51,25 @@ export const mongodb = new MongoClient(process.env.MONGO_URL!, {
 
 export let server: ApolloServer<FastifyContext>;
 
+export interface Context {
+	transaction: Transaction;
+}
+
 async function run() {
 	server = new ApolloServer({
 		typeDefs: await typeDefs,
 		resolvers: await resolvers,
 		dataSources: () => dSources,
+		context: () => ({
+			transaction: Sentry.startTransaction({
+				op: "gql",
+				name: "GraphQLTransaction"
+			})
+		}),
 		introspection: true,
-		formatError(err) {
-			if (err.extensions?.code === "INTERNAL_SERVER_ERROR")
-				Sentry.captureException(err.extensions.exception);
-
-			return err;
-		},
 		cache: baseRedisCache,
 		plugins: [
+			sentryPlugin,
 			fastifyAppClosePlugin(app),
 			ApolloServerPluginDrainHttpServer({ httpServer: app.server }),
 			ApolloServerPluginLandingPageDisabled(),
