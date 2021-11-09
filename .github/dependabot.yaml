@@ -14,7 +14,7 @@ updates:
       - "dependencies"
     open-pull-requests-limit: 15
   - package-ecosystem: "npm"
-    directory: "/app"
+    directory: "/worker"
     schedule:
       interval: "daily"
     assignees:
