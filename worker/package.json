@@ -21,7 +21,7 @@
 		"axios": "^0.24.0",
 		"fastify": "^3.23.0",
 		"graphql": "^16.0.1",
-		"ioredis": "^4.28.0",
+		"ioredis": "^4.28.2",
 		"lodash": "^4.17.21",
 		"mongodb": "^4.1.4",
 		"p-event": "^4.2.0",
