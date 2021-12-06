@@ -29,7 +29,7 @@
 		"validator": "^13.7.0"
 	},
 	"devDependencies": {
-		"@types/ioredis": "^4.28.1",
+		"@types/ioredis": "^4.28.2",
 		"@types/lodash": "^4.14.176",
 		"@types/node": "^16.11.6",
 		"@types/validator": "^13.6.6",
