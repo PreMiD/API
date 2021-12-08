@@ -10,7 +10,7 @@
 	},
 	"dependencies": {
 		"@sentry/node": "^6.14.1",
-		"@sentry/tracing": "^6.14.1",
+		"@sentry/tracing": "^6.16.0",
 		"apollo-datasource": "^3.3.0",
 		"apollo-mongodb-datasource": "^1.0.5",
 		"apollo-server-cache-redis": "^3.3.0",
