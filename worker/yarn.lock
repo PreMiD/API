@@ -234,10 +234,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@types/ioredis@^4.28.1":
-  version "4.28.1"
-  resolved "https://registry.yarnpkg.com/@types/ioredis/-/ioredis-4.28.1.tgz#27d66f4c0540145826d984b6d0a5b54bbb88c32a"
-  integrity sha512-raYHPqRWrfnEoym94BY28mG1+tcZqh3dsp2q7x5IyMAAEvIdu+H0X8diASMpncIm+oHyH9dalOeOnGOL/YnuOA==
+"@types/ioredis@^4.28.4":
+  version "4.28.4"
+  resolved "https://registry.yarnpkg.com/@types/ioredis/-/ioredis-4.28.4.tgz#a69a4045aadd89b5098c065626360b72ea43a4ee"
+  integrity sha512-pIIR1f1HmtbSMiQkMBoJwi7ZFj00OmxLwlZ3cuvgqc9m61+q7cVN3uAsYIZu07pmXw8A8V+apLvkd+ckgGdxwg==
   dependencies:
     "@types/node" "*"
 
