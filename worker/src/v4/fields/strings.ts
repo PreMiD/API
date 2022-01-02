@@ -80,7 +80,9 @@ export class Strings extends MongoDataSource<{
 
 				if (args.presence) {
 					//* Return general strings if arg is empty array or string
-					if (!args.presence.length && string[0].startsWith("general")) {
+					if (!args.presence.length) {
+						if (!string[0].startsWith("general")) continue;
+
 						lang.translations[string[0]] = string[1];
 						continue;
 					}
