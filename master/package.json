@@ -9,17 +9,17 @@
 		"build": "tsc && devScript --copyOnly"
 	},
 	"dependencies": {
-		"@sentry/node": "^6.14.1",
-		"@sentry/tracing": "^6.14.1",
-		"debug": "^4.3.2",
-		"mongodb": "^4.1.4",
-		"redis": "^4.0.0-rc.3",
-		"source-map-support": "^0.5.20"
+		"@sentry/node": "^6.16.1",
+		"@sentry/tracing": "^6.16.1",
+		"debug": "^4.3.3",
+		"mongodb": "^4.2.2",
+		"redis": "^4.0.1",
+		"source-map-support": "^0.5.21"
 	},
 	"devDependencies": {
 		"@types/debug": "^4.1.7",
 		"dotenv": "^10.0.0",
 		"ts-devscript": "^3.0.6",
-		"typescript": "^4.4.4"
+		"typescript": "^4.5.4"
 	}
 }
