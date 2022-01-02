@@ -24,8 +24,10 @@ import sentryPlugin from "./plugins/sentryPlugin";
 import dataSources from "./util/dataSources";
 import deleteScience from "./v2/deleteScience";
 import versions from "./v2/versions";
-import { resolvers } from "./v3/resolvers";
-import { typeDefs } from "./v3/typeDefinition";
+import { resolvers as v3Resolvers } from "./v3/resolvers";
+import { typeDefs as v3TypeDefs } from "./v3/typeDefinition";
+import { resolvers as v4Resolvers } from "./v4/resolvers";
+import { typeDefs as v4TypeDefs } from "./v4/typeDefinition";
 
 if (process.env.NODE_ENV !== "production")
 	require("dotenv").config({ path: "../../.env" });
@@ -49,16 +51,15 @@ export const mongodb = new MongoClient(process.env.MONGO_URL!, {
 	dSources = dataSources(),
 	app = fastify();
 
-export let server: ApolloServer<FastifyContext>;
+export let v3Server: ApolloServer<FastifyContext>,
+	v4Server: ApolloServer<FastifyContext>;
 
 export interface Context {
 	transaction: Transaction;
 }
 
 async function run() {
-	server = new ApolloServer({
-		typeDefs: await typeDefs,
-		resolvers: await resolvers,
+	const apolloGenericSettings = {
 		dataSources: () => dSources,
 		context: () => ({
 			transaction: Sentry.startTransaction({
@@ -76,12 +77,25 @@ async function run() {
 			responseCachePlugin({ cache: new InMemoryLRUCache() }),
 			ApolloServerPluginCacheControl({ defaultMaxAge: 60 })
 		]
+	};
+
+	v3Server = new ApolloServer({
+		...apolloGenericSettings,
+		typeDefs: await v3TypeDefs,
+		resolvers: await v3Resolvers
+	});
+
+	v4Server = new ApolloServer({
+		...apolloGenericSettings,
+		typeDefs: await v4TypeDefs,
+		resolvers: await v4Resolvers
 	});
 
 	await Promise.all([
 		mongodb.connect(),
 		pEvent(redis, "connect"),
-		server.start()
+		v3Server.start(),
+		v4Server.start()
 	]);
 
 	app.addHook("onError", (_, _1, error, done) => {
@@ -111,7 +125,10 @@ async function run() {
 		return;
 	});
 
-	app.register(server.createHandler({ path: "/v3" }));
+	app.register(v3Server.createHandler({ path: "/v3" }));
+	app.register(
+		v4Server.createHandler({ path: "/v4", disableHealthCheck: true })
+	);
 	app.get("/v2/science/:identifier", deleteScience);
 	app.get("/v2/versions", versions);
 	app.get("/firefox/updates", ffUpdates);

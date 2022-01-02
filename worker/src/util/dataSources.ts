@@ -15,6 +15,7 @@ import Presences from "../v3/fields/presences";
 import { Sponsors } from "../v3/fields/sponsors";
 import { Usage } from "../v3/fields/usage";
 import { Versions } from "../v3/fields/versions";
+import { Strings } from "../v4/fields/strings";
 
 export let pmdDb: Db, dSources: ReturnType<typeof dataSources>;
 
@@ -32,6 +33,7 @@ export default function dataSources() {
 			baseRedisCache
 		),
 		langFiles: new LangFiles(pmdDb.collection("langFiles"), baseRedisCache),
+		strings: new Strings(pmdDb.collection("langFiles"), baseRedisCache),
 		sponsors: new Sponsors(pmdDb.collection("sponsors"), baseRedisCache),
 		partners: new Partners(pmdDb.collection("partners"), baseRedisCache),
 		jobs: new Jobs(pmdDb.collection("jobs"), baseRedisCache),
