@@ -23,7 +23,7 @@
 		"graphql": "^16.2.0",
 		"ioredis": "^4.28.2",
 		"lodash": "^4.17.21",
-		"mongodb": "^4.2.2",
+		"mongodb": "^4.3.0",
 		"p-event": "^4.2.0",
 		"source-map-support": "^0.5.21",
 		"validator": "^13.7.0"
