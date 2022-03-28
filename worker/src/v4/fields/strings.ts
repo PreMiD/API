@@ -62,7 +62,7 @@ export class Strings extends MongoDataSource<{
 
 	async get(args: {
 		lang?: string;
-		project?: string;
+		project?: "extension" | "presence" | "website";
 		presence?: string | string[];
 	}) {
 		const findArgs = cloneDeep(args);
@@ -113,7 +113,11 @@ export class Strings extends MongoDataSource<{
 
 export function resolver(
 	_: any,
-	args: { lang?: string; project?: string; presence?: string | string[] },
+	args: {
+		lang?: string;
+		project?: "extension" | "presence" | "website";
+		presence?: string | string[];
+	},
 	{ dataSources: { strings } }: { dataSources: { strings: Strings } }
 ) {
 	if (!Object.keys(args).length) return strings.getAll();

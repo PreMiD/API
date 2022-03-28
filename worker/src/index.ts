@@ -46,6 +46,7 @@ export const mongodb = new MongoClient(process.env.MONGO_URL!, {
 	}),
 	redis = new Redis(process.env.REDIS_URL || "localhost"),
 	baseRedisCache = new BaseRedisCache({
+		//@ts-ignore
 		client: redis
 	}),
 	dSources = dataSources(),
