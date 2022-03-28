@@ -70,7 +70,6 @@ export class Strings extends MongoDataSource<{
 
 		if (args.presence) findArgs.project = "presence";
 
-		//@ts-expect-error
 		let strings = await this.find(findArgs, { ttl: 5 * 60 });
 
 		for (const lang of strings)
