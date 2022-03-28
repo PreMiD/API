@@ -1,4 +1,3 @@
-import MongoDataSource from "apollo-mongodb-datasource";
 import { Db } from "mongodb";
 
 import { baseRedisCache, mongodb } from "..";
@@ -21,8 +20,6 @@ export let pmdDb: Db, dSources: ReturnType<typeof dataSources>;
 
 export default function dataSources() {
 	pmdDb = mongodb.db("PreMiD");
-
-	new MongoDataSource(pmdDb.collection("science"));
 
 	const sources = {
 		usage: new Usage(pmdDb.collection("science"), baseRedisCache),
