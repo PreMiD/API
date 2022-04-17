@@ -1,22 +1,50 @@
 name: CD
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 on:
   workflow_run:
-    workflows: ["CD Docker"]
+    workflows: ["CI Dependencies"]
+    branches:
+      - main
     types:
       - completed
 jobs:
-  deploy:
-    name: CD
+  docker-master:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Restart API Master
-        uses: steebchen/kubectl@v2.0.0
-        with:
-          config: ${{ secrets.KUBE_CONFIG_DATA }}
-          command: rollout restart -n premid deployment/api-master
-      - name: Restart API Workers
-        uses: steebchen/kubectl@v2.0.0
-        with:
-          config: ${{ secrets.KUBE_CONFIG_DATA }}
-          command: rollout restart -n premid deployment/api-worker
+    uses: "Recodive/Workflows/.github/workflows/CD Docker.yml@main"
+    with:
+      context: master/.
+      tags: api-master
+    secrets:
+      GH_NPM_TOKEN: ${{ secrets.GH_NPM_TOKEN }}
+    permissions:
+      contents: read
+      packages: write
+  docker-worker:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    uses: "Recodive/Workflows/.github/workflows/CD Docker.yml@main"
+    with:
+      context: worker/.
+      tags: api-worker
+    secrets:
+      GH_NPM_TOKEN: ${{ secrets.GH_NPM_TOKEN }}
+    permissions:
+      contents: read
+      packages: write
+  deploy-master:
+    needs: docker
+    uses: Recodive/Workflows/.github/workflows/CD.yml@main
+    secrets:
+      KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+    with:
+      namespace: premid
+      deployment: api-master
+  deploy-worker:
+    needs: docker
+    uses: Recodive/Workflows/.github/workflows/CD.yml@main
+    secrets:
+      KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+    with:
+      namespace: premid
+      deployment: api-worker
