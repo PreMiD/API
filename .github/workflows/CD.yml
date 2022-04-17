@@ -33,7 +33,7 @@ jobs:
       contents: read
       packages: write
   deploy-master:
-    needs: docker
+    needs: docker-master
     uses: Recodive/Workflows/.github/workflows/CD.yml@main
     secrets:
       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
@@ -41,7 +41,7 @@ jobs:
       namespace: premid
       deployment: api-master
   deploy-worker:
-    needs: docker
+    needs: docker-worker
     uses: Recodive/Workflows/.github/workflows/CD.yml@main
     secrets:
       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
