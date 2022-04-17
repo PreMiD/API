@@ -15,7 +15,7 @@ jobs:
     uses: "Recodive/Workflows/.github/workflows/CD Docker.yml@main"
     with:
       context: master/.
-      tags: api-master
+      tags: premid/api-master
     secrets:
       GH_NPM_TOKEN: ${{ secrets.GH_NPM_TOKEN }}
     permissions:
@@ -26,7 +26,7 @@ jobs:
     uses: "Recodive/Workflows/.github/workflows/CD Docker.yml@main"
     with:
       context: worker/.
-      tags: api-worker
+      tags: premid/api-worker
     secrets:
       GH_NPM_TOKEN: ${{ secrets.GH_NPM_TOKEN }}
     permissions:
