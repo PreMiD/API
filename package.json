@@ -14,6 +14,6 @@
 		"dev": "concurrently -n master,worker 'npm:dev-master' 'npm:dev-worker'"
 	},
 	"devDependencies": {
-		"concurrently": "^7.1.0"
+		"concurrently": "^7.3.0"
 	}
 }
