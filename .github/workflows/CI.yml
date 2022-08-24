@@ -6,10 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: latest
       - uses: actions/setup-node@v3
         with:
           node-version: "lts/*"
-          cache: "yarn"
-          cache-dependency-path: "**/yarn.lock"
-      - run: yarn run init
-      - run: yarn build
+          cache: "pnpm"
+      - run: pnpm run init
+      - run: pnpm build
