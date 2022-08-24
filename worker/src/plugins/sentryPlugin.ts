@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/node";
-import { ApolloError } from "apollo-server-errors";
+import { ApolloError } from "apollo-server-core";
 import { ApolloServerPlugin } from "apollo-server-plugin-base";
 
 import { Context } from "..";

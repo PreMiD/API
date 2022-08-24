@@ -4,12 +4,12 @@
 	"main": "index.js",
 	"license": "MPL-2.0",
 	"scripts": {
-		"init": "yarn && cd master && yarn && cd ../worker && yarn",
-		"start-master": "cd master && yarn start",
-		"start-worker": "cd worker && yarn start",
-		"dev-master": "cd master && yarn dev",
-		"dev-worker": "cd worker && yarn dev",
-		"build": "cd worker && yarn build && cd ../master && yarn build",
+		"init": "pnpm i && cd master && pnpm i && cd ../worker && pnpm i",
+		"start-master": "cd master && pnpm start",
+		"start-worker": "cd worker && pnpm start",
+		"dev-master": "cd master && pnpm dev",
+		"dev-worker": "cd worker && pnpm dev",
+		"build": "cd worker && pnpm build && cd ../master && pnpm build",
 		"start": "concurrently -n master,worker 'npm:start-master' 'npm:start-worker'",
 		"dev": "concurrently -n master,worker 'npm:dev-master' 'npm:dev-worker'"
 	},

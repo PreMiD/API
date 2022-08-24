@@ -42,7 +42,8 @@ export default async function () {
 	if (entries.length) {
 		const res = await mongo
 			.db("PreMiD")
-			.collection("science")
+			//TODO Typings
+			.collection<{}>("science")
 			.bulkWrite(
 				entries.map(e => ({
 					updateOne: {

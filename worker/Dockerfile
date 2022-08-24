@@ -1,19 +1,19 @@
-FROM node:16.11.0
+FROM gplane/pnpm:alpine
 
-COPY package.json package.json
-RUN yarn
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm i --frozen-lockfile
 
 COPY . .
-RUN yarn build
+RUN pnpm build
 
-FROM node:16.11.0
+FROM gplane/pnpm:alpine
 
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-COPY --from=0 package.json package.json
-RUN yarn
+COPY --from=0 package.json pnpm-lock.yaml ./
+RUN pnpm i --frozen-lockfile --prod
 
 COPY --from=0 dist .
 

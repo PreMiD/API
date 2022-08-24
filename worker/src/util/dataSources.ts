@@ -30,7 +30,7 @@ export default function dataSources() {
 			baseRedisCache
 		),
 		langFiles: new LangFiles(pmdDb.collection("langFiles"), baseRedisCache),
-		strings: new Strings(pmdDb.collection("langFiles"), baseRedisCache),
+		strings: new Strings(pmdDb.collection("strings"), baseRedisCache),
 		sponsors: new Sponsors(pmdDb.collection("sponsors"), baseRedisCache),
 		partners: new Partners(pmdDb.collection("partners"), baseRedisCache),
 		jobs: new Jobs(pmdDb.collection("jobs"), baseRedisCache),

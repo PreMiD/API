@@ -1,8 +1,7 @@
 import "source-map-support/register";
 
 import * as Sentry from "@sentry/node";
-import { Integrations } from "@sentry/tracing";
-import { Transaction } from "@sentry/types";
+import { Integrations, Transaction } from "@sentry/tracing";
 import { BaseRedisCache } from "apollo-server-cache-redis";
 import { InMemoryLRUCache } from "apollo-server-caching";
 import {
