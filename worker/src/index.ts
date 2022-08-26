@@ -18,9 +18,11 @@ import pEvent from "p-event";
 
 import appUpdate from "./generic/appUpdate";
 import ffUpdates from "./generic/ffUpdates";
+import zippedPresences from "./generic/zippedPresences";
 import fastifyAppClosePlugin from "./plugins/fastifyAppClosePlugin";
 import sentryPlugin from "./plugins/sentryPlugin";
 import dataSources from "./util/dataSources";
+import zipPresences from "./util/functions/zipPresences";
 import deleteScience from "./v2/deleteScience";
 import versions from "./v2/versions";
 import { resolvers as v3Resolvers } from "./v3/resolvers";
@@ -95,8 +97,13 @@ async function run() {
 		mongodb.connect(),
 		pEvent(redis, "connect"),
 		v3Server.start(),
-		v4Server.start()
+		v4Server.start(),
+		zipPresences()
 	]);
+
+	setInterval(() => {
+		zipPresences();
+	}, 60_000);
 
 	app.addHook("onError", (_, _1, error, done) => {
 		Sentry.captureException(error);
@@ -134,6 +141,7 @@ async function run() {
 	app.get("/firefox/updates", ffUpdates);
 	app.get("/app/update", appUpdate);
 	app.get("/app/update/*", appUpdate);
+	app.get("/presences.zip", zippedPresences);
 
 	app
 		.listen(process.env.PORT || 3001, process.env.HOST || "0.0.0.0")

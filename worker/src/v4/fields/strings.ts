@@ -21,34 +21,30 @@ export const schema = gql`
 			Presence, e.g. 'Netflix'
 			"""
 			presence: StringOrStringArray
-		): [LanguageStrings]
+		): [LanguageStrings!]!
 	}
 
 	type LanguageStrings {
 		"""
 		Language code
 		"""
-		lang: String
+		lang: String!
 		"""
 		Native name of the language, eg. 'English', 'Deutsch', 'Español', etc.
 		"""
-		nativeName: String
+		nativeName: String!
 		"""
 		'ltr' or 'rtl'
 		"""
-		direction: String
+		direction: String!
 		"""
 		Project, possible values: 'extension', 'presence', 'website'
 		"""
-		project: String
-		"""
-		Presence, e.g. 'Netflix'
-		"""
-		presence: String
+		project: String!
 		"""
 		Strings in the language
 		"""
-		translations: Scalar
+		translations: Scalar!
 	}
 `;
 
@@ -73,11 +69,13 @@ export class Strings extends MongoDataSource<MongoStrings> {
 				delete l.translations[t[0]];
 			}
 
-		return strings.map(l => ({
-			...l,
-			nativeName: getNativeName(l.lang) ?? "",
-			direction: getDirection(l.lang) ?? "ltr"
-		}));
+		return strings
+			.map(l => ({
+				...l,
+				nativeName: getNativeName(l.lang) ?? "",
+				direction: getDirection(l.lang) ?? "ltr"
+			}))
+			.sort((a, b) => a.nativeName.localeCompare(b.nativeName));
 	}
 
 	async get(args: {
@@ -88,54 +86,58 @@ export class Strings extends MongoDataSource<MongoStrings> {
 		if (args.lang)
 			args.lang = getLocale(args.lang.replace("_", "-")) ?? args.lang;
 
-		console.log(args.lang);
 		const findArgs = cloneDeep(args);
 		delete findArgs.presence;
 
 		if (args.presence) findArgs.project = "presence";
 
-		let strings = await this.find(findArgs, { ttl: 5 * 60 });
+		let mongoStrings = await this.find(findArgs, { ttl: 5 * 60 });
 
-		for (const lang of strings)
-			for (const string of Object.entries(lang.translations)) {
-				delete lang.translations[string[0]];
+		for (const mongoString of mongoStrings)
+			for (let [stringName, string] of Object.entries(
+				mongoString.translations
+			)) {
+				delete mongoString.translations[stringName];
 
-				string[0] = string[0].replace(/_/g, ".");
+				stringName = stringName.replace(/_/g, ".");
 
-				if (args.presence) {
-					//* Return general strings if arg is empty array or string
-					if (!args.presence.length) {
-						if (!string[0].startsWith("general")) continue;
-
-						lang.translations[string[0]] = string[1];
+				if (findArgs.project === "presence") {
+					//* Always return general strings
+					if (stringName.startsWith("general")) {
+						mongoString.translations[stringName] = string;
 						continue;
 					}
 
 					if (Array.isArray(args.presence)) {
 						if (
-							string[0].match(
+							stringName.match(
 								new RegExp(`(${args.presence.join("|").toLowerCase()})..*`)
 							)
 						)
-							lang.translations[string[0]] = string[1];
-
+							mongoString.translations[stringName] = string;
 						continue;
 					}
 
-					if (string[0].startsWith(args.presence.toLocaleLowerCase()))
-						lang.translations[string[0]] = string[1];
-
-					continue;
+					if (typeof args.presence === "string") {
+						if (
+							args.presence.length &&
+							stringName.startsWith(args.presence.toLocaleLowerCase())
+						)
+							mongoString.translations[stringName] = string;
+						continue;
+					}
 				}
 
-				lang.translations[string[0]] = string[1];
+				mongoString.translations[stringName] = string;
 			}
 
-		return strings.map(l => ({
-			...l,
-			nativeName: getNativeName(l.lang) ?? "",
-			direction: getDirection(l.lang) ?? "ltr"
-		}));
+		return mongoStrings
+			.map(l => ({
+				...l,
+				nativeName: getNativeName(l.lang) ?? "",
+				direction: getDirection(l.lang) ?? "ltr"
+			}))
+			.sort((a, b) => a.nativeName.localeCompare(b.nativeName));
 	}
 }
 
