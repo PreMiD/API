@@ -1,6 +1,6 @@
-import MongoDataSource from "apollo-mongodb-datasource";
 import { gql } from "apollo-server-core";
 import { shuffle } from "lodash";
+import MongoDBCaching from "mongodb-caching";
 
 export const schema = gql`
 	type Query {
@@ -33,7 +33,7 @@ export const schema = gql`
 	}
 `;
 
-export class Credits extends MongoDataSource {
+export class Credits extends MongoDBCaching {
 	async getAll() {
 		return (await this.find()).map(this.transformEntry);
 	}

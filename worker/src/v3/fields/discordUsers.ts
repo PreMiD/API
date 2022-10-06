@@ -1,6 +1,6 @@
-import MongoDataSource from "apollo-mongodb-datasource";
 import { gql } from "apollo-server-core";
 import axios from "axios";
+import MongoDBCaching from "mongodb-caching";
 
 export const schema = gql`
 	type Query {
@@ -16,7 +16,7 @@ export const schema = gql`
 	}
 `;
 
-export class DiscordUsers extends MongoDataSource {
+export class DiscordUsers extends MongoDBCaching {
 	getAll() {
 		return this.find({}, { ttl: 5 * 60 });
 	}
@@ -28,7 +28,7 @@ export class DiscordUsers extends MongoDataSource {
 			try {
 				try {
 					user = JSON.parse(
-						(await this.cache?.get(`pmd-api.discordUsers.${userId}`)) || ""
+						(await this.keyv?.get(`pmd-api.discordUsers.${userId}`)) || ""
 					);
 				} catch (err) {}
 
@@ -41,7 +41,7 @@ export class DiscordUsers extends MongoDataSource {
 						})
 					).data;
 
-					await this.cache?.set(
+					await this.keyv?.set(
 						`pmd-api.discordUsers.${userId}`,
 						JSON.stringify(user)
 					);

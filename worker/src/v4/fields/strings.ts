@@ -1,7 +1,7 @@
-import MongoDataSource from "apollo-mongodb-datasource";
 import { gql } from "apollo-server-core";
 import { getDirection, getLocale, getNativeName } from "language-flag-colors";
 import { cloneDeep } from "lodash";
+import MongoDBCaching from "mongodb-caching";
 
 export const schema = gql`
 	type Query {
@@ -59,7 +59,7 @@ type ReturnMongoStrings = MongoStrings & {
 	direction: "ltr" | "rtl";
 };
 
-export class Strings extends MongoDataSource<MongoStrings> {
+export class Strings extends MongoDBCaching<MongoStrings> {
 	async getAll(): Promise<ReturnMongoStrings[]> {
 		let strings = await this.find({}, { ttl: 5 * 60 });
 

@@ -1,6 +1,6 @@
-import MongoDataSource from "apollo-mongodb-datasource";
 import { gql } from "apollo-server-core";
 import { cloneDeep } from "lodash";
+import MongoDBCaching from "mongodb-caching";
 
 export const schema = gql`
 	type Query {
@@ -15,7 +15,7 @@ export const schema = gql`
 	}
 `;
 
-export class LangFiles extends MongoDataSource {
+export class LangFiles extends MongoDBCaching {
 	async getAll() {
 		let langFiles = await this.find({}, { ttl: 5 * 60 });
 

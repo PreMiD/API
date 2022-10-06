@@ -81,12 +81,14 @@ async function run() {
 		]
 	};
 
+	//@ts-ignore
 	v3Server = new ApolloServer({
 		...apolloGenericSettings,
 		typeDefs: await v3TypeDefs,
 		resolvers: await v3Resolvers
 	});
 
+	//@ts-ignore
 	v4Server = new ApolloServer({
 		...apolloGenericSettings,
 		typeDefs: await v4TypeDefs,

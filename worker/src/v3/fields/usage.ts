@@ -1,5 +1,5 @@
-import MongoDataSource from "apollo-mongodb-datasource";
 import { gql } from "apollo-server-core";
+import MongoDBCaching from "mongodb-caching";
 
 export const schema = gql`
 	type Query {
@@ -11,9 +11,9 @@ export const schema = gql`
 	}
 `;
 
-export class Usage extends MongoDataSource {
+export class Usage extends MongoDBCaching {
 	get() {
-		return this.count({}, { ttl: 5 * 60 });
+		return this.countDocuments({}, { ttl: 5 * 60 });
 	}
 }
 

@@ -41,7 +41,8 @@ export async function resolver(
 		}
 
 		if (
-			(await betaUsers.count()) > Math.floor((await discordUsers.count()) * 1)
+			(await betaUsers.countDocuments()) >
+			Math.floor((await discordUsers.countDocuments()) * 1)
 		) {
 			res.message = "error.noslots";
 			return res;
@@ -53,7 +54,9 @@ export async function resolver(
 		}
 
 		await betaUsers.add(user.id);
-		await betaUsers.delete("findOne", { userId: user.id });
+		await betaUsers.keyv.delete(
+			"findOne-" + betaUsers.getCacheKey({ userId: user.id }, undefined)
+		);
 
 		res.success = true;
 		res.message = "User recieved beta access.";

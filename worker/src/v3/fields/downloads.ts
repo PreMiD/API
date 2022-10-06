@@ -1,5 +1,5 @@
-import MongoDataSource from "apollo-mongodb-datasource";
 import { gql } from "apollo-server-core";
+import MongoDBCaching from "mongodb-caching";
 
 import getDiscordUser from "../../util/functions/getDiscordUser";
 import { BetaUsers } from "./betaUsers";
@@ -22,7 +22,7 @@ export const schema = gql`
 	}
 `;
 
-export class Downloads extends MongoDataSource {
+export class Downloads extends MongoDBCaching {
 	async getAll(
 		params: { releaseType?: string; token?: string },
 		alphaUsers: AlphaUsers,
@@ -58,7 +58,7 @@ export class Downloads extends MongoDataSource {
 	}
 }
 
-export class AlphaUsers extends MongoDataSource {
+export class AlphaUsers extends MongoDBCaching {
 	async has(userId: string) {
 		return (await this.findOne({ userId })) !== null;
 	}

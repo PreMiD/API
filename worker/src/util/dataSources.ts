@@ -1,6 +1,6 @@
 import { Db } from "mongodb";
 
-import { baseRedisCache, mongodb } from "..";
+import { mongodb } from "..";
 import { FFUpdates } from "../generic/ffUpdates";
 import { Benefits } from "../v3/fields/benefits";
 import { BetaUsers } from "../v3/fields/betaUsers";
@@ -21,25 +21,72 @@ export let pmdDb: Db, dSources: ReturnType<typeof dataSources>;
 export default function dataSources() {
 	pmdDb = mongodb.db("PreMiD");
 
+	const keyvDefaultOptions = {
+		uri: process.env.REDIS_URL || "redis://localhost:6379",
+		ttl: 60 * 1000
+	};
+
 	const sources = {
-		usage: new Usage(pmdDb.collection("science"), baseRedisCache),
-		presences: new Presences(pmdDb.collection("presences"), baseRedisCache),
-		versions: new Versions(pmdDb.collection("versions"), baseRedisCache),
-		discordUsers: new DiscordUsers(
-			pmdDb.collection("discordUsers"),
-			baseRedisCache
-		),
-		langFiles: new LangFiles(pmdDb.collection("langFiles"), baseRedisCache),
-		strings: new Strings(pmdDb.collection("strings"), baseRedisCache),
-		sponsors: new Sponsors(pmdDb.collection("sponsors"), baseRedisCache),
-		partners: new Partners(pmdDb.collection("partners"), baseRedisCache),
-		jobs: new Jobs(pmdDb.collection("jobs"), baseRedisCache),
-		downloads: new Downloads(pmdDb.collection("downloads"), baseRedisCache),
-		alphaUsers: new AlphaUsers(pmdDb.collection("alphaUsers"), baseRedisCache),
-		betaUsers: new BetaUsers(pmdDb.collection("betaUsers"), baseRedisCache),
-		credits: new Credits(pmdDb.collection("credits"), baseRedisCache),
-		benefits: new Benefits(pmdDb.collection("benefits"), baseRedisCache),
-		ffUpdates: new FFUpdates(pmdDb.collection("ffUpdates"), baseRedisCache)
+		usage: new Usage(pmdDb.collection("science"), {
+			...keyvDefaultOptions,
+			namespace: "science"
+		}),
+		presences: new Presences(pmdDb.collection("presences"), {
+			...keyvDefaultOptions,
+			namespace: "presences"
+		}),
+		versions: new Versions(pmdDb.collection("versions"), {
+			...keyvDefaultOptions,
+			namespace: "versions"
+		}),
+		discordUsers: new DiscordUsers(pmdDb.collection("discordUsers"), {
+			...keyvDefaultOptions,
+			namespace: "discordUsers"
+		}),
+		langFiles: new LangFiles(pmdDb.collection("langFiles"), {
+			...keyvDefaultOptions,
+			namespace: "langFiles"
+		}),
+		strings: new Strings(pmdDb.collection("strings"), {
+			...keyvDefaultOptions,
+			namespace: "strings"
+		}),
+		sponsors: new Sponsors(pmdDb.collection("sponsors"), {
+			...keyvDefaultOptions,
+			namespace: "sponsors"
+		}),
+		partners: new Partners(pmdDb.collection("partners"), {
+			...keyvDefaultOptions,
+			namespace: "partners"
+		}),
+		jobs: new Jobs(pmdDb.collection("jobs"), {
+			...keyvDefaultOptions,
+			namespace: "jobs"
+		}),
+		downloads: new Downloads(pmdDb.collection("downloads"), {
+			...keyvDefaultOptions,
+			namespace: "downloads"
+		}),
+		alphaUsers: new AlphaUsers(pmdDb.collection("alphaUsers"), {
+			...keyvDefaultOptions,
+			namespace: "alphaUsers"
+		}),
+		betaUsers: new BetaUsers(pmdDb.collection("betaUsers"), {
+			...keyvDefaultOptions,
+			namespace: "betaUsers"
+		}),
+		credits: new Credits(pmdDb.collection("credits"), {
+			...keyvDefaultOptions,
+			namespace: "credits"
+		}),
+		benefits: new Benefits(pmdDb.collection("benefits"), {
+			...keyvDefaultOptions,
+			namespace: "benefits"
+		}),
+		ffUpdates: new FFUpdates(pmdDb.collection("ffUpdates"), {
+			...keyvDefaultOptions,
+			namespace: "ffUpdates"
+		})
 	};
 
 	dSources = sources;
