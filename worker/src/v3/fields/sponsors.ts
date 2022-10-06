@@ -1,5 +1,5 @@
-import MongoDataSource from "apollo-mongodb-datasource";
 import { gql } from "apollo-server-core";
+import MongoDBCaching from "mongodb-caching";
 
 export const schema = gql`
 	type Query {
@@ -14,7 +14,7 @@ export const schema = gql`
 	}
 `;
 
-export class Sponsors extends MongoDataSource {
+export class Sponsors extends MongoDBCaching {
 	getAll() {
 		return this.find();
 	}

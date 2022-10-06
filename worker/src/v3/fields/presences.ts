@@ -1,5 +1,5 @@
-import MongoDataSource from "apollo-mongodb-datasource";
 import { gql, UserInputError } from "apollo-server-core";
+import MongoDBCaching from "mongodb-caching";
 
 import { redis } from "../..";
 
@@ -79,7 +79,7 @@ export const schema = gql`
 	}
 `;
 
-export default class Presences extends MongoDataSource {
+export default class Presences extends MongoDBCaching {
 	async getAll() {
 		return this.preparePresences(await this.find());
 	}

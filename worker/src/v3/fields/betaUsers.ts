@@ -1,5 +1,5 @@
-import MongoDataSource from "apollo-mongodb-datasource";
 import { gql } from "apollo-server-core";
+import MongoDBCaching from "mongodb-caching";
 
 import { pmdDb } from "../../util/dataSources";
 
@@ -13,7 +13,7 @@ export const schema = gql`
 	}
 `;
 
-export class BetaUsers extends MongoDataSource {
+export class BetaUsers extends MongoDBCaching {
 	async has(userId: string) {
 		return (await this.findOne({ userId })) !== null;
 	}
@@ -29,5 +29,5 @@ export function resolver(
 	_1: any,
 	{ dataSources: { betaUsers } }: { dataSources: { betaUsers: BetaUsers } }
 ) {
-	return { number: betaUsers.count() };
+	return { number: betaUsers.countDocuments() };
 }
