@@ -3,11 +3,12 @@ concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
 on:
-  release:
+  workflow_run:
+    workflows: ["CI"]
     branches:
-      - main
+      - dev
     types:
-      - released
+      - completed
 jobs:
   docker-master:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -15,7 +16,6 @@ jobs:
     with:
       context: master/.
       tags: premid/api-master
-      version: ${{ github.ref_name }}
     secrets:
       GH_NPM_TOKEN: ${{ secrets.GH_NPM_TOKEN }}
     permissions:
@@ -27,7 +27,6 @@ jobs:
     with:
       context: worker/.
       tags: premid/api-worker
-      version: ${{ github.ref_name }}
     secrets:
       GH_NPM_TOKEN: ${{ secrets.GH_NPM_TOKEN }}
     permissions:
