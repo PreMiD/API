@@ -16,7 +16,7 @@ jobs:
     with:
       context: master/.
       tags: premid/api-master
-      version: ${{ github.ref_name }}-${{ github.sha }}-${{ github.run_number }}
+      version: dev-${{ github.sha }}-${{ github.run_number }}
     secrets:
       GH_NPM_TOKEN: ${{ secrets.GH_NPM_TOKEN }}
     permissions:
@@ -28,7 +28,7 @@ jobs:
     with:
       context: worker/.
       tags: premid/api-worker
-      version: ${{ github.ref_name }}-${{ github.sha }}-${{ github.run_number }}
+      version: dev-${{ github.sha }}-${{ github.run_number }}
     secrets:
       GH_NPM_TOKEN: ${{ secrets.GH_NPM_TOKEN }}
     permissions:
