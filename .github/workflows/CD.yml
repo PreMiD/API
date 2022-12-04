@@ -1,7 +1,4 @@
 name: CD
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
 on:
   release:
     branches:
