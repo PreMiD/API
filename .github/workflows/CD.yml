@@ -7,7 +7,6 @@ on:
       - released
 jobs:
   docker-master:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     uses: "Recodive/Workflows/.github/workflows/CD Docker.yml@main"
     with:
       context: master/.
@@ -19,7 +18,6 @@ jobs:
       contents: read
       packages: write
   docker-worker:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     uses: "Recodive/Workflows/.github/workflows/CD Docker.yml@main"
     with:
       context: worker/.
