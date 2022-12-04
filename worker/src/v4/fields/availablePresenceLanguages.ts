@@ -12,59 +12,89 @@ export const schema = gql`
 			Presence, e.g. 'Netflix'
 			"""
 			presence: StringOrStringArray
-		): [Language!]!
+		): [PresenceLanguage!]!
+	}
+
+	type PresenceLanguage {
+		"""
+		Presence, e.g. 'Netflix'
+		"""
+		presence: String!
+		"""
+		The available languages for the presence
+		"""
+		languages: [Language!]!
 	}
 `;
 
 export async function resolver(
 	_: any,
 	args: {
-		presence?: string | string[];
+		presence: string | string[];
 	},
 	{ dataSources: { strings } }: { dataSources: { strings: Strings } }
 ) {
-	const fetchedStrings = await strings.get(args),
-		englishStrings = fetchedStrings.find(s => s.lang === "en-US") ?? {
-			translations: {}
-		},
-		// String count of the English strings by first name
-		englishStringCount: {
-			[key: string]: number;
-		} = {};
+	args.presence = Array.isArray(args.presence)
+		? args.presence
+		: [args.presence];
 
-	for (const key of Object.keys(englishStrings.translations)) {
-		const [firstName] = key.split(".");
-		englishStringCount[firstName] = (englishStringCount[firstName] ?? 0) + 1;
-	}
+	const returnObject: {
+		[service: string]: {
+			lang: string;
+			nativeName: string;
+			direction: "ltr" | "rtl";
+		}[];
+	} = {};
 
-	return fetchedStrings
-		.filter(s => {
-			const fetchedStringCount: {
+	for (const presence of args.presence) {
+		const fetchedStrings = await strings.get({ presence }),
+			englishStrings = fetchedStrings.find(s => s.lang === "en-US") ?? {
+				translations: {}
+			},
+			// String count of the English strings by first name
+			englishStringCount: {
 				[key: string]: number;
 			} = {};
 
-			for (const key of Object.keys(s.translations)) {
-				const [firstName] = key.split(".");
-				fetchedStringCount[firstName] =
-					(fetchedStringCount[firstName] ?? 0) + 1;
-			}
+		for (const key of Object.keys(englishStrings.translations)) {
+			const [firstName] = key.split(".");
+			englishStringCount[firstName] = (englishStringCount[firstName] ?? 0) + 1;
+		}
 
-			// Check if the fetched language has 60% of the strings translated per first name
-			for (const firstName of Object.keys(englishStringCount)) {
-				const sixtyPercent = englishStringCount[firstName] * 0.6;
+		returnObject[presence] = fetchedStrings
+			.filter(s => {
+				const fetchedStringCount: {
+					[key: string]: number;
+				} = {};
 
-				if (
-					!(firstName in fetchedStringCount) ||
-					fetchedStringCount[firstName] < sixtyPercent
-				)
-					return false;
-			}
+				for (const key of Object.keys(s.translations)) {
+					const [firstName] = key.split(".");
+					fetchedStringCount[firstName] =
+						(fetchedStringCount[firstName] ?? 0) + 1;
+				}
 
-			return true;
-		})
-		.map(s => ({
-			lang: s.lang,
-			nativeName: s.nativeName,
-			direction: s.direction
-		}));
+				// Check if the fetched language has 60% of the strings translated per first name
+				for (const firstName of Object.keys(englishStringCount)) {
+					const sixtyPercent = englishStringCount[firstName] * 0.6;
+
+					if (
+						!(firstName in fetchedStringCount) ||
+						fetchedStringCount[firstName] < sixtyPercent
+					)
+						return false;
+				}
+
+				return true;
+			})
+			.map(s => ({
+				lang: s.lang,
+				nativeName: s.nativeName,
+				direction: s.direction
+			}));
+	}
+
+	return Object.entries(returnObject).map(([presence, languages]) => ({
+		presence,
+		languages
+	}));
 }
