@@ -5,13 +5,13 @@ import { Integrations, Transaction } from "@sentry/tracing";
 import { BaseRedisCache } from "apollo-server-cache-redis";
 import { InMemoryLRUCache } from "apollo-server-caching";
 import {
-  ApolloServerPluginCacheControl,
-  ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageDisabled,
+	ApolloServerPluginCacheControl,
+	ApolloServerPluginDrainHttpServer,
+	ApolloServerPluginLandingPageDisabled
 } from "apollo-server-core";
 import { ApolloServer } from "apollo-server-fastify";
 import responseCachePlugin from "apollo-server-plugin-response-cache";
-import fastify, { FastifyContext } from "fastify";
+import fastify, { FastifyContext, FastifyReply, FastifyRequest } from "fastify";
 import Redis from "ioredis";
 import { MongoClient } from "mongodb";
 import pEvent from "p-event";
@@ -63,12 +63,17 @@ export interface Context {
 async function run() {
 	const apolloGenericSettings = {
 		dataSources: () => dSources,
-		context: () => ({
-			transaction: Sentry.startTransaction({
-				op: "gql",
-				name: "GraphQLTransaction"
-			})
-		}),
+		context: (req: FastifyRequest, res: FastifyReply) => {
+			Sentry.setUser({
+				ip_address: req.ip
+			});
+			return {
+				transaction: Sentry.startTransaction({
+					op: "gql",
+					name: "GraphQLTransaction"
+				})
+			};
+		},
 		introspection: true,
 		cache: baseRedisCache,
 		plugins: [
