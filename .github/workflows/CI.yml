@@ -13,5 +13,5 @@ jobs:
         with:
           node-version: "lts/*"
           cache: "pnpm"
-      - run: pnpm run init
-      - run: pnpm build
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm -r build

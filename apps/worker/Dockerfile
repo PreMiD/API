@@ -1,0 +1,28 @@
+FROM node:lts-alpine as base
+
+WORKDIR /app
+
+RUN corepack enable
+
+FROM base as builder
+
+RUN echo pnpm -v
+
+COPY pnpm-lock.yaml ./
+RUN pnpm fetch
+
+COPY . .
+RUN pnpm i
+RUN pnpm --filter=./apps/worker build
+RUN pnpm --filter=./apps/worker deploy --prod pruned
+
+FROM base
+
+ENV NODE_ENV=production
+
+COPY --from=builder /app/pruned/dist ./
+COPY --from=builder /app/pruned/node_modules ./node_modules
+
+EXPOSE 3001
+
+CMD ["node", "index.js"]

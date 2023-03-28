@@ -9,7 +9,8 @@ jobs:
   docker-master:
     uses: "Recodive/Workflows/.github/workflows/CD Docker.yml@main"
     with:
-      context: master/.
+      file: apps/master/Dockerfile
+      context: .
       tags: premid/api-master
       version: ${{ github.ref_name }}
     secrets:
@@ -20,7 +21,8 @@ jobs:
   docker-worker:
     uses: "Recodive/Workflows/.github/workflows/CD Docker.yml@main"
     with:
-      context: worker/.
+      file: apps/worker/Dockerfile
+      context: .
       tags: premid/api-worker
       version: ${{ github.ref_name }}
     secrets:

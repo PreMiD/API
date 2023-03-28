@@ -1,20 +1,3 @@
 {
-	"name": "PreMiD-API",
-	"version": "4.2.1",
-	"main": "index.js",
-	"license": "MPL-2.0",
-	"scripts": {
-		"init": "pnpm i && cd master && pnpm i && cd ../worker && pnpm i",
-		"start-master": "cd master && pnpm start",
-		"start-worker": "cd worker && pnpm start",
-		"dev-master": "cd master && pnpm dev",
-		"dev-worker": "cd worker && pnpm dev",
-		"build": "cd worker && pnpm build && cd ../master && pnpm build",
-		"start": "concurrently -n master,worker 'npm:start-master' 'npm:start-worker'",
-		"dev": "concurrently -n master,worker 'npm:dev-master' 'npm:dev-worker'"
-	},
-	"devDependencies": {
-		"concurrently": "^7.6.0"
-	},
-	"packageManager": "pnpm@7.30.3"
+	"packageManager": "pnpm@8.0.0"
 }

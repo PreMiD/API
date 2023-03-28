@@ -14,7 +14,8 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     uses: "Recodive/Workflows/.github/workflows/CD Docker.yml@main"
     with:
-      context: master/.
+      file: apps/master/Dockerfile
+      context: .
       tags: premid/api-master
       version: dev-${{ github.sha }}-${{ github.run_number }}
     secrets:
@@ -26,7 +27,8 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     uses: "Recodive/Workflows/.github/workflows/CD Docker.yml@main"
     with:
-      context: worker/.
+      file: apps/worker/Dockerfile
+      context: .
       tags: premid/api-worker
       version: dev-${{ github.sha }}-${{ github.run_number }}
     secrets:
