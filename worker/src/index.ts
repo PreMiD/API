@@ -143,6 +143,10 @@ async function run() {
 	app.register(
 		v4Server.createHandler({ path: "/v4", disableHealthCheck: true })
 	);
+
+	app.get("/ping", async (req, reply) => {
+		reply.status(200).send();
+	});
 	app.get("/v2/science/:identifier", deleteScience);
 	app.get("/v2/versions", versions);
 	app.get("/firefox/updates", ffUpdates);
