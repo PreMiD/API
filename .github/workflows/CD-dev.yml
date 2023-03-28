@@ -6,7 +6,7 @@ on:
   workflow_run:
     workflows: ["CI"]
     branches:
-      - dev
+      - main
     types:
       - completed
 jobs:
