@@ -23,7 +23,7 @@ export const schema = gql`
 			limit: Int
 			query: String
 			tag: String
-		): [Presence]
+		): [Presence!]!
 	}
 
 	type Presence {
@@ -36,8 +36,8 @@ export const schema = gql`
 
 	type PresenceMetadata {
 		author: PresenceMetadataUser!
-		contributors: [PresenceMetadataUser]
-		altnames: [String]
+		contributors: [PresenceMetadataUser!]
+		altnames: [String!]
 		service: String!
 		description: Scalar! # serialize
 		url: Scalar! # serialize
