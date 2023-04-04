@@ -1,4 +1,4 @@
-import { mainLog, mongo, redis } from "..";
+import { mainLog, mongo, redis } from "../index.js";
 
 export default async function () {
 	const log = mainLog.extend("calculatePresenceUsage");
@@ -15,9 +15,7 @@ export default async function () {
 				{ $group: { _id: "$presences", count: { $sum: 1 } } }
 			])
 			.sort({ count: -1 })
-			.map(d => {
-				return { [d._id]: d.count };
-			})
+			.map(d => ({ [d._id]: d.count }))
 			.toArray())
 	);
 

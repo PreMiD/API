@@ -1,4 +1,6 @@
-import "source-map-support/register";
+import "source-map-support/register.js";
+
+import { CronJob } from "cron";
 
 import * as Sentry from "@sentry/node";
 import { Integrations } from "@sentry/tracing";
@@ -6,11 +8,13 @@ import debug from "debug";
 import { MongoClient } from "mongodb";
 import { createClient } from "redis";
 
-import calculatePresenceUsage from "./util/calculatePresenceUsage";
-import updateScience from "./util/updateScience";
+import calculatePresenceUsage from "./util/calculatePresenceUsage.js";
+import updateScience from "./util/updateScience.js";
 
 if (process.env.NODE_ENV !== "production")
-	require("dotenv").config({ path: "../../.env" });
+	(await import("dotenv")).config({ path: "../../../.env" });
+
+if (!process.env.MONGO_URL) throw new Error("MONGO_URL is not defined!");
 
 Sentry.init({
 	dsn: process.env.SENTRY_DSN,
@@ -20,7 +24,7 @@ Sentry.init({
 });
 
 export const redis = createClient({
-		url: process.env.REDIS_URL || "localhost:6379"
+		url: process.env.REDIS_URL || "redis://localhost:6379/"
 	}),
 	mongo = new MongoClient(process.env.MONGO_URL!, {
 		appName: "PreMiD-API-Master"
@@ -29,19 +33,16 @@ export const redis = createClient({
 
 redis.on("error", err => console.log(err.message));
 
-async function run() {
-	debug.enable("API-Master*");
+debug.enable("API-Master*");
 
-	await Promise.all([mongo.connect(), redis.connect()]);
+mainLog("Connecting to MongoDB...");
+await mongo.connect();
+mainLog("Connecting to Redis...");
+await redis.connect();
 
-	mainLog("Running");
+mainLog("Connected!");
 
-	await Promise.all([updateScience(), calculatePresenceUsage()]);
+await Promise.all([updateScience(), calculatePresenceUsage()]);
 
-	setInterval(() => {
-		updateScience();
-		calculatePresenceUsage();
-	}, 60 * 1000);
-}
-
-run();
+new CronJob("* * * * *", updateScience).start();
+new CronJob("* * * * *", calculatePresenceUsage).start();

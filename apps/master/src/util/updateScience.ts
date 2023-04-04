@@ -1,4 +1,4 @@
-import { mainLog, mongo, redis } from "..";
+import { mainLog, mongo, redis } from "../index.js";
 
 export default async function () {
 	const log = mainLog.extend("updateScience"),
@@ -42,8 +42,7 @@ export default async function () {
 	if (entries.length) {
 		const res = await mongo
 			.db("PreMiD")
-			//TODO Typings
-			.collection<{}>("science")
+			.collection("science")
 			.bulkWrite(
 				entries.map(e => ({
 					updateOne: {
