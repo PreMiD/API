@@ -24,7 +24,7 @@
 		"ioredis": "^5.0.1",
 		"language-flag-colors": "^2.1.1",
 		"lodash": "^4.17.21",
-		"mongodb": "^4.4.1",
+		"mongodb": "^5.0.0",
 		"mongodb-caching": "^1.1.0",
 		"p-event": "^4.2.0",
 		"source-map-support": "^0.5.21",

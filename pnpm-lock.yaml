@@ -98,8 +98,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       mongodb:
-        specifier: ^4.4.1
-        version: 4.14.0
+        specifier: ^5.0.0
+        version: 5.1.0
       mongodb-caching:
         specifier: ^1.1.0
         version: 1.1.0
