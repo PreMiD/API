@@ -13,7 +13,7 @@
 		"apollo-datasource": "^3.3.1",
 		"apollo-server-cache-redis": "^3.3.1",
 		"apollo-server-caching": "^3.3.0",
-		"apollo-server-core": "^3.6.6",
+		"apollo-server-core": "^3.12.1",
 		"apollo-server-fastify": "^3.6.6",
 		"apollo-server-plugin-base": "^3.5.2",
 		"apollo-server-plugin-response-cache": "^3.5.2",
