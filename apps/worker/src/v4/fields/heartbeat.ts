@@ -75,7 +75,6 @@ export async function resolver(
 		};
 	}
 ) {
-	console.log(params);
 	if (!validator.isUUID(params.identifier, "4"))
 		return new UserInputError("identifier must be a UUID v4.");
 
