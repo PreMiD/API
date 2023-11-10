@@ -14,7 +14,7 @@ export const schema = gql`
 
 	input HeartbeatPresenceInput {
 		service: String!
-		verion: String!
+		version: String!
 		language: String!
 		since: Float!
 	}
@@ -38,7 +38,7 @@ export const schema = gql`
 
 	type HeartbeatPresence {
 		service: String!
-		verion: String!
+		version: String!
 		language: String!
 		since: Float!
 	}
