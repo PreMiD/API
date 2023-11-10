@@ -9,7 +9,7 @@ export const schema = gql`
 			identifier: String!
 			presence: HeartbeatPresenceInput
 			extension: HeartbeatExtensionInput!
-		): HeartbeatResult
+		): HeartbeatResult!
 	}
 
 	input HeartbeatPresenceInput {
@@ -78,14 +78,20 @@ export async function resolver(
 	if (!validator.isUUID(params.identifier, "4"))
 		return new UserInputError("identifier must be a UUID v4.");
 
+	const data = {
+		identifier: params.identifier,
+		presence: params.presence,
+		extension: params.extension
+	};
+
 	await redis.setex(
-		`pmd-api.heartbeatUpdates.${params.identifier}`,
+		`pmd-api.heartbeatUpdates.${data.identifier}`,
 		// 5 minutes
 		300,
-		JSON.stringify(params)
+		JSON.stringify(data)
 	);
 
-	return params;
+	return data;
 }
 
 export const options = {
