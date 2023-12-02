@@ -19,6 +19,8 @@ export default async function () {
 			.toArray())
 	);
 
+	log("Saving...");
+
 	await redis.set("pmd-api.presence-usage", JSON.stringify(res));
 
 	log("Updated!");
