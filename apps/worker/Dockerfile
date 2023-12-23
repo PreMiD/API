@@ -1,4 +1,4 @@
-FROM node:lts-alpine as base
+FROM --platform=${BUILDPLATFORM} node:lts-alpine as base
 
 WORKDIR /app
 
