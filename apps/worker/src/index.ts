@@ -142,7 +142,8 @@ async function run() {
 		const diff = process.hrtime(req.responseTimeCalc);
 		reply.headers({
 			"X-Response-Time": diff[0] * 1e3 + diff[1] / 1e6,
-			"X-Powered-By": "PreMiD"
+			"X-Powered-By": "PreMiD",
+			Connection: "close"
 		});
 		return;
 	});
