@@ -10,6 +10,7 @@ import { Redis } from "ioredis";
 
 import calculatePresenceUsage from "./util/calculatePresenceUsage.js";
 import updateScience from "./util/updateScience.js";
+import { pEvent } from "p-event";
 
 if (process.env.NODE_ENV !== "production")
 	(await import("dotenv")).config({ path: "../../../.env" });
@@ -39,11 +40,8 @@ export const redis = new Redis({
 
 debug.enable("API-Master*");
 
-mainLog("Connecting to MongoDB...");
-await mongo.connect();
-mainLog("Connecting to Redis...");
-await redis.connect();
-
+mainLog("Connecting to MongoDB and Redis...");
+await Promise.all([mongo.connect(), pEvent(redis, "connect")]);
 mainLog("Connected!");
 
 await Promise.all([updateScience(), calculatePresenceUsage()]);
