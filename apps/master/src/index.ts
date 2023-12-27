@@ -6,7 +6,7 @@ import * as Sentry from "@sentry/node";
 import { Integrations } from "@sentry/tracing";
 import debug from "debug";
 import { MongoClient } from "mongodb";
-import { createClient } from "redis";
+import { Redis } from "ioredis";
 
 import calculatePresenceUsage from "./util/calculatePresenceUsage.js";
 import updateScience from "./util/updateScience.js";
@@ -23,17 +23,19 @@ Sentry.init({
 	integrations: [new Integrations.Mongo()]
 });
 
-export const redis = createClient({
-		url: process.env.REDIS_URL || "redis://localhost:6379/"
+export const redis = new Redis({
+		sentinels: [
+			{
+				host: process.env.REDIS_HOST || "localhost",
+				port: parseInt(process.env.REDIS_PORT || "26379")
+			}
+		],
+		name: "mymaster"
 	}),
 	mongo = new MongoClient(process.env.MONGO_URL!, {
 		appName: "PreMiD-API-Master"
 	}),
 	mainLog = debug("API-Master");
-
-redis.on("error", err => {
-	throw err;
-});
 
 debug.enable("API-Master*");
 
