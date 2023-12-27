@@ -31,7 +31,9 @@ export const redis = createClient({
 	}),
 	mainLog = debug("API-Master");
 
-redis.on("error", err => console.log(err.message));
+redis.on("error", err => {
+	throw err;
+});
 
 debug.enable("API-Master*");
 

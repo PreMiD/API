@@ -1,6 +1,6 @@
 import { Db } from "mongodb";
 
-import { mongodb } from "..";
+import { mongodb, redis } from "..";
 import { FFUpdates } from "../generic/ffUpdates";
 import { Benefits } from "../v3/fields/benefits";
 import { BetaUsers } from "../v3/fields/betaUsers";
@@ -15,6 +15,7 @@ import { Sponsors } from "../v3/fields/sponsors";
 import { Usage } from "../v3/fields/usage";
 import { Versions } from "../v3/fields/versions";
 import { Strings } from "../v4/fields/strings";
+import KeyvRedis from "@keyv/redis";
 
 export let pmdDb: Db, dSources: ReturnType<typeof dataSources>;
 
@@ -22,7 +23,7 @@ export default function dataSources() {
 	pmdDb = mongodb.db("PreMiD");
 
 	const keyvDefaultOptions = {
-		uri: process.env.REDIS_URL || "redis://localhost:6379",
+		store: new KeyvRedis(redis),
 		ttl: 60 * 1000
 	};
 

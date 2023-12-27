@@ -31,7 +31,7 @@ import { resolvers as v4Resolvers } from "./v4/resolvers";
 import { typeDefs as v4TypeDefs } from "./v4/typeDefinition";
 
 if (process.env.NODE_ENV !== "production")
-	require("dotenv").config({ path: "../../.env" });
+	require("dotenv").config({ path: "../../../.env" });
 
 if (process.env.SENTRY_DSN)
 	Sentry.init({
@@ -45,7 +45,15 @@ if (process.env.SENTRY_DSN)
 export const mongodb = new MongoClient(process.env.MONGO_URL!, {
 		appName: "PreMiD-API-Worker"
 	}),
-	redis = new Redis(process.env.REDIS_URL || "localhost"),
+	redis = new Redis({
+		sentinels: [
+			{
+				host: process.env.REDIS_HOST || "localhost",
+				port: parseInt(process.env.REDIS_PORT || "26379")
+			}
+		],
+		name: "mymaster"
+	}),
 	baseRedisCache = new BaseRedisCache({
 		//@ts-ignore
 		client: redis
