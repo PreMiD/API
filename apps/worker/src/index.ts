@@ -44,11 +44,14 @@ export const mongodb = new MongoClient(process.env.MONGO_URL!, {
 		appName: "PreMiD-API-Worker"
 	}),
 	redis = createCluster({
-		rootNodes: [
-			{
-				url: process.env.REDIS_URL || "redis://localhost:6379"
-			}
-		],
+		rootNodes:
+			process.env.REDIS_URL?.split(",")?.map(url => ({
+				url
+			})) || [
+				{
+					url: "redis://localhost:6379"
+				}
+			],
 		useReplicas: false
 	}),
 	baseRedisCache = new BaseRedisCache({
@@ -169,3 +172,6 @@ async function run() {
 }
 
 run();
+
+
+.pnpm/@redis+client@1.5.13/node_modules/@redis/client/dist/lib/cluster/cluster-slots.js:108
