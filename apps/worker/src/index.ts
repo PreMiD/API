@@ -12,9 +12,8 @@ import {
 import { ApolloServer } from "apollo-server-fastify";
 import responseCachePlugin from "apollo-server-plugin-response-cache";
 import fastify, { FastifyContext, FastifyReply, FastifyRequest } from "fastify";
-import Redis from "ioredis";
+import { createCluster } from "redis";
 import { MongoClient } from "mongodb";
-import pEvent from "p-event";
 
 import appUpdate from "./generic/appUpdate";
 import ffUpdates from "./generic/ffUpdates";
@@ -22,7 +21,6 @@ import zippedPresences from "./generic/zippedPresences";
 import fastifyAppClosePlugin from "./plugins/fastifyAppClosePlugin";
 import sentryPlugin from "./plugins/sentryPlugin";
 import dataSources from "./util/dataSources";
-import zipPresences from "./util/functions/zipPresences";
 import deleteScience from "./v2/deleteScience";
 import versions from "./v2/versions";
 import { resolvers as v3Resolvers } from "./v3/resolvers";
@@ -45,24 +43,24 @@ if (process.env.SENTRY_DSN)
 export const mongodb = new MongoClient(process.env.MONGO_URL!, {
 		appName: "PreMiD-API-Worker"
 	}),
-	redis = new Redis({
-		sentinels: [
+	redis = createCluster({
+		rootNodes: [
 			{
-				host: process.env.REDIS_HOST || "localhost",
-				port: parseInt(process.env.REDIS_PORT || "26379")
+				url: process.env.REDIS_URL || "redis://localhost:6379"
 			}
 		],
-		name: "mymaster"
+		useReplicas: true
 	}),
 	baseRedisCache = new BaseRedisCache({
 		//@ts-ignore
 		client: redis
 	}),
-	dSources = dataSources(),
 	app = fastify({
 		connectionTimeout: 10_000,
 		keepAliveTimeout: 10_000
 	});
+
+export let dSources: ReturnType<typeof dataSources>;
 
 export let v3Server: ApolloServer<FastifyContext>,
 	v4Server: ApolloServer<FastifyContext>;
@@ -72,6 +70,14 @@ export interface Context {
 }
 
 async function run() {
+	redis.setMaxListeners(12);
+	redis.on("error", error => {
+		console.log(error);
+	});
+	await redis.connect();
+
+	dSources = dataSources();
+
 	const apolloGenericSettings = {
 		dataSources: () => dSources,
 		context: (req: FastifyRequest, res: FastifyReply) => {
@@ -111,17 +117,7 @@ async function run() {
 		resolvers: await v4Resolvers
 	});
 
-	await Promise.all([
-		mongodb.connect(),
-		pEvent(redis, "connect"),
-		v3Server.start(),
-		v4Server.start(),
-		zipPresences()
-	]);
-
-	setInterval(() => {
-		zipPresences();
-	}, 60_000);
+	await Promise.all([mongodb.connect(), v3Server.start(), v4Server.start()]);
 
 	app.addHook("onError", (_, _1, error, done) => {
 		Sentry.captureException(error);

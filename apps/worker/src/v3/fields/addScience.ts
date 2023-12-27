@@ -37,7 +37,7 @@ export async function resolver(
 		}
 	};
 
-	await redis.hset(
+	await redis.HSET(
 		"pmd-api.scienceUpdates",
 		params.identifier,
 		JSON.stringify(data)

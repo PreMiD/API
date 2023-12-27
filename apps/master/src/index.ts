@@ -6,11 +6,10 @@ import * as Sentry from "@sentry/node";
 import { Integrations } from "@sentry/tracing";
 import debug from "debug";
 import { MongoClient } from "mongodb";
-import { Redis } from "ioredis";
+import { createCluster } from "redis";
 
 import calculatePresenceUsage from "./util/calculatePresenceUsage.js";
 import updateScience from "./util/updateScience.js";
-import { pEvent } from "p-event";
 
 if (process.env.NODE_ENV !== "production")
 	(await import("dotenv")).config({ path: "../../../.env" });
@@ -24,14 +23,12 @@ Sentry.init({
 	integrations: [new Integrations.Mongo()]
 });
 
-export const redis = new Redis({
-		sentinels: [
+export const redis = createCluster({
+		rootNodes: [
 			{
-				host: process.env.REDIS_HOST || "localhost",
-				port: parseInt(process.env.REDIS_PORT || "26379")
+				url: process.env.REDIS_URL || "redis://localhost:6379"
 			}
-		],
-		name: "mymaster"
+		]
 	}),
 	mongo = new MongoClient(process.env.MONGO_URL!, {
 		appName: "PreMiD-API-Master"
@@ -40,8 +37,10 @@ export const redis = new Redis({
 
 debug.enable("API-Master*");
 
-mainLog("Connecting to MongoDB and Redis...");
-await Promise.all([mongo.connect(), pEvent(redis, "connect")]);
+mainLog("Connecting to MongoDB...");
+await mongo.connect();
+mainLog("Connecting to Redis...");
+await redis.connect();
 mainLog("Connected!");
 
 await Promise.all([updateScience(), calculatePresenceUsage()]);
