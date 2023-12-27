@@ -49,7 +49,7 @@ export const mongodb = new MongoClient(process.env.MONGO_URL!, {
 				url: process.env.REDIS_URL || "redis://localhost:6379"
 			}
 		],
-		useReplicas: true
+		useReplicas: false
 	}),
 	baseRedisCache = new BaseRedisCache({
 		//@ts-ignore
