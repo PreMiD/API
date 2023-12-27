@@ -15,15 +15,15 @@ import { Sponsors } from "../v3/fields/sponsors";
 import { Usage } from "../v3/fields/usage";
 import { Versions } from "../v3/fields/versions";
 import { Strings } from "../v4/fields/strings";
-import { KeyvRedis } from "./keyv";
+import { KeyvAnyRedis } from "keyv-anyredis";
 
 export let pmdDb: Db, dSources: ReturnType<typeof dataSources>;
 
-let store: KeyvRedis;
+let store: KeyvAnyRedis;
 
 export default function dataSources() {
 	if (!store) {
-		store = new KeyvRedis(redis);
+		store = new KeyvAnyRedis(redis);
 	}
 	pmdDb = mongodb.db("PreMiD");
 

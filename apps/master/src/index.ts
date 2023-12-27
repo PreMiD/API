@@ -24,9 +24,11 @@ Sentry.init({
 });
 
 export const redis = createCluster({
-		rootNodes: [
+		rootNodes: process.env.REDIS_URL?.split(",")?.map(url => ({
+			url
+		})) || [
 			{
-				url: process.env.REDIS_URL || "redis://localhost:6379"
+				url: "redis://localhost:6379"
 			}
 		]
 	}),
