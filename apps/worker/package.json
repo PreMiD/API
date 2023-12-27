@@ -33,7 +33,7 @@
 	"devDependencies": {
 		"@types/archiver": "^5.3.1",
 		"@types/lodash": "^4.14.180",
-		"@types/node": "^18.16.0",
+		"@types/node": "^20.0.0",
 		"@types/validator": "^13.7.2",
 		"discord-api-types": "^0.37.0",
 		"dotenv": "^16.0.0",

@@ -124,8 +124,8 @@ importers:
         specifier: ^4.14.180
         version: 4.14.201
       '@types/node':
-        specifier: ^18.16.0
-        version: 18.16.0
+        specifier: ^20.0.0
+        version: 20.10.5
       '@types/validator':
         specifier: ^13.7.2
         version: 13.11.6
@@ -1670,7 +1670,7 @@ packages:
   /@types/keyv@3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 18.16.0
+      '@types/node': 20.10.5
     dev: true
 
   /@types/lodash@4.14.201:
@@ -1695,17 +1695,23 @@ packages:
 
   /@types/node@18.16.0:
     resolution: {integrity: sha512-BsAaKhB+7X+H4GnSjGhJG9Qi8Tw+inU9nJDwmD5CgOmBLEI6ArdhikpLX7DjbjDRDTbqZzU2LSQNZg8WGPiSZQ==}
+    dev: true
+
+  /@types/node@20.10.5:
+    resolution: {integrity: sha512-nNPsNE65wjMxEKI93yOP+NPGGBJz/PoN3kZsVLee0XMiJolxSekEVD8wRwBUBqkwc7UWop0edW50yrCQW4CyRw==}
+    dependencies:
+      undici-types: 5.26.5
 
   /@types/readdir-glob@1.1.4:
     resolution: {integrity: sha512-uEJsErL2wFCTcbbmJpIuD8OWYNabgv1oaYP2bOkzZXKtk3c6LCYQEKngIqBj2VR2NMv9DOAXSkxSYOWtHxh2gQ==}
     dependencies:
-      '@types/node': 18.16.0
+      '@types/node': 20.10.5
     dev: true
 
   /@types/responselike@1.0.3:
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
     dependencies:
-      '@types/node': 18.16.0
+      '@types/node': 20.10.5
     dev: true
 
   /@types/validator@13.11.6:
@@ -1719,7 +1725,7 @@ packages:
   /@types/whatwg-url@8.2.2:
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
-      '@types/node': 18.16.0
+      '@types/node': 20.10.5
       '@types/webidl-conversions': 7.0.3
     dev: false
 
@@ -3720,6 +3726,9 @@ packages:
     resolution: {integrity: sha512-VAH4IvQ7BDFYglMd7BPRDfLgxZZX4O4TFcRDA6EN5X7erNJJq+McIEp8np9aVtxrCJ6qx4GTYVfOWNjcqwZgRw==}
     engines: {node: '>=8'}
     dev: true
+
+  /undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
   /universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
