@@ -6,7 +6,7 @@ import * as Sentry from "@sentry/node";
 import { Integrations } from "@sentry/tracing";
 import debug from "debug";
 import { MongoClient } from "mongodb";
-import { createCluster } from "redis";
+import { createClient } from "redis";
 
 import calculatePresenceUsage from "./util/calculatePresenceUsage.js";
 import updateScience from "./util/updateScience.js";
@@ -23,14 +23,8 @@ Sentry.init({
 	integrations: [new Integrations.Mongo()]
 });
 
-export const redis = createCluster({
-		rootNodes: process.env.REDIS_URL?.split(",")?.map(url => ({
-			url
-		})) || [
-			{
-				url: "redis://localhost:6379"
-			}
-		]
+export const redis = createClient({
+		url: process.env.REDIS_URL || "redis://localhost:6379"
 	}),
 	mongo = new MongoClient(process.env.MONGO_URL!, {
 		appName: "PreMiD-API-Master"
