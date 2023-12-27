@@ -59,7 +59,10 @@ export const mongodb = new MongoClient(process.env.MONGO_URL!, {
 		client: redis
 	}),
 	dSources = dataSources(),
-	app = fastify();
+	app = fastify({
+		connectionTimeout: 10_000,
+		keepAliveTimeout: 10_000
+	});
 
 export let v3Server: ApolloServer<FastifyContext>,
 	v4Server: ApolloServer<FastifyContext>;
@@ -142,10 +145,9 @@ async function run() {
 		const diff = process.hrtime(req.responseTimeCalc);
 		reply.headers({
 			"X-Response-Time": diff[0] * 1e3 + diff[1] / 1e6,
-			"X-Powered-By": "PreMiD",
-			Connection: "close"
+			"X-Powered-By": "PreMiD"
 		});
-		return;
+		return reply;
 	});
 
 	app.register(v3Server.createHandler({ path: "/v3" }));
