@@ -111,8 +111,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       p-event:
-        specifier: ^4.2.0
-        version: 4.2.0
+        specifier: ^6.0.0
+        version: 6.0.0
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
@@ -3220,16 +3220,11 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /p-event@4.2.0:
-    resolution: {integrity: sha512-KXatOjCRXXkSePPb1Nbi0p0m+gQAwdlbhi4wQKJPI1HsMQS9g+Sqp2o+QHziPr7eYJyOZet836KoHEVM1mwOrQ==}
-    engines: {node: '>=8'}
+  /p-event@6.0.0:
+    resolution: {integrity: sha512-Xbfxd0CfZmHLGKXH32k1JKjQYX6Rkv0UtQdaFJ8OyNcf+c0oWCeXHc1C4CX/IESZLmcvfPa5aFIO/vCr5gqtag==}
+    engines: {node: '>=16.17'}
     dependencies:
-      p-timeout: 3.2.0
-    dev: false
-
-  /p-finally@1.0.0:
-    resolution: {integrity: sha512-LICb2p9CB7FS+0eR1oqWnHhp0FljGLZCWBE9aix0Uye9W8LTQPwMTYVGWQWIw9RdQiDg4+epXQODwIYJtSJaow==}
-    engines: {node: '>=4'}
+      p-timeout: 6.1.2
     dev: false
 
   /p-map@2.1.0:
@@ -3237,11 +3232,9 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /p-timeout@3.2.0:
-    resolution: {integrity: sha512-rhIwUycgwwKcP9yTOOFK/AKsAopjjCakVqLHePO3CC6Mir1Z99xT+R63jZxAT5lFZLa2inS5h+ZS2GvR99/FBg==}
-    engines: {node: '>=8'}
-    dependencies:
-      p-finally: 1.0.0
+  /p-timeout@6.1.2:
+    resolution: {integrity: sha512-UbD77BuZ9Bc9aABo74gfXhNvzC9Tx7SxtHSh1fxvx3jTLLYvmVhiQZZrJzqqU0jKbN32kb5VOKiLEQI/3bIjgQ==}
+    engines: {node: '>=14.16'}
     dev: false
 
   /package-json@6.5.0:
