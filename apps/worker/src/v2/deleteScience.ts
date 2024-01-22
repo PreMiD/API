@@ -18,7 +18,7 @@ const handler: RouteHandlerMethod<
 	if (!validator.isUUID(params.identifier, "4"))
 		return res.status(400).send("identifier must be a UUID v4.");
 
-	await redis.HSET(
+	await redis.hset(
 		"pmd-api.scienceDeletes",
 		params.identifier,
 		params.identifier

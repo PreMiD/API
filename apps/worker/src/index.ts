@@ -12,7 +12,7 @@ import {
 import { ApolloServer } from "apollo-server-fastify";
 import responseCachePlugin from "apollo-server-plugin-response-cache";
 import fastify, { FastifyContext, FastifyReply, FastifyRequest } from "fastify";
-import { createClient, createCluster } from "redis";
+import { Redis } from "ioredis";
 import { MongoClient } from "mongodb";
 
 import appUpdate from "./generic/appUpdate";
@@ -43,8 +43,13 @@ if (process.env.SENTRY_DSN)
 export const mongodb = new MongoClient(process.env.MONGO_URL!, {
 		appName: "PreMiD-API-Worker"
 	}),
-	redis = createClient({
-		url: process.env.REDIS_URL || "redis://localhost:6379"
+	redis = new Redis({
+		sentinels: process.env.REDIS_SENTINELS?.split(",")?.map(s => ({
+			host: s.split(":")[0],
+			port: 26379
+		})),
+		name: "mymaster",
+		lazyConnect: true
 	}),
 	baseRedisCache = new BaseRedisCache({
 		//@ts-ignore

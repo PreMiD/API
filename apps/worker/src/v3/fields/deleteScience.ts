@@ -18,7 +18,7 @@ export async function resolver(_: any, params: { identifier: string }) {
 	if (!validator.isUUID(params.identifier, "4"))
 		return new GraphQLError("identifier must be a UUID v4.");
 
-	await redis.HSET(
+	await redis.hset(
 		"pmd-api.scienceDeletes",
 		params.identifier,
 		params.identifier

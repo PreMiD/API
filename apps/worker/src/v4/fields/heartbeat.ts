@@ -84,7 +84,7 @@ export async function resolver(
 		extension: params.extension
 	};
 
-	await redis.SETEX(
+	await redis.setex(
 		`pmd-api.heartbeatUpdates.${data.identifier}`,
 		// 5 minutes
 		300,

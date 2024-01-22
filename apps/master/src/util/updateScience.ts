@@ -5,7 +5,7 @@ export default async function () {
 		key = "pmd-api.scienceUpdates";
 
 	log("Updating...");
-	const scienceUpdates = await redis.hVals(key);
+	const scienceUpdates = await redis.hvals(key);
 
 	let invalidEntries: string[] = [],
 		entries: {
@@ -35,7 +35,7 @@ export default async function () {
 	}
 
 	if (invalidEntries.length) {
-		await redis.hDel(key, invalidEntries);
+		await redis.hdel(key, ...invalidEntries);
 		log("Deleted %n invalid entries", invalidEntries.length);
 	}
 
@@ -53,10 +53,7 @@ export default async function () {
 				}))
 			);
 
-		await redis.hDel(
-			key,
-			entries.map(e => e.identifier)
-		);
+		await redis.hdel(key, ...entries.map(e => e.identifier));
 
 		log(
 			"Inserted %s entries, Updated %s entries",
@@ -65,7 +62,7 @@ export default async function () {
 		);
 	} else log("No entries to update");
 
-	const delRedis = await redis.hVals("pmd-api.scienceDeletes");
+	const delRedis = await redis.hvals("pmd-api.scienceDeletes");
 
 	let orMatch: any[] = [
 		{
@@ -79,7 +76,7 @@ export default async function () {
 		$or: orMatch
 	});
 
-	if (delRedis.length) await redis.hDel("pmd-api.scienceDeletes", delRedis);
+	if (delRedis.length) await redis.hdel("pmd-api.scienceDeletes", ...delRedis);
 
 	if (delRes.deletedCount) log("Deleted %s entries", delRes.deletedCount);
 }
