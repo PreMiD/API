@@ -25,7 +25,7 @@ Sentry.init({
 
 export const redis = new Redis({
 		sentinels: process.env.REDIS_SENTINELS?.split(",")?.map(s => ({
-			host: s.split(":")[0],
+			host: s,
 			port: 26379
 		})),
 		name: "mymaster",
