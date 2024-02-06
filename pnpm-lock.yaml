@@ -133,7 +133,7 @@ importers:
         specifier: ^13.7.2
         version: 13.11.6
       discord-api-types:
-        specifier: ^0.37.0
+        specifier: ^0.37.63
         version: 0.37.63
       dotenv:
         specifier: ^16.0.0

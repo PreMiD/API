@@ -35,7 +35,7 @@
 		"@types/lodash": "^4.14.180",
 		"@types/node": "^18.16.0",
 		"@types/validator": "^13.7.2",
-		"discord-api-types": "^0.37.0",
+		"discord-api-types": "^0.37.63",
 		"dotenv": "^16.0.0",
 		"ts-devscript": "^3.0.6",
 		"typescript": "^5.0.3"

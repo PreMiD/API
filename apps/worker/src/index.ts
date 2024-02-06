@@ -1,5 +1,6 @@
 import "source-map-support/register";
 
+import { Routes, RouteBases } from "discord-api-types/v10";
 import * as Sentry from "@sentry/node";
 import { Integrations, Transaction } from "@sentry/tracing";
 import { BaseRedisCache } from "apollo-server-cache-redis";
@@ -160,6 +161,79 @@ async function run() {
 	app.get("/app/update", appUpdate);
 	app.get("/app/update/*", appUpdate);
 	app.get("/presences.zip", zippedPresences);
+	app.post<{
+		Querystring: {
+			token?: string;
+		};
+	}>(
+		"/oauth2/revoke",
+
+		async (req, reply) => {
+			if (
+				typeof req.query !== "object" ||
+				!("token" in (req.query ?? {})) ||
+				!req.query.token
+			)
+				return reply.status(400).send("Invalid request");
+
+			const params = new URLSearchParams();
+			params.append("token", req.query.token!);
+			params.append("token_type_hint", "access_token");
+			params.append("client_id", process.env.DISCORD_CLIENT_ID!);
+			params.append("client_secret", process.env.DISCORD_CLIENT_SECRET!);
+
+			try {
+				const result = await fetch(
+					RouteBases.api + Routes.oauth2TokenRevocation(),
+					{
+						method: "POST",
+						body: params
+					}
+				);
+
+				if (!result.ok) return reply.status(500).send("Internal Server Error");
+
+				return reply.status(202).send();
+			} catch (e) {
+				console.log(e);
+				return reply.status(500).send("Internal Server Error");
+			}
+		}
+	);
+	app.post<{
+		Querystring: {
+			refresh_token?: string;
+		};
+	}>("/oauth2/refreshtoken", async (req, reply) => {
+		if (
+			typeof req.query !== "object" ||
+			!("refresh_token" in req.query) ||
+			!req.query.refresh_token
+		)
+			return reply.status(400).send("Invalid request");
+
+		const params = new URLSearchParams();
+		params.append("grant_type", "refresh_token");
+		params.append("refresh_token", req.query.refresh_token);
+		params.append("client_id", process.env.DISCORD_CLIENT_ID!);
+		params.append("client_secret", process.env.DISCORD_CLIENT_SECRET!);
+		params.append("redirect_uri", "https://api.premid.app/oauth2/callback");
+
+		try {
+			const result = await fetch(
+				RouteBases.api + Routes.oauth2TokenExchange(),
+				{
+					method: "POST",
+					body: params
+				}
+			);
+
+			return reply.status(result.status).send(await result.json());
+		} catch (e) {
+			console.log(e);
+			return reply.status(500).send("Internal Server Error");
+		}
+	});
 
 	app
 		.listen(process.env.PORT || 3001, process.env.HOST || "0.0.0.0")
