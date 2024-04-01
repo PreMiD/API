@@ -16,7 +16,7 @@ RUN pnpm i
 RUN pnpm --filter=./apps/worker build
 RUN pnpm --filter=./apps/worker deploy --prod pruned
 
-FROM oven/bun:1
+FROM base
 
 ENV NODE_ENV=production
 
@@ -25,6 +25,4 @@ COPY --from=builder /app/pruned/node_modules ./node_modules
 
 EXPOSE 3001
 
-RUN bun install
-USER bun
-CMD ["bun", "index.js"]
+CMD ["node", "index.js"]
