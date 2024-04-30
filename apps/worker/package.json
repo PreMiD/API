@@ -15,7 +15,7 @@
 		"apollo-server-fastify": "^3.6.6",
 		"apollo-server-plugin-base": "^3.5.2",
 		"apollo-server-plugin-response-cache": "^3.5.2",
-		"archiver": "^5.3.1",
+		"archiver": "^6.0.0",
 		"axios": "^0.27.0",
 		"fastify": "^3.27.4",
 		"graphql": "^16.3.0",
@@ -32,7 +32,7 @@
 		"validator": "^13.7.0"
 	},
 	"devDependencies": {
-		"@types/archiver": "^5.3.1",
+		"@types/archiver": "^6.0.0",
 		"@types/lodash": "^4.14.180",
 		"@types/node": "^18.16.0",
 		"@types/validator": "^13.7.2",
