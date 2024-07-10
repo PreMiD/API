@@ -2,6 +2,7 @@ import { gql, UserInputError } from "apollo-server-core";
 import validator from "validator";
 
 import MongoDBCaching from "mongodb-caching";
+import { redis } from "../..";
 
 export const schema = gql`
 	type Mutation {
@@ -32,10 +33,21 @@ export async function resolver(
 		email?: string;
 		discord?: string;
 	},
-	{ dataSources: { feedback } }: { dataSources: { feedback: Feedback } }
+	{
+		dataSources: { feedback },
+		ip
+	}: { dataSources: { feedback: Feedback }; ip: string }
 ) {
 	if (params.email && !validator.isEmail(params.email))
 		return new UserInputError("email must be a valid email address.");
+
+	//? Check ip if a feedback was already sent in the last 5 minutes
+	const lastFeedback = await redis.get(`feedback:${ip}`);
+	if (lastFeedback) {
+		return {
+			success: false
+		};
+	}
 
 	try {
 		await feedback.add({
@@ -44,6 +56,9 @@ export async function resolver(
 			email: params.email,
 			discord: params.discord
 		});
+
+		//? Set feedback sent flag for 5 minutes
+		await redis.set(`feedback:${ip}`, "true", "EX", 300);
 
 		return {
 			success: true
