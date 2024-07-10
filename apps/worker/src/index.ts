@@ -81,7 +81,10 @@ async function run() {
 
 	const apolloGenericSettings = {
 		dataSources: () => dSources,
-		context: (req: FastifyRequest, res: FastifyReply) => {
+		context: (
+			{ request: req }: { request: FastifyRequest },
+			res: FastifyReply
+		) => {
 			Sentry.setUser({
 				ip_address: req.ip
 			});
@@ -89,7 +92,8 @@ async function run() {
 				transaction: Sentry.startTransaction({
 					op: "gql",
 					name: "GraphQLTransaction"
-				})
+				}),
+				ip: req.ip
 			};
 		},
 		introspection: true,

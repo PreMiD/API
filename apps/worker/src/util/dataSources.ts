@@ -15,6 +15,7 @@ import { Sponsors } from "../v3/fields/sponsors";
 import { Usage } from "../v3/fields/usage";
 import { Versions } from "../v3/fields/versions";
 import { Strings } from "../v4/fields/strings";
+import { Feedback } from "../v4/fields/sendFeedback";
 import { KeyvAnyRedis } from "keyv-anyredis";
 
 export let pmdDb: Db, dSources: ReturnType<typeof dataSources>;
@@ -92,6 +93,10 @@ export default function dataSources() {
 		ffUpdates: new FFUpdates(pmdDb.collection("ffUpdates"), {
 			...keyvDefaultOptions,
 			namespace: "ffUpdates"
+		} as any),
+		feedback: new Feedback(pmdDb.collection("feedback"), {
+			...keyvDefaultOptions,
+			namespace: "feedback"
 		} as any)
 	};
 
