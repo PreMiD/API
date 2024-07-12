@@ -1,27 +1,32 @@
 import { mainLog, mongo, redis } from "../index.js";
+import pLimit from "p-limit";
 
-export default async function () {
-	const log = mainLog.extend("calculatePresenceUsage");
+const limit = pLimit(1);
 
-	log("Calculating...");
+export default function () {
+	return limit(async () => {
+		const log = mainLog.extend("calculatePresenceUsage");
 
-	const res = Object.assign(
-		{},
-		...(await mongo
-			.db("PreMiD")
-			.collection("science")
-			.aggregate([
-				{ $unwind: "$presences" },
-				{ $group: { _id: "$presences", count: { $sum: 1 } } }
-			])
-			.sort({ count: -1 })
-			.map(d => ({ [d._id]: d.count }))
-			.toArray())
-	);
+		log("Calculating...");
 
-	log("Saving...");
+		const res = Object.assign(
+			{},
+			...(await mongo
+				.db("PreMiD")
+				.collection("science")
+				.aggregate([
+					{ $unwind: "$presences" },
+					{ $group: { _id: "$presences", count: { $sum: 1 } } }
+				])
+				.sort({ count: -1 })
+				.map(d => ({ [d._id]: d.count }))
+				.toArray())
+		);
 
-	await redis.set("pmd-api.presence-usage", JSON.stringify(res));
+		log("Saving...");
 
-	log("Updated!");
+		await redis.set("pmd-api.presence-usage", JSON.stringify(res));
+
+		log("Updated!");
+	});
 }
