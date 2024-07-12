@@ -16,9 +16,9 @@ export default function () {
 				.collection("science")
 				.aggregate([
 					{ $unwind: "$presences" },
-					{ $group: { _id: "$presences", count: { $sum: 1 } } }
+					{ $group: { _id: "$presences", count: { $sum: 1 } } },
+					{ $sort: { count: -1 } }
 				])
-				.sort({ count: -1 })
 				.map(d => ({ [d._id]: d.count }))
 				.toArray())
 		);
