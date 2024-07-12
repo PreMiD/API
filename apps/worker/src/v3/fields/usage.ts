@@ -1,5 +1,6 @@
 import { gql } from "apollo-server-core";
 import MongoDBCaching from "mongodb-caching";
+import { mongodb } from "../..";
 
 export const schema = gql`
 	type Query {
@@ -17,10 +18,19 @@ export class Usage extends MongoDBCaching {
 	}
 }
 
-export function resolver(
+export async function resolver(
 	_: any,
 	_1: any,
 	{ dataSources: { usage } }: { dataSources: { usage: Usage } }
 ) {
-	return { count: usage.get() };
+	const users = await usage.keyv.get("users");
+	if (!users) {
+		const estimate = await mongodb
+			.db("PreMiD")
+			.collection("science")
+			.estimatedDocumentCount();
+		await usage.keyv.set("users", estimate);
+		return { count: estimate };
+	}
+	return { count: users };
 }
