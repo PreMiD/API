@@ -98,8 +98,8 @@ export default class Presences extends MongoDBCaching {
 			query["metadata.contributors.id"] = args.contributor.trim();
 
 		if (args.query?.trim()) {
-			if (args.query.trim().length < 3)
-				throw new UserInputError("Query must be at least 3 characters long.");
+			if (args.query.trim().length === 0)
+				throw new UserInputError("Query must not be empty.");
 
 			query["metadata.service"] = new RegExp(args.query.trim(), "i");
 		}
