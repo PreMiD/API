@@ -32,7 +32,7 @@
 		"validator": "^13.7.0"
 	},
 	"devDependencies": {
-		"@types/archiver": "^5.3.1",
+		"@types/archiver": "^6.0.0",
 		"@types/lodash": "^4.14.180",
 		"@types/node": "^18.16.0",
 		"@types/validator": "^13.7.2",
