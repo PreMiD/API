@@ -47,7 +47,7 @@ export default async function () {
 			}));
 
 			// Batch the bulk operations for better performance
-			const BATCH_SIZE = 1000;
+			const BATCH_SIZE = 10000;
 			for (let i = 0; i < bulkOps.length; i += BATCH_SIZE) {
 				const batch = bulkOps.slice(i, i + BATCH_SIZE);
 				const res = await mongo
