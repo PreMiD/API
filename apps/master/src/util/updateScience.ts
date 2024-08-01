@@ -2,6 +2,7 @@ import { mainLog, mongo, redis } from "../index.js";
 import pLimit from "p-limit";
 
 const limit = pLimit(1);
+const BATCH_SIZE = 10000;
 
 export default async function () {
 	return limit(async () => {
@@ -47,7 +48,6 @@ export default async function () {
 			}));
 
 			// Batch the bulk operations for better performance
-			const BATCH_SIZE = 10000;
 			for (let i = 0; i < bulkOps.length; i += BATCH_SIZE) {
 				const batch = bulkOps.slice(i, i + BATCH_SIZE);
 				const res = await mongo
@@ -62,7 +62,11 @@ export default async function () {
 				);
 			}
 
-			await redis.hdel(key, ...entries.map(e => e.identifier));
+			// Batch Redis hdel operations
+			for (let i = 0; i < entries.length; i += BATCH_SIZE) {
+				const batch = entries.slice(i, i + BATCH_SIZE);
+				await redis.hdel(key, ...batch.map(e => e.identifier));
+			}
 		} else {
 			log("No entries to update");
 		}
@@ -86,7 +90,11 @@ export default async function () {
 		});
 
 		if (delRedis.length) {
-			await redis.hdel("pmd-api.scienceDeletes", ...delRedis);
+			// Batch Redis hdel operations
+			for (let i = 0; i < delRedis.length; i += BATCH_SIZE) {
+				const batch = delRedis.slice(i, i + BATCH_SIZE);
+				await redis.hdel("pmd-api.scienceDeletes", ...batch);
+			}
 		}
 
 		if (delRes.deletedCount) {
