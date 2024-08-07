@@ -10,6 +10,7 @@ import { Redis } from "ioredis";
 
 import calculatePresenceUsage from "./util/calculatePresenceUsage.js";
 import updateScience from "./util/updateScience.js";
+import updateHeartbeats from "./util/updateHeartbeats.js";
 
 if (process.env.NODE_ENV !== "production")
 	(await import("dotenv")).config({ path: "../../../.env" });
@@ -44,7 +45,12 @@ mainLog("Connecting to Redis...");
 await redis.connect();
 mainLog("Connected!");
 
-await Promise.all([updateScience(), calculatePresenceUsage()]);
+await Promise.all([
+	updateScience(),
+	calculatePresenceUsage(),
+	updateHeartbeats()
+]);
 
 new CronJob("* * * * *", updateScience).start();
 new CronJob("* * * * *", calculatePresenceUsage).start();
+new CronJob("* * * * *", updateHeartbeats).start();

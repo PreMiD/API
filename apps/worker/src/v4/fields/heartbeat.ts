@@ -84,13 +84,11 @@ export async function resolver(
 		extension: params.extension
 	};
 
-	//! Disabled for now
-	/* await redis.setex(
-		`pmd-api.heartbeatUpdates.${data.identifier}`,
-		// 5 minutes
-		300,
+	await redis.hset(
+		"pmd-api.heartbeatUpdates",
+		data.identifier,
 		JSON.stringify(data)
-	); */
+	);
 
 	return data;
 }
