@@ -53,4 +53,4 @@ await Promise.all([
 
 new CronJob("* * * * *", updateScience).start();
 new CronJob("* * * * *", calculatePresenceUsage).start();
-new CronJob("* * * * *", updateHeartbeats).start();
+new CronJob("*/1 * * * * *", updateHeartbeats).start();
