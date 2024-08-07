@@ -81,7 +81,8 @@ export async function resolver(
 	const data = {
 		identifier: params.identifier,
 		presence: params.presence,
-		extension: params.extension
+		extension: params.extension,
+		updated: new Date()
 	};
 
 	await redis.hset(
