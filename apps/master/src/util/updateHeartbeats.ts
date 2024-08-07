@@ -3,7 +3,7 @@ import { mainLog, mongo, redis } from "../index.js";
 
 const limit = pLimit(1);
 
-const BATCH_SIZE = 10000;
+const BATCH_SIZE = Number.parseInt(process.env.BATCH_SIZE || "10000");
 export default async function () {
 	limit(async () => {
 		let count = 0;
