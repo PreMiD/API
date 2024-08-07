@@ -2,6 +2,8 @@ import pLimit from "p-limit";
 import { mainLog, mongo, redis } from "../index.js";
 
 const limit = pLimit(1);
+
+const BATCH_SIZE = 10000;
 export default async function () {
 	limit(async () => {
 		let count = 0;
@@ -13,7 +15,7 @@ export default async function () {
 				"pmd-api.heartbeatUpdates",
 				cursor,
 				"COUNT",
-				1000
+				BATCH_SIZE
 			);
 			cursor = result[0];
 
@@ -46,7 +48,7 @@ export default async function () {
 				);
 			log(
 				"Batch %s: Inserted %s entries, Updated %s entries",
-				Math.floor(count / 1000) + 1,
+				Math.floor(count / BATCH_SIZE) + 1,
 				res.upsertedCount,
 				res.modifiedCount
 			);
