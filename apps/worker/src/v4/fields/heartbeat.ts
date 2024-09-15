@@ -78,20 +78,26 @@ export async function resolver(
 	if (!validator.isUUID(params.identifier, "4"))
 		return new UserInputError("identifier must be a UUID v4.");
 
-	const data = {
+	// * Use Redis Hash with 'service' in the key to store heartbeat data
+	const redisKey = `pmd-api.heartbeatUpdates.${params.identifier}`;
+	await redis.hset(redisKey, {
+		service: params.presence?.service,
+		version: params.presence?.version,
+		language: params.presence?.language,
+		since: params.presence?.since.toString(),
+		extension_version: params.extension.version,
+		extension_language: params.extension.language,
+		extension_connected_app: params.extension.connected?.app?.toString(),
+		extension_connected_discord: params.extension.connected?.discord?.toString()
+	});
+	await redis.expire(redisKey, 300);
+
+	return {
+		__typename: "HeartbeatResult",
 		identifier: params.identifier,
 		presence: params.presence,
-		extension: params.extension,
-		updated: new Date()
+		extension: params.extension
 	};
-
-	await redis.hset(
-		"pmd-api.heartbeatUpdates",
-		data.identifier,
-		JSON.stringify(data)
-	);
-
-	return data;
 }
 
 export const options = {
