@@ -73,7 +73,8 @@ export async function resolver(
 				discord: boolean;
 			};
 		};
-	}
+	},
+	{ ip }: { ip: string }
 ) {
 	if (!validator.isUUID(params.identifier, "4"))
 		return new UserInputError("identifier must be a UUID v4.");
@@ -88,7 +89,9 @@ export async function resolver(
 		extension_version: params.extension.version,
 		extension_language: params.extension.language,
 		extension_connected_app: params.extension.connected?.app?.toString(),
-		extension_connected_discord: params.extension.connected?.discord?.toString()
+		extension_connected_discord:
+			params.extension.connected?.discord?.toString(),
+		ip_address: ip
 	});
 	await redis.expire(redisKey, 300);
 

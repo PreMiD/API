@@ -85,15 +85,19 @@ async function run() {
 			{ request: req }: { request: FastifyRequest },
 			res: FastifyReply
 		) => {
+			const ip =
+				new Headers(req.headers as Record<string, string>).get(
+					"cf-connecting-ip"
+				) || req.ip;
 			Sentry.setUser({
-				ip_address: req.ip
+				ip_address: ip
 			});
 			return {
 				transaction: Sentry.startTransaction({
 					op: "gql",
 					name: "GraphQLTransaction"
 				}),
-				ip: req.ip
+				ip
 			};
 		},
 		introspection: true,
