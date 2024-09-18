@@ -7,7 +7,7 @@
 		"build": "tsc && devScript --copyOnly"
 	},
 	"dependencies": {
-		"@sentry/node": "6.19.2",
+		"@sentry/node": "6.19.7",
 		"@sentry/tracing": "6.19.2",
 		"apollo-server-cache-redis": "3.3.1",
 		"apollo-server-caching": "3.3.0",
