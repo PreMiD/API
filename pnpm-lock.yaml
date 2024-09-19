@@ -73,7 +73,7 @@ importers:
         version: 3.13.0(graphql@16.9.0)
       apollo-server-fastify:
         specifier: 3.13.0
-        version: 3.13.0(fastify@3.29.4)(graphql@16.9.0)
+        version: 3.13.0(fastify@3.29.5)(graphql@16.9.0)
       apollo-server-plugin-base:
         specifier: 3.7.2
         version: 3.7.2(graphql@16.9.0)
@@ -90,8 +90,8 @@ importers:
         specifier: 0.37.100
         version: 0.37.100
       fastify:
-        specifier: 3.29.4
-        version: 3.29.4
+        specifier: 3.29.5
+        version: 3.29.5
       graphql:
         specifier: 16.9.0
         version: 16.9.0
@@ -1984,7 +1984,7 @@ packages:
       graphql: 16.9.0
     dev: false
 
-  /apollo-server-fastify@3.13.0(fastify@3.29.4)(graphql@16.9.0):
+  /apollo-server-fastify@3.13.0(fastify@3.29.5)(graphql@16.9.0):
     resolution: {integrity: sha512-M169+oWiwilHpSQqDXRJxAQMn1MC3llVupNLOkuFWMt7u7/+9obLJm6c8IVSbjLHqu1EQjekxzRl84Bv/K+uzA==}
     engines: {node: '>=12.0'}
     peerDependencies:
@@ -1995,7 +1995,7 @@ packages:
       '@fastify/cors': 7.0.0
       apollo-server-core: 3.13.0(graphql@16.9.0)
       apollo-server-types: 3.8.0(graphql@16.9.0)
-      fastify: 3.29.4
+      fastify: 3.29.5
       graphql: 16.9.0
     transitivePeerDependencies:
       - encoding
@@ -2360,11 +2360,6 @@ packages:
       readable-stream: 4.5.2
     dev: false
 
-  /content-type@1.0.5:
-    resolution: {integrity: sha512-nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA==}
-    engines: {node: '>= 0.6'}
-    dev: false
-
   /cookie@0.4.2:
     resolution: {integrity: sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==}
     engines: {node: '>= 0.6'}
@@ -2552,6 +2547,10 @@ packages:
       tmp: 0.0.33
     dev: true
 
+  /fast-content-type-parse@1.1.0:
+    resolution: {integrity: sha512-fBHHqSTFLVnR61C+gltJuE5GkVQMV0S2nqUO8TJ+5Z3qAKG8vAx4FKai1s5jq/inV1+sREynIWSuQ6HgoSXpDQ==}
+    dev: false
+
   /fast-decode-uri-component@1.0.1:
     resolution: {integrity: sha512-WKgKWg5eUxvRZGwW8FvfbaH7AXSh2cL+3j5fMGzUMCxWBJ3dV3a7Wz8y2f/uQ0e3B6WmodD3oS54jTQ9HVTIIg==}
     dev: false
@@ -2611,14 +2610,14 @@ packages:
     resolution: {integrity: sha512-qKcDXmuZadJqdTm6vlCqioEbyewF60b/0LOFCcYN1B6BIZGlYJumWWOYs70SFYLDAH4YqdE1cxH/RKMG7rFxgA==}
     dev: false
 
-  /fastify@3.29.4:
-    resolution: {integrity: sha512-BEyKidZQvscNaiF1BLh+YLE7AzHH03NexhPzrwZP6KBQ+jG2czdgq72X+RFB5rK9hbqdaafVb5yiWN+hCvHfYg==}
+  /fastify@3.29.5:
+    resolution: {integrity: sha512-FBDgb1gkenZxxh4sTD6AdI6mFnZnsgckpjIXzIvfLSYCa4isfQeD8QWGPib63dxq6btnY0l1j8I0xYhMvUb+sw==}
     dependencies:
       '@fastify/ajv-compiler': 1.1.0
       '@fastify/error': 2.0.0
       abstract-logging: 2.0.1
       avvio: 7.2.5
-      content-type: 1.0.5
+      fast-content-type-parse: 1.1.0
       fast-json-stringify: 2.7.13
       find-my-way: 4.5.1
       flatstr: 1.0.12
