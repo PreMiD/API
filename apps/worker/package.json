@@ -18,7 +18,7 @@
 		"archiver": "7.0.1",
 		"axios": "0.27.0",
 		"discord-api-types": "0.37.100",
-		"fastify": "3.29.5",
+		"fastify": "4.28.1",
 		"graphql": "16.9.0",
 		"ioredis": "5.4.1",
 		"keyv": "5.0.1",
