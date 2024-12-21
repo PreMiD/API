@@ -81,19 +81,21 @@ export async function resolver(
 
 	// * Use Redis Hash with 'service' in the key to store heartbeat data
 	const redisKey = `pmd-api.heartbeatUpdates.${params.identifier}`;
-	await redis.hset(redisKey, {
-		service: params.presence?.service,
-		version: params.presence?.version,
-		language: params.presence?.language,
-		since: params.presence?.since.toString(),
-		extension_version: params.extension.version,
-		extension_language: params.extension.language,
-		extension_connected_app: params.extension.connected?.app?.toString(),
-		extension_connected_discord:
-			params.extension.connected?.discord?.toString(),
-		ip_address: ip
-	});
-	await redis.expire(redisKey, 300);
+	if (process.env.HEARTBEATS !== "false") {
+		await redis.hset(redisKey, {
+			service: params.presence?.service,
+			version: params.presence?.version,
+			language: params.presence?.language,
+			since: params.presence?.since.toString(),
+			extension_version: params.extension.version,
+			extension_language: params.extension.language,
+			extension_connected_app: params.extension.connected?.app?.toString(),
+			extension_connected_discord:
+				params.extension.connected?.discord?.toString(),
+			ip_address: ip
+		});
+		await redis.expire(redisKey, 300);
+	}
 
 	return {
 		__typename: "HeartbeatResult",
