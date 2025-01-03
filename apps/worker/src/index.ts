@@ -28,6 +28,9 @@ import { resolvers as v3Resolvers } from "./v3/resolvers";
 import { typeDefs as v3TypeDefs } from "./v3/typeDefinition";
 import { resolvers as v4Resolvers } from "./v4/resolvers";
 import { typeDefs as v4TypeDefs } from "./v4/typeDefinition";
+import { createPrometheusExporterPlugin } from "@bmatei/apollo-prometheus-exporter";
+import express from "express";
+import { Counter, Registry } from "prom-client";
 
 if (process.env.NODE_ENV !== "production")
 	require("dotenv").config({ path: "../../../.env" });
@@ -70,7 +73,16 @@ export interface Context {
 	transaction: Transaction;
 }
 
+const pathMetric = new Counter({
+	name: "premid_old_api_path",
+	help: "The path of the request",
+	labelNames: ["path"]
+});
+
 async function run() {
+	const registry = new Registry();
+	registry.registerMetric(pathMetric);
+	const expressApp = express();
 	redis.setMaxListeners(12);
 	redis.on("error", error => {
 		console.log(error);
@@ -103,6 +115,7 @@ async function run() {
 		introspection: true,
 		cache: baseRedisCache,
 		plugins: [
+			createPrometheusExporterPlugin({ app: expressApp, register: registry }),
 			sentryPlugin,
 			fastifyAppClosePlugin(app),
 			ApolloServerPluginDrainHttpServer({ httpServer: app.server }),
@@ -134,6 +147,7 @@ async function run() {
 	});
 
 	app.addHook("onRequest", async (req, reply) => {
+		pathMetric.labels(req.url).inc();
 		//@ts-ignore
 		req.responseTimeCalc = process.hrtime();
 		reply.headers({
@@ -248,6 +262,8 @@ async function run() {
 		.then(url => {
 			console.log(`🚀 API Listening on ${url}`);
 		});
+
+	expressApp.listen(2112, "0.0.0.0");
 }
 
 run();
