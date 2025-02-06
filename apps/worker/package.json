@@ -8,7 +8,7 @@
 	},
 	"dependencies": {
 		"@bmatei/apollo-prometheus-exporter": "^3.0.0",
-		"@sentry/node": "6.19.7",
+		"@sentry/node": "8.54.0",
 		"@sentry/tracing": "6.19.7",
 		"apollo-server-cache-redis": "3.3.1",
 		"apollo-server-caching": "3.3.0",
