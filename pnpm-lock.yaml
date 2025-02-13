@@ -63,8 +63,8 @@ importers:
         specifier: 6.19.7
         version: 6.19.7
       '@sentry/tracing':
-        specifier: 6.19.7
-        version: 6.19.7
+        specifier: 7.120.3
+        version: 7.120.3
       apollo-server-cache-redis:
         specifier: 3.3.1
         version: 3.3.1
@@ -1163,17 +1163,6 @@ packages:
       '@sentry/integrations': 7.120.3
       '@sentry/types': 7.120.3
       '@sentry/utils': 7.120.3
-    dev: false
-
-  /@sentry/tracing@6.19.7:
-    resolution: {integrity: sha512-ol4TupNnv9Zd+bZei7B6Ygnr9N3Gp1PUrNI761QSlHtPC25xXC5ssSD3GMhBgyQrcvpuRcCFHVNNM97tN5cZiA==}
-    engines: {node: '>=6'}
-    dependencies:
-      '@sentry/hub': 6.19.7
-      '@sentry/minimal': 6.19.7
-      '@sentry/types': 6.19.7
-      '@sentry/utils': 6.19.7
-      tslib: 1.14.1
     dev: false
 
   /@sentry/tracing@7.120.3:
