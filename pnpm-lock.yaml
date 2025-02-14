@@ -103,10 +103,10 @@ importers:
         version: 16.10.0
       ioredis:
         specifier: 5.4.1
-        version: 5.5.0
+        version: 5.4.1
       keyv:
-        specifier: 5.0.1
-        version: 5.0.1
+        specifier: 5.2.3
+        version: 5.2.3
       keyv-anyredis:
         specifier: 3.3.0
         version: 3.3.0
@@ -3183,6 +3183,23 @@ packages:
       - supports-color
     dev: false
 
+  /ioredis@5.4.1:
+    resolution: {integrity: sha512-2YZsvl7jopIa1gaePkeMtd9rAcSjOOjPtpcLlOeusyO+XH2SK5ZcT+UCrElPP+WVIInh2TzeI4XW9ENaSLVVHA==}
+    engines: {node: '>=12.22.0'}
+    dependencies:
+      '@ioredis/commands': 1.2.0
+      cluster-key-slot: 1.1.2
+      debug: 4.4.0
+      denque: 2.1.0
+      lodash.defaults: 4.2.0
+      lodash.isarguments: 3.1.0
+      redis-errors: 1.2.0
+      redis-parser: 3.0.0
+      standard-as-callback: 2.1.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /ioredis@5.5.0:
     resolution: {integrity: sha512-7CutT89g23FfSa8MDoIFs2GYYa0PaNiW/OrT+nRyjRXHDZd17HmIgy+reOQ/yhh72NznNjGuS8kbCAcA4Ro4mw==}
     engines: {node: '>=12.22.0'}
@@ -3329,8 +3346,8 @@ packages:
       json-buffer: 3.0.1
     dev: false
 
-  /keyv@5.0.1:
-    resolution: {integrity: sha512-NH+3ditq1O5uTSQiiHrGOTkwUniRox/lZ8tHARdsu5Skyv0AhZca0OCycWfR1fTECvSRftMQnXqx7cBpxo8G1g==}
+  /keyv@5.2.3:
+    resolution: {integrity: sha512-AGKecUfzrowabUv0bH1RIR5Vf7w+l4S3xtQAypKaUpTdIR1EbrAcTxHCrpo9Q+IWeUlFE2palRtgIQcgm+PQJw==}
     dependencies:
       '@keyv/serialize': 1.0.2
     dev: false
