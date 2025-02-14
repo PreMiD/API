@@ -24,7 +24,7 @@ importers:
         version: 4.4.0
       ioredis:
         specifier: ^5.3.2
-        version: 5.4.1
+        version: 5.5.0
       mongodb:
         specifier: ^5.1.0
         version: 5.9.2
@@ -103,7 +103,7 @@ importers:
         version: 16.10.0
       ioredis:
         specifier: 5.4.1
-        version: 5.4.1
+        version: 5.5.0
       keyv:
         specifier: 5.0.1
         version: 5.0.1
@@ -3183,8 +3183,8 @@ packages:
       - supports-color
     dev: false
 
-  /ioredis@5.4.1:
-    resolution: {integrity: sha512-2YZsvl7jopIa1gaePkeMtd9rAcSjOOjPtpcLlOeusyO+XH2SK5ZcT+UCrElPP+WVIInh2TzeI4XW9ENaSLVVHA==}
+  /ioredis@5.5.0:
+    resolution: {integrity: sha512-7CutT89g23FfSa8MDoIFs2GYYa0PaNiW/OrT+nRyjRXHDZd17HmIgy+reOQ/yhh72NznNjGuS8kbCAcA4Ro4mw==}
     engines: {node: '>=12.22.0'}
     dependencies:
       '@ioredis/commands': 1.2.0
