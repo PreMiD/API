@@ -46,7 +46,7 @@ importers:
         version: 4.1.12
       dotenv:
         specifier: ^16.0.3
-        version: 16.4.5
+        version: 16.4.7
       ts-devscript:
         specifier: ^3.0.7
         version: 3.0.7
@@ -152,7 +152,7 @@ importers:
         version: 13.12.2
       dotenv:
         specifier: 16.4.5
-        version: 16.4.5
+        version: 16.4.7
       ts-devscript:
         specifier: 3.0.7
         version: 3.0.7
@@ -2604,8 +2604,8 @@ packages:
       source-map-support: 0.5.21
     dev: true
 
-  /dotenv@16.4.5:
-    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
+  /dotenv@16.4.7:
+    resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
     engines: {node: '>=12'}
     dev: true
 
