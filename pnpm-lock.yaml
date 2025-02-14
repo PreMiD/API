@@ -90,8 +90,8 @@ importers:
         specifier: 0.27.0
         version: 0.27.0
       discord-api-types:
-        specifier: 0.37.100
-        version: 0.37.100
+        specifier: 0.37.119
+        version: 0.37.119
       express:
         specifier: ^4.21.2
         version: 4.21.2
@@ -2593,8 +2593,8 @@ packages:
       path-type: 4.0.0
     dev: true
 
-  /discord-api-types@0.37.100:
-    resolution: {integrity: sha512-a8zvUI0GYYwDtScfRd/TtaNBDTXwP5DiDVX7K5OmE+DRT57gBqKnwtOC5Ol8z0mRW8KQfETIgiB8U0YZ9NXiCA==}
+  /discord-api-types@0.37.119:
+    resolution: {integrity: sha512-WasbGFXEB+VQWXlo6IpW3oUv73Yuau1Ig4AZF/m13tXcTKnMpc/mHjpztIlz4+BM9FG9BHQkEXiPto3bKduQUg==}
     dev: false
 
   /displayastree@2.1.0:
