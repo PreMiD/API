@@ -22,7 +22,7 @@
 		"express": "^4.21.2",
 		"fastify": "3.29.5",
 		"graphql": "16.10.0",
-		"ioredis": "5.4.1",
+		"ioredis": "5.5.0",
 		"keyv": "5.2.3",
 		"keyv-anyredis": "3.3.0",
 		"language-flag-colors": "2.3.0",
