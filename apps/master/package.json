@@ -8,7 +8,7 @@
 		"build": "tsc && devScript --copyOnly"
 	},
 	"dependencies": {
-		"@sentry/node": "^7.46.0",
+		"@sentry/node": "^9.0.0",
 		"@sentry/tracing": "^7.46.0",
 		"cron": "^2.3.0",
 		"debug": "^4.3.4",
