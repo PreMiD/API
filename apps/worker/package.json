@@ -18,7 +18,7 @@
 		"apollo-server-plugin-response-cache": "3.8.2",
 		"archiver": "7.0.1",
 		"axios": "0.27.0",
-		"discord-api-types": "0.37.119",
+		"discord-api-types": "0.38.22",
 		"express": "^4.21.2",
 		"fastify": "3.29.5",
 		"graphql": "16.10.0",
