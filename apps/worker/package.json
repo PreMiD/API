@@ -37,7 +37,7 @@
 	"devDependencies": {
 		"@types/archiver": "6.0.3",
 		"@types/express": "^5.0.0",
-		"@types/lodash": "4.17.15",
+		"@types/lodash": "4.17.20",
 		"@types/node": "22.13.4",
 		"@types/validator": "13.12.2",
 		"dotenv": "16.4.7",
