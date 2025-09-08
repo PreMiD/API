@@ -151,8 +151,8 @@ importers:
         specifier: 13.12.2
         version: 13.12.2
       dotenv:
-        specifier: 16.4.7
-        version: 16.4.7
+        specifier: 16.6.1
+        version: 16.6.1
       ts-devscript:
         specifier: 3.0.7
         version: 3.0.7
@@ -2630,11 +2630,6 @@ packages:
     engines: {node: '>=16', pnpm: '>=7.17.0'}
     dependencies:
       source-map-support: 0.5.21
-    dev: true
-
-  /dotenv@16.4.7:
-    resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
-    engines: {node: '>=12'}
     dev: true
 
   /dotenv@16.6.1:
