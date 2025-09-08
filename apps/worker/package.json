@@ -23,7 +23,7 @@
 		"fastify": "3.29.5",
 		"graphql": "16.11.0",
 		"ioredis": "5.5.0",
-		"keyv": "5.2.3",
+		"keyv": "5.5.0",
 		"keyv-anyredis": "3.3.0",
 		"language-flag-colors": "2.3.0",
 		"lodash": "4.17.21",
