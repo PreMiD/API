@@ -27,7 +27,7 @@
 		"keyv-anyredis": "3.3.0",
 		"language-flag-colors": "2.3.0",
 		"lodash": "4.17.21",
-		"mongodb": "4.17.2",
+		"mongodb": "6.20.0",
 		"mongodb-caching": "1.1.0",
 		"p-event": "6.0.1",
 		"prom-client": "^15.1.3",
