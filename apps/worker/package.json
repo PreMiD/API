@@ -25,7 +25,7 @@
 		"ioredis": "5.7.0",
 		"keyv": "5.5.0",
 		"keyv-anyredis": "3.3.0",
-		"language-flag-colors": "2.3.0",
+		"language-flag-colors": "3.2.1",
 		"lodash": "4.17.21",
 		"mongodb": "4.17.2",
 		"mongodb-caching": "1.1.0",
