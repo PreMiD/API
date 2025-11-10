@@ -111,8 +111,8 @@ importers:
         specifier: 3.3.0
         version: 3.3.0
       language-flag-colors:
-        specifier: 2.3.0
-        version: 2.3.0
+        specifier: 3.2.1
+        version: 3.2.1
       lodash:
         specifier: 4.17.21
         version: 4.17.21
@@ -3382,9 +3382,9 @@ packages:
       '@keyv/serialize': 1.1.0
     dev: false
 
-  /language-flag-colors@2.3.0:
-    resolution: {integrity: sha512-rIR12kOX5ABhvZd0Q6ePFJJ8kdWd47g9TUkxsWfl9ar/iK6tSHrejoDnJlmdOtMMIDU2RRSy1DIb5uFG6iStyA==}
-    engines: {node: '>=16'}
+  /language-flag-colors@3.2.1:
+    resolution: {integrity: sha512-w8HvdrTlnr/TGnkUgQr0DCfq0KGk1u6+v8WI9vqMNQKrCJBj1Vrxo49GAAkZVpUHKkDdY8+wXkxeIxVxA3YX4g==}
+    engines: {node: '>=18'}
     dev: false
 
   /lazystream@1.0.1:
